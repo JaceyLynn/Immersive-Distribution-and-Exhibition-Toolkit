@@ -2269,7 +2269,38 @@ body #sk-journey .pl-sub .pl-h{font-size:1.4rem!important}
 @media (max-width:640px){#sk-journey .sk-vrow{border-radius:22px!important;padding-left:16px!important}}
 /* v144 (Jacie 2026-11-07): picked stars use the action orange, not the venue indigo */
 #sk-journey .sk-star.on,#sk-journey .pl-part .sk-star.on{color:#ea6a3c!important}
-@media (min-width:821px){ body .app-top .logo.wm{font-size:calc(var(--tab-fs,1rem)*1.14)!important} }
+@media (min-width:821px){ body .app-top .logo.wm{font-size:calc(var(--tab-fs,1rem)*1.28)!important} }
+@media (min-width:821px) and (max-width:900px){ body .app-top .logo.wm{font-size:calc(var(--tab-fs,1rem)*1.14)!important} }
+/* v145: example-project line under the white panel */
+#sk-journey .ex-foot{display:none!important}
+.ex-out{margin:18px auto 28px;text-align:center;font-size:.8rem;color:rgba(247,233,222,.72)}
+.ex-out button{font:inherit;background:none;border:0;padding:0;color:#f7e9de;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.ex-out button:hover{color:#ea6a3c}
+/* ===== v146 (Jacie 2026-11-07) case studies: one strip in two-point perspective; a picture enlarges on hover and shows its name and maker; image credit at the foot of the panel ===== */
+.res-tile-i{display:none}
+@media (min-width:821px){
+  #v-res .res-gal-in{display:flex;flex-direction:column;min-height:calc(100vh - 218px)}
+  #v-res .res-gal-in .res-credit{margin-top:auto;padding-top:28px;margin-bottom:-34px}
+  .res-gal.res-gal4{display:flex!important;justify-content:center;align-items:center;gap:clamp(18px,2.6vw,40px);margin:auto 0;padding:90px 4% 80px;perspective:1300px;perspective-origin:50% 50%}
+  .res-gal4 .res-tile{position:relative;flex:1 1 0;max-width:250px;display:block;align-self:center;transform-style:preserve-3d;
+    --off:calc(var(--ci) - (var(--cn) - 1) / 2);
+    transform:rotateY(calc(var(--off) * -14deg)) scale(calc(1 + (var(--off) * var(--off)) * .05));
+    transform-origin:center;transition:transform .45s cubic-bezier(.3,.7,.3,1),filter .45s;z-index:1}
+  .res-gal4 .res-shot{margin:0;border-radius:4px;filter:grayscale(.2)}
+  .res-gal4 .res-tile-i,.res-gal4 .res-tile-n,.res-gal4 .res-tile-w{position:absolute;left:0;right:0;opacity:0;transition:opacity .3s;pointer-events:none;text-align:left}
+  .res-gal4 .res-tile-i{display:block;bottom:calc(100% + 30px);font-size:var(--fs-s);color:var(--muted)}
+  .res-gal4 .res-tile-n{bottom:calc(100% + 6px);font-size:var(--fs-m)!important;line-height:1.2}
+  .res-gal4 .res-tile-w{top:calc(100% + 8px);font-size:var(--fs-s)}
+  .res-gal4 .res-tile:hover,.res-gal4 .res-tile:focus-visible{transform:rotateY(0deg) scale(1.32);z-index:3}
+  .res-gal4 .res-tile:hover .res-shot,.res-gal4 .res-tile:focus-visible .res-shot{filter:none;box-shadow:0 18px 40px -22px rgba(0,0,0,.55);transform:none}
+  .res-gal4:has(.res-tile:hover) .res-tile:not(:hover){filter:opacity(.55)}
+  .res-gal4 .res-tile:hover>span,.res-gal4 .res-tile:focus-visible>span{opacity:1}
+  .res-gal4 .res-tile:hover .res-tile-n,.res-gal4 .res-tile:focus-visible .res-tile-n{color:#b9471e}
+}
+@media (min-width:821px) and (prefers-reduced-motion:reduce){ .res-gal4 .res-tile{transition:none} }
+/* v146 (Jacie 2026-11-07): every picked star in the app uses the action orange */
+body .sk-star.on,body [data-sk="star"].on,body [data-sk="j-star"].on,body .sk-star[aria-pressed="true"]{color:#ea6a3c!important}
+body .sk-star:hover{color:#ea6a3c!important}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -3165,8 +3196,8 @@ if (pwEl) {
     region:'Can the work travel, or does it need rebuilding at each stop? Think about shipping, power and internet.',services:'Do you need a venue that also offers education, networking, distribution, exhibition or tech services?',
     route:'Support organisations do different things. Do you need someone to sell the work, tour it, or run the tech?',both:'Does the venue type you picked usually show work from your discipline, in your format?'};
   const ROUTES = {
-    who:{q:'Who shows work like mine?', order:['discipline','type','fgroup','format','region','services']},
     format:{q:'I already have a format in mind', order:['fgroup','type','discipline','region','format','services']},
+    who:{q:'Who shows work like mine?', order:['discipline','type','fgroup','format','region','services']},
     venue:{q:'I want to show at a certain kind of venue', order:['type','services','region','discipline','fgroup','format']}
   };
   const SHAPE = {discipline:'sq', type:'tri', fgroup:'circ', format:'circ2', region:'pill', services:'pill', route:'fork'};
@@ -3444,12 +3475,12 @@ if (jEl) {
   // Practical matters to confirm with a potential host. Accessibility, onboarding and offboarding are the confirmed topics;
   // the rest come from the earlier checklist. Wording is draft.
   const HOSTCK={acc:'Confirm audience accessibility provisions with the host',onb:'Confirm how audiences will be onboarded, and by whom',off:'Confirm offboarding: how audiences leave the experience, and any support afterwards',
-    space:'Confirm the space: floor and door size, layout, light and sound',aud:'Audience management system in place? Who is running it?',contracts:'Contracts: IP, fees, revenue sharing, rights, staffing, chain of title',equip:'Confirm equipment: headsets, computers, screens, power',net:'Confirm connectivity: internet and network access',labour:'Confirm labour: who installs, runs, trains and troubleshoots',money:'Confirm money: fees, freight, travel, insurance'};
+    space:'Space (Floor and Door size)',aud:'Audience management system in place? Who is running it?',contracts:'Contracts: IP, fees, revenue sharing, rights, staffing, chain of title',equip:'Confirm equipment: headsets, computers, screens, power',net:'Confirm connectivity: internet and network access',labour:'Confirm labour: who installs, runs, trains and troubleshoots',money:'Confirm money: fees, freight, travel, insurance'};
   // v120 (client content doc, relayed by Jacie 2026-11-05): questions, order and options follow the client's list word for word.
   // Options the venue data can't test yet are kept and saved to the plan; they just don't narrow the list (see the *X maps).
   const XDISC={xr:{l:'XR'},vr:{l:'VR'},film:{l:'Film',m:'film'},tv:{l:'TV/Radio',m:'film'},multi:{l:'Multimedia'},perf:{l:'Performance Arts',m:'perf'},music:{l:'Music',m:'music'},visual:{l:'Visual Arts',m:'visual'},arttech:{l:'Art and Tech'},games:{l:'Games',m:'games'},academia:{l:'Academia',m:'academia'}};
   const XFMT={v3:{l:'VR plug and play: 3DoF',m:'hmd-360'},v6:{l:'VR plug and play: 6DoF',m:'hmd-6p'},vb:{l:'Bespoke VR',m:'hmd-6b'},ar:{l:'Augmented Reality',m:'ss-phone'},mr:{l:'Mixed reality',m:'hmd-mr'},set:{l:'Set-based installation (no headset)',m:'nh-set'},screen:{l:'Screen media'},games:{l:'Games'},glasses:{l:'Glasses'},it:{l:'Immersive theater',m:'it-live'},proj:{l:'Projections',m:'nh-proj'},sound:{l:'Sound-led',m:'ss-sound'},live:{l:'Live Events',m:'it-pres'}};
-  const XVT={xr:{l:'Dedicated XR Space',t:v=>v.type==='xr'},cinema:{l:'Cinema'},museum:{l:'Museum',t:v=>v.type==='museum'},library:{l:'Library',t:v=>v.type==='library'},gallery:{l:'Art gallery',t:v=>v.type==='gallery'},dome:{l:'Dome',t:v=>v.type==='dome'},theater:{l:'Theater',t:v=>v.type==='theatre'},uni:{l:'University'},community:{l:'Community org'},public:{l:'Public space'},content:{l:'Content-related'},school:{l:'School or University'},other:{l:'Other'}};
+  const XVT={xr:{l:'Dedicated XR Space',t:v=>v.type==='xr'},cinema:{l:'Cinema'},museum:{l:'Museum',t:v=>v.type==='museum'},library:{l:'Library',t:v=>v.type==='library'},gallery:{l:'Art gallery',t:v=>v.type==='gallery'},dome:{l:'Dome',t:v=>v.type==='dome'},theater:{l:'Theater',t:v=>v.type==='theatre'},uni:{l:'University'},culture:{l:'Cultural center'},civic:{l:'Civic organization'},community:{l:'Community organization'}};
   const XSVC={consult:{l:'Consulting',t:v=>(v.svc||[]).includes('consult')},dist:{l:'Distribution',t:v=>(v.svc||[]).includes('dist')},edu:{l:'Education',t:v=>(v.svc||[]).includes('edu')},tour:{l:'Exhibition (travelling)',t:v=>(v.svc||[]).includes('tour')},net:{l:'Networking',t:v=>(v.svc||[]).includes('net')},res:{l:'Research/Resource'},tech:{l:'Technology Services',t:v=>(v.svc||[]).includes('tech')},online:{l:'Online',t:v=>v.type==='online'||v.online},venue:{l:'Venue',t:v=>v.type!=='online'&&!v.online}};
   const XFEST={xr:{l:'XR'},film:{l:'Film',m:'film'},theater:{l:'Theater',m:'perf'},visual:{l:'Visual arts',m:'visual'},tech:{l:'Tech'}};
   const lab=o=>Object.fromEntries(Object.entries(o).map(([k,x])=>[k,x.l]));
@@ -3457,7 +3488,7 @@ if (jEl) {
   FX.xdisc={t:(v,x)=>x.some(k=>XDISC[k].m&&v.disc.includes(XDISC[k].m)),has:v=>v.disc.length>0,keys:mapped(XDISC,x=>x.m),why:()=>'discipline',gap:'no discipline recorded'};
   FX.xfest={t:(v,x)=>x.some(k=>XFEST[k].m&&v.disc.includes(XFEST[k].m)),has:v=>v.disc.length>0,keys:mapped(XFEST,x=>x.m),why:()=>'kind of festival',gap:'no discipline recorded'};
   FX.xfmt={t:(v,x)=>x.some(k=>XFMT[k].m&&v.fmt.includes(XFMT[k].m)),has:v=>v.fmt.length>0,keys:mapped(XFMT,x=>x.m),why:()=>'format',gap:'no format recorded'};
-  FX.xvt={t:(v,x)=>x.some(k=>XVT[k].t&&XVT[k].t(v)),has:()=>true,keys:mapped(XVT,x=>x.t),why:v=>TYPE[v.type]||''};
+  FX.xvt={t:(v,x)=>x.some(k=>XVT[k]&&XVT[k].t&&XVT[k].t(v)),has:()=>true,keys:mapped(XVT,x=>x.t),why:v=>TYPE[v.type]||''};
   FX.xsvc={t:(v,x)=>x.some(k=>XSVC[k].t&&XSVC[k].t(v)),has:()=>true,keys:mapped(XSVC,x=>x.t),why:()=>'platform or service'};
   const REG7=abc({Africa:'Africa',Antarctica:'Antarctica',Asia:'Asia',Europe:'Europe','North America':'North America','South America':'South America',Oceania:'Oceania'});
   const STAGES=[
@@ -3467,9 +3498,10 @@ if (jEl) {
       {g:'proj',id:'p_fmt',short:'Primary format',text:'What is the primary format?',kind:'multi',opts:{inst:'Installation',hmd:'Headmounted Display',ss:'Site-specific or responsive',perf:'Performance or event'},own:'Add another format'},
       {g:'proj',id:'p_fdet',short:'Format details',text:'Format details',kind:'multi',opts:{mr:'Mixed Reality Headset',v3:'VR plug and play: 3DoF',v6:'VR plug and play: 6DoF',vb:'Bespoke VR',ar:'Augmented Reality',set:'Set-based installation',screen:'Screen',glasses:'Glasses',phone:'Smart Phone',proj:'Projections',sound:'Sound-led',live:'Live Performers',pres:'Live event-presenter led'},own:'Add another detail'},
       {g:'proj',id:'tech',short:'Technical needs',text:'What technical equipment or support does your work need to be shown?',kind:'multi',opts:{hmd:'Headsets and controllers',comp:'Computers or playback devices',proj:'Projection or screens',audio:'Audio',net:'Network connection',track:'Tracking or sensors',custom:'Custom hardware or installation',staff:'Technical staff or facilitation'},own:'Add other equipment or support',details:'Details: quantities, models, software, who supplies what (optional)',kase:'AI & Me: install and touring needs'},
-      {g:'proj',id:'start',short:'When to distribute',text:'When do you want to start distributing/exhibiting, and at what level?',kind:'choice',opts:{proto:'Prototype',done:'Completed Project'},prompt:'Is the project robust enough for large audience throughput, or a prototype for smaller bespoke viewings aimed at industry feedback?'},
+      {g:'proj',id:'start',short:'When to distribute',text:'When do you want to start distributing/exhibiting, and at what level?',kind:'choice',opts:{proto:'Prototype',done:'Completed Project'},note:true},
       {g:'proj',id:'mode',short:'Mode of interaction',text:'What is the mode of interaction for the user/audience?',kind:'multi',opts:{solo:'single audience member',social:'audiences interact with each other',body:'Participant uses their bodies to navigate a space',objects:'Participant reaches for objects within VR'},kase:'Ancestors: a phone-based group event'},
       {g:'proj',id:'core',short:'Core elements',text:'What are the core and non-negotiable technical and conceptual elements of the project, versus what’s in the ‘nice to have’ or ‘if we can afford it’ basket?',kind:'text',refl:true,ph:'Think in terms of:\nFormat\nAudience\nUser experience\nCollectivity versus single user\nConnection to place\nBeing present at exhibitions'},
+      {g:'proj',id:'p_vtype',short:'Venue type',text:'What types of venues would you like to show your work in?',kind:'multi',opts:{xr:'Dedicated XR Space',cinema:'Cinema',museum:'Museum',library:'Library',gallery:'Art gallery',dome:'Dome',theater:'Theater',uni:'University',culture:'Cultural center',civic:'Civic organization',community:'Community organization'}},
       {g:'show',id:'money',short:'Financial arrangements',text:'Financial Arrangements',kind:'multi',opts:{fees:'Pay all project fees and costs',reimb:'Reimbursement for project costs and/or travel',tickets:'Ticket Sales',share:'Shared Revenue',free:'Make the work freely available'},own:'Add another arrangement'},
       {g:'show',id:'reversion',short:'Re-versioning',text:'Re-versioning',kind:'text',refl:true,ph:'Can it be adapted to other formats? Can it scale?'},
       {g:'show',id:'partners',short:'Partnerships',text:'Partnerships',kind:'text',refl:true,ph:'Are there organizations connected to the content that can help with distribution? What other partnerships will explore?',kase:'Kinfolk Tech: partners chosen through community'},
@@ -3478,13 +3510,13 @@ if (jEl) {
       {g:'show',id:'contracts',short:'Contracts',text:'Contracts: consider negotiating',kind:'multi',opts:{fees:'fees',rev:'revenue sharing',ip:'IP',rights:'Rights',staff:'staffing',chain:'Chain of Title'}},
       {g:'show',id:'dream',short:'Dream venues',text:'Dream Venues, Festivals and Platforms',kind:'text',refl:true,ph:'Make a list'}]},
     {...SEC[1], groups:{find:'Find festivals',prep:'Prepare'}, qs:[
-      {id:'pr_prio',g:'find',short:'Priority',text:'What is your priority for the premiere?',kind:'multi',opts:{alist:'A-list',press:'Press',xr:'XR focused',award:'XR award',size:'Size',disc:'Discipline focused',loc:'Location',date:'Date of festival',sub:'Date of Application Submission',fin:'Financial Support from festival',acc:'Accessibility',other:'Other'},prov:'Saved to your plan; it doesn’t filter festivals.'},
+      {id:'pr_prio',g:'find',short:'Priority',text:'What is your priority for the premiere?',kind:'multi',opts:{alist:'A-list',press:'Press',xr:'XR focused',award:'XR award',size:'Size',disc:'Discipline focused',loc:'Location',date:'Date of festival',sub:'Date of Application Submission',fin:'Financial Support from festival',acc:'Accessibility',other:'Other'},prov:true},
       {id:'pr_type',g:'find',short:'Type of festival',text:'What kind of festival are you most interested in?',kind:'multi',opts:lab(XFEST),fx:'xfest'},
       {id:'pr_region',g:'find',short:'Festival region',text:'Where do you want to premiere?',kind:'multi',opts:REG7,fx:'region'},
-      {id:'pr_when',g:'find',short:'Festival timing',text:'What time of year do you want to show?',kind:'multi',opts:{winter:'Winter',spring:'Spring',summer:'Summer',fall:'Fall'},prov:'Festival dates aren’t in the database yet, so this is saved to your plan but doesn’t filter festivals.'},
-      {id:'pr_acc',g:'find',short:'Access',text:'What access needs for the audience are important to you?',kind:'multi',opts:{wheel:'Wheelchair accessible',cc:'Closed Captions',audio:'Audio',lang:'Language translation',na:'N/A',other:'Other'},prov:'Access details aren’t in the database yet, so this is saved to your plan but doesn’t filter festivals.'},
+      {id:'pr_when',g:'find',short:'Festival timing',text:'What time of year do you want to show?',kind:'multi',opts:{winter:'Winter',spring:'Spring',summer:'Summer',fall:'Fall'},prov:true},
+      {id:'pr_acc',g:'find',short:'Access',text:'What access needs for the audience are important to you?',kind:'multi',opts:{wheel:'Wheelchair accessible',cc:'Closed Captions',audio:'Audio',lang:'Language translation',na:'N/A',other:'Other'},prov:true},
       {id:'cands',g:'find',short:'Review festivals',text:'Which of these are worth investigating?',kind:'recs',mode:'first'},
-      {id:'prep',g:'prep',short:'Checklist',text:'Have you checked what you need to prepare before approaching a festival?',kind:'multi',og:{desc:'Application materials',fees:'Costs & logistics'},opts:{desc:'A project description and audience purpose',docs:'Documentation or a build to share',tech:'Technical rider',qs:'Specific questions for each festival',route:'The official application or contact route',contact:'Key contact or contact for sales',trailer:'A one-minute trailer',credits:'Complete credit list',stills:'Stills for promotion including a poster if required',fees:'Have you checked whether there are fees involved in submission and showcasing?',exp:'Have you checked what expenses the festival will cover towards travel and installation costs such as fabrication or set dressing?'},own:'Add something else to prepare'},
+      {id:'prep',g:'prep',short:'Checklist',text:'Have you checked what you need to prepare before approaching a festival?',kind:'multi',opts:{desc:'Project description and audience purpose',docs:'Documentation or a build or file to share',tech:'Technical rider',qs:'Specific questions for each festival',route:'Official application',contact:'Key contact or contact for sales',trailer:'One-minute trailer',credits:'Complete credit list',stills:'Stills for promotion including a poster if required',fees:'Have you checked whether there are fees involved in submission and showcasing?',exp:'Have you checked what expenses the festival will cover towards travel and installation costs such as fabrication or set dressing?'},own:'Add something else to prepare'},
       {id:'pr_fin',g:'prep',short:'Financing',text:'If a festival is not covering all costs, how are you financing your showcase?',kind:'multi',opts:{self:'Self',sponsor:'Sponsor',funder:'Funder'}},
       {id:'pr_pitch',g:'prep',short:'Pitching forum',text:'Are you interested in a pitching forum?',kind:'choice',opts:{yes:'Yes',no:'No'}}]},
     {...SEC[2], groups:{find:'Find venues',host:'Confirm with hosts'}, qs:[
@@ -3494,7 +3526,7 @@ if (jEl) {
       {id:'fmt',g:'find',short:'Format',text:'Which version do you want to present now?',kind:'multi',opts:lab(XFMT),fx:'xfmt'},
       {id:'region',g:'find',short:'Geographical reach',text:'Where do you want to show your work?',kind:'multi',opts:REGL,fx:'region',kase:'AI & Me: shipping and customs'},
       {id:'ccands',g:'find',short:'Review venues',text:'Which of these are worth investigating?',kind:'recs',mode:'circ'},
-      {id:'host',g:'host',short:'Checklist',text:'What do you need to confirm with each potential host?',kind:'checklist',items:HOSTCK,own:'Add something else to confirm',prompt:'For instance, if the project is designed for a 5x4m play space, and the hoped-for venue only offers 4x4m, then this is a problem.'}]}
+      {id:'host',g:'host',short:'Checklist',text:'Checklist',kind:'checklist',items:HOSTCK,own:'Add something else to confirm',note:true}]}
   ];
   // An example project, so every screen has something to look at. "Start blank" clears it.
   // A few questions are left unanswered on purpose (Readiness, Re-versioning, Festival timing, Geographical reach) to show skipping (Jacie 2026-11-03).
@@ -3565,7 +3597,7 @@ if (jEl) {
       // v141 (Jacie 2026-11-06): four themed groups with plan-only labels; only answered questions show
       const PG=[['ov','Project overview','What am I creating, and who is it for?',[['stage','Project stage'],['aud','Target audience'],['p_fmt','Primary format'],['p_fdet','Format details'],['mode','Audience interaction']]],
         ['tc','Technical & creative requirements','What does the work need to be presented successfully?',[['tech','Technical requirements'],['core','Core & non-negotiable elements'],['reversion','Adaptability & re-versioning']]],
-        ['ds','Distribution strategy','How, when, and where do I want to distribute the work?',[['start','Distribution timeline'],['money','Financial arrangements'],['partners','Potential partnerships'],['dream','Dream venues, festivals & platforms']]],
+        ['ds','Distribution strategy','How, when, and where do I want to distribute the work?',[['start','Distribution timeline'],['p_vtype','Venue types'],['money','Financial arrangements'],['partners','Potential partnerships'],['dream','Dream venues, festivals & platforms']]],
         ['gr','Goals & responsibilities','What am I trying to achieve, and who will make it happen?',[['success','Definition of success'],['roles','Roles & responsibilities'],['contracts','Contracts & rights']]]];
       const byId=Object.fromEntries(all.map(x=>[x.q.id,x])), placed=new Set();
       PG.forEach(([k,h,note,qs])=>{ const facts=qs.filter(([id])=>byId[id]).map(([id,lab])=>{ placed.add(id); const x=byId[id]; return {...factOf(x.q,0,x.i),label:lab,long:x.q.kind==='text'}; }); if(facts.length) subs.push({k,h,facts}); }); // v142: no guiding question under the group titles (Jacie 2026-11-07)
@@ -3578,7 +3610,7 @@ if (jEl) {
       const facts=idx(si).filter(x=>x.q.g==='find'&&x.q.kind!=='recs'&&done(x.q)).map(x=>({...factOf(x.q,si,x.i),prov:x.q.prov?'Not used to filter yet':''}));
       const off=facts.length?'':'No filters set, so every recorded festival is listed.';
       subs.push({k:'find',h:mode==='first'?'Matching festivals':'Matching venues',facts,ok:ok.length,kind,shortlist:sl.map(vline),fits:ok.map(x=>vline(x.v)),off:off.replace('festival',mode==='first'?'festival':'venue')});
-      if(si===1){ const pq=qOf('prep'), a=A('prep'), ord=[...Object.keys(pq.q.opts),...Object.keys(a.add||{})], gOf=k=>{ let g=''; for(const o of Object.keys(pq.q.opts)){ if(pq.q.og[o]) g=pq.q.og[o]; if(o===k) return g; } return Object.values(pq.q.og)[0]; };
+      if(si===1){ const pq=qOf('prep'), a=A('prep'), ord=[...Object.keys(pq.q.opts),...Object.keys(a.add||{})], gOf=k=>{ if(!pq.q.og) return ''; let g=''; for(const o of Object.keys(pq.q.opts)){ if(pq.q.og[o]) g=pq.q.og[o]; if(o===k) return g; } return Object.values(pq.q.og)[0]; };
           const tasks=a.v.slice().sort((x,y)=>ord.indexOf(x)-ord.indexOf(y)).map(k=>({id:'prep:'+k,text:optLabel(pq.q,k,a),s:1,i:pq.i,grp:gOf(k)}));
         subs.push({k:'prep',h:'Festival preparation',note:'Have these ready',tasks,empty:'Nothing chosen yet.'}); }
       else { const hq=qOf('host'); subs.push({k:'host',h:'Confirm with hosts',note:'Doesn’t change the list',tasks:Object.entries(hostItems()).map(([k,t])=>({id:'host:'+k,text:t,s:2,i:hq.i})),text:A('host').n.trim()}); }
@@ -3744,7 +3776,7 @@ if (jEl) {
       +(q.other&&a.v.includes('other')?`<label class="sk-other"><span>Other</span><input id="sk-o-${q.id}" data-sko="${q.id}" value="${esc(a.o)}" placeholder="Describe it"></label>`:'')
       +(q.sub&&Object.keys(subs).length?`${lbl('Which kind? (optional)')}${btns({},'fdet',subs,'multi')}`:'')
       +(q.details?noteFold(q.id,q.detailsLabel||'Add details (optional)',q.details,q.detailsShort||'Details'):'')
-      +(q.prompt&&!q.details?noteFold(q.id,'Add a note (optional)','Add a note (optional)','Your note'):''); }
+      +((q.prompt||q.note)&&!q.details?noteFold(q.id,'Add a note (optional)','Add a note (optional)','Your note'):''); }
 
   function render(){
     try{ draw(); weaveLit(); } finally { j.changed=null; j.lit=null; if(j.stage===3) requestAnimationFrame(tocSpy); } }
@@ -3967,7 +3999,7 @@ if (jEl) {
     const CIMG=window.CASE_IMG||{};
     // v118 (Jacie 2026-11-05): the case studies play as a carousel that moves on by itself, every project shown for the same time
     // v122 (Jacie 2026-11-05): with only four case studies, all four sit in one row (two by two on smaller screens), pictures from MIT Open Doc Lab
-    const galleryHtml=()=>`<div class="res-in res-gal-in"><h2 class="res-h">Resources</h2><div class="res-gal res-gal4">${CASES.map(c=>`<button class="res-tile" data-sk="res-case" data-k="${c.k}"><span class="res-shot">${CIMG[c.k]?`<img src="${CIMG[c.k]}" alt="" loading="lazy">`:`<span class="res-shot-ph">${esc(c.site)}</span>`}</span><span class="res-tile-n">${esc(c.name)}</span><span class="res-tile-w">${esc(c.who)}</span></button>`).join('')}</div><p class="res-credit">Images: <a href="https://opendoclab.mit.edu/presents/xr-distribution-pipelines/" target="_blank" rel="noopener">MIT Open Documentary Lab, XR Distribution Pipelines</a></p></div>`;
+    const galleryHtml=()=>`<div class="res-in res-gal-in"><h2 class="res-h">Resources</h2><div class="res-gal res-gal4">${CASES.map((c,ci)=>`<button class="res-tile" data-sk="res-case" data-k="${c.k}" style="--ci:${ci};--cn:${CASES.length}"><span class="res-tile-i" aria-hidden="true">${String(ci+1).padStart(2,'0')}.</span><span class="res-shot">${CIMG[c.k]?`<img src="${CIMG[c.k]}" alt="" loading="lazy">`:`<span class="res-shot-ph">${esc(c.site)}</span>`}</span><span class="res-tile-n">${esc(c.name)}</span><span class="res-tile-w">${esc(c.who)}</span></button>`).join('')}</div><p class="res-credit">Images: <a href="https://opendoclab.mit.edu/presents/xr-distribution-pipelines/" target="_blank" rel="noopener">MIT Open Documentary Lab, XR Distribution Pipelines</a></p></div>`;
     const CAR_MS=6000; let carT=null, carI=0, carHold=false;
     const carGo=i=>{ const car=resEl.querySelector('.res-car'); if(!car){ clearInterval(carT); carT=null; return; } carI=(i+CASES.length)%CASES.length;
       car.querySelector('.res-track').style.transform=`translateX(${-100*carI}%)`;
@@ -3994,7 +4026,7 @@ if (jEl) {
     // Its own start page, styled like the distribution plan's (Jacie 2026-11-04): Case studies, Reports, Tools
     const RES=[{k:'cases',label:'Case studies',short:'Selected project deep dives',c:'#b9471e'},
       {k:'dirs',label:'Directories',short:'Directories and indexes of venues and facilities',c:'#b9471e'}];
-    const back='<button class="res-back" data-sk="res-home"><span class="res-back-i" aria-hidden="true">←</span><span>Resources</span></button>';
+    const back='<button class="res-back" data-sk="res-home" aria-label="Back to Resources" title="Back to Resources"><span class="res-back-i" aria-hidden="true">←</span></button>'; // v146: no label beside the arrow (Jacie 2026-11-07)
     const pages={
       cases:()=>galleryHtml().replace('<h2 class="res-h">Resources</h2>',back+'<h2 class="res-h">Case studies</h2>'),
       // Directories and Glossary from the client's content doc (2026-11-05)
@@ -4107,7 +4139,10 @@ if (jEl) {
 
 // v144 (Jacie 2026-11-07): on the Distribution plan start page every root ends in one vertical line on each side, level with the
 // option's title, and the hover ring passes through that end point so root and ring stay joined
-window.__jEnds=card=>{ if(!card||!card.closest('#sk-journey')) return null; const cs=[...card.parentElement.querySelectorAll(':scope>.jc-card')]; let l=1e9,r=-1e9;
+window.__jEnds=card=>{ if(!card||card.closest('#sk-res')||!card.closest('.sk-full .jc-cards')) return null;
+  // v145: on the Database start page each option keeps its own ends (middle of its name and line), and the hover ring passes through them too
+  if(!card.closest('#sk-journey')){ const b0=card.querySelector(':scope>b'); if(!b0) return null; const q0=b0.getBoundingClientRect(), sp=card.querySelector(':scope>span'), q1=sp?sp.getBoundingClientRect():q0;
+    return {XL:Math.min(q0.left,q1.left)-30,XR:Math.max(q0.right,q1.right)+30,ty:(q0.top+Math.max(q0.bottom,q1.bottom))/2}; } const cs=[...card.parentElement.querySelectorAll(':scope>.jc-card')]; let l=1e9,r=-1e9;
   cs.forEach(c=>{ [c.querySelector(':scope>b'),c.querySelector(':scope>span')].forEach(e=>{ if(!e) return; const q=e.getBoundingClientRect(); l=Math.min(l,q.left); r=Math.max(r,q.right); }); });
   const t=card.querySelector(':scope>b').getBoundingClientRect(); return {XL:l-30,XR:r+30,ty:(t.top+t.bottom)/2}; };
 // Trial (Jacie 2026-11-03): "Colored bg" gives each part of the distribution plan its own bold earth-tone background
@@ -4289,6 +4324,15 @@ window.__jEnds=card=>{ if(!card||!card.closest('#sk-journey')) return null; cons
 { const fixF=()=>{ const a=document.activeElement; if(a&&a.matches&&a.matches('iframe.home-land')&&document.body.dataset.view!=='home') a.blur(); };
   try{ new MutationObserver(fixF).observe(document.body,{attributes:true,attributeFilter:['data-view']}); }catch(e){}
   window.addEventListener('load',()=>setTimeout(fixF,50)); setTimeout(fixF,800); window.addEventListener('focus',fixF,true); }
+
+/* v145 (Jacie 2026-11-07): "Example project · Start blank" sits under the white panel, at the very bottom of the page.
+   The journey still renders it inside the panel (hidden); this copy outside the panel passes clicks to it. */
+{ const m=document.getElementById('app-main'), jr=document.getElementById('sk-journey');
+  if(m&&jr){ const out=document.createElement('aside'); out.className='ex-out'; out.setAttribute('aria-label','Example project'); out.hidden=true; out.innerHTML='Example project · <button type="button">Start blank</button>'; m.after(out);
+    out.querySelector('button').addEventListener('click',()=>{ const b=jr.querySelector('.ex-foot [data-sk="j-blank"]'); if(b) b.click(); });
+    const sync=()=>{ const has=!!jr.querySelector('.ex-foot')&&document.body.dataset.view==='journey'; if(out.hidden===has) out.hidden=!has; };
+    try{ new MutationObserver(sync).observe(jr,{childList:true,subtree:true}); new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['data-view']}); }catch(e){}
+    sync(); } }
 
 /* ================= shared events ================= */
 document.addEventListener('click', e => {
