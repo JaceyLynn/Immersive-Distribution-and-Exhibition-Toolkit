@@ -2433,6 +2433,20 @@ body[data-jph] #sk-journey .sk-bar.jbar{border-bottom-width:3px!important}
 #sk-journey .sn-plan:not(.cur):hover span{color:#b0461a!important}
 #sk-journey .sn.cur,#sk-journey .sn-plan.cur{background:none!important;box-shadow:none!important}
 @media (max-width:640px){ body[data-jph] #sk-journey .sk-bar.jbar{margin-inline:-12px!important;padding-inline:12px!important} }
+/* ===== v151 (Jacie 2026-11-07) ===== */
+@media (min-width:821px){ .res-gal.res-gal4{padding-inline:2.3%!important;justify-content:space-between!important} }
+/* ticked items in Your Plan take the phase colour */
+#sk-journey .p2-part .pl-todo.done .pl-box{background:var(--ph)!important;border-color:var(--ph)!important;color:#fff!important}
+#sk-journey .p2-part .pl-todo.done .pl-todo-t,#sk-journey .p2-part .pl-todo.done .pl-todo-t span{color:var(--ph-tx)!important;text-decoration-color:var(--ph)}
+/* larger plus and minus signs */
+#sk-journey .p2-grp>summary::after{font-size:1.5rem!important;line-height:.8;font-weight:400}
+#sk-journey .p2-more>summary::before{font-size:1.4rem;line-height:.8;width:18px}
+/* the Questions rail runs to the bottom of the panel */
+body[data-view="journey"] #app-main:has(#sk-journey .sk-body.rz){padding-bottom:0!important}
+body[data-view="journey"] #sk-journey .sk-body.rz{padding-bottom:43px!important}
+/* room above the progress steps so the current step's halo isn't clipped */
+#sk-journey .sk-bar.jbar{padding-top:9px!important}
+body[data-view="journey"] #sk-journey .sk-body.rz>.rz-rail.l{border-bottom-left-radius:24px}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -3843,7 +3857,7 @@ if (jEl) {
       ${m.parts.length?'<span class="jl-fold"><button data-sk="j-fold" data-open="1">Expand all</button><button data-sk="j-fold" data-open="0">Collapse all</button></span>':''}</div></div>`;
   function planPage(m){
     return `<div class="pl-page">
-      <header class="pl-head"><h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0">Your plan</h2><div class="pl-head-t"><span class="eyebrow">${today()}${j.example?' · Example project':''}</span><label class="pl-title-w"><span class="sr-only">Project name</span><input class="pl-title pl-title-in" id="pl-title" value="${esc(j.title)}" placeholder="Your distribution plan" aria-label="Project name, click to edit" autocomplete="off">${PEN}</label></div>
+      <header class="pl-head"><h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0">Your plan</h2><div class="pl-head-t"><span class="eyebrow">${today()}</span><label class="pl-title-w"><span class="sr-only">Project name</span><input class="pl-title pl-title-in" id="pl-title" value="${esc(j.title)}" placeholder="Your distribution plan" aria-label="Project name, click to edit" autocomplete="off">${PEN}</label></div>
         <div class="pl-acts"><span class="pl-btns"><button class="btn-primary" data-sk="j-dl">${j.saved?esc(j.saved):'↓ Download PDF'}</button><button class="pl-ghost" data-sk="j-copy">${j.copied?'Copied':'Copy as text'}</button></span></div></header>
       ${false?`<div class="pl-fold">${(()=>{ const fd=[...(m.parts.find(p=>p.key==='pl')||{subs:[]}).subs.map(sb=>'pl:'+sb.k),...m.parts.filter(p=>p.key!=='pl').map(p=>p.key+':all')], all=fd.length&&fd.every(k=>j.secOpen.has(k)); return `<button class="pl-fold-t" data-sk="j-fold" data-open="${all?0:1}" aria-label="${all?'Collapse':'Expand'} all sections"><span aria-hidden="true">${all?'−':'+'}</span> ${all?'Collapse':'Expand'} all</button>`; })()}</div>`:''}
       ${m.parts.length?m.parts.map(partHtml).join(''):`<div class="pl-emptyp"><p>Nothing saved yet. Answers and shortlisted places appear here as you go.</p><p>${startBtns([0,1,2])}</p></div>`}
