@@ -2301,6 +2301,138 @@ body #sk-journey .pl-sub .pl-h{font-size:1.4rem!important}
 /* v146 (Jacie 2026-11-07): every picked star in the app uses the action orange */
 body .sk-star.on,body [data-sk="star"].on,body [data-sk="j-star"].on,body .sk-star[aria-pressed="true"]{color:#ea6a3c!important}
 body .sk-star:hover{color:#ea6a3c!important}
+/* ===== v148 (Jacie 2026-11-07) compact plan ===== */
+#sk-journey .pl-fold{margin:2px 0 4px}
+#sk-journey .pl-fold button{font-size:.8rem!important;font-weight:500;padding:2px 0}
+#sk-journey .p2-part{border-top:1px solid var(--line);padding:16px 0 4px;margin-top:10px;scroll-margin-top:12px}
+#sk-journey .p2-ph{margin:0 0 10px;font-family:var(--display);font-weight:600;font-size:1.2rem;color:var(--ph-tx);display:flex;align-items:baseline;gap:10px}
+#sk-journey .p2-n{font-family:var(--sans,inherit);font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+#sk-journey .p2-part-b{display:grid;gap:14px}
+#sk-journey .p2-h{margin:0;font-size:.95rem;font-weight:700;font-family:inherit;color:var(--ink)}
+#sk-journey .p2-sec>.p2-h{margin-bottom:8px}
+#sk-journey .p2-b{display:grid;gap:8px}
+#sk-journey .p2-grp{border-bottom:1px solid var(--line);scroll-margin-top:12px}
+#sk-journey .p2-part-b>.p2-grp:first-child{border-top:1px solid var(--line)}
+#sk-journey .p2-part-b:has(>.p2-grp){gap:0}
+#sk-journey .p2-grp>summary{list-style:none;display:flex;align-items:center;gap:10px;padding:9px 0;cursor:pointer}
+#sk-journey .p2-grp>summary::-webkit-details-marker{display:none}
+#sk-journey .p2-grp>summary::after{content:"+";margin-left:auto;font-size:1.05rem;line-height:1;color:var(--muted)}
+#sk-journey .p2-grp[open]>summary::after{content:"−"}
+#sk-journey .p2-grp>summary:hover .p2-h{color:var(--ph-tx)}
+#sk-journey .p2-grp>.p2-b{padding:0 0 12px}
+#sk-journey .p2-grp .pl-facts.row{gap:0}
+#sk-journey .p2-grp .pl-fact{padding:6px 0}
+/* venue and festival cards: flat, no box inside a box; shortlisted ones tinted orange */
+#sk-journey .p2-vs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+#sk-journey .p2-v{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;align-items:start;padding:10px 14px 11px 10px;border-radius:12px;background:rgba(19,42,58,.045)}
+#sk-journey .p2-v.on{background:rgba(234,106,60,.13)}
+#sk-journey .p2-v>.sk-star{font-size:1.15rem;line-height:1;margin-top:1px;background:none;border:0;padding:0;cursor:pointer;color:var(--muted)}
+#sk-journey .p2-v-b{display:grid;gap:2px;min-width:0}
+#sk-journey .p2-v-n{display:flex;align-items:center;gap:6px;min-width:0}
+#sk-journey .p2-v-n b{font-size:.95rem;line-height:1.25}
+#sk-journey .p2-go{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;color:#c4501f}
+#sk-journey .p2-go:hover{background:#ea6a3c;color:#fff}
+#sk-journey .p2-v small{font-size:.78rem;color:var(--muted)}
+#sk-journey .p2-v-c{font-size:.78rem;display:flex;flex-wrap:wrap;gap:0 10px;overflow-wrap:anywhere}
+#sk-journey .p2-v-c a{color:var(--ink)}
+#sk-journey .p2-more{margin-top:6px}
+#sk-journey .p2-more>summary{list-style:none;cursor:pointer;font-size:.85rem;font-weight:600;padding:4px 0;display:inline-flex;gap:6px;align-items:center}
+#sk-journey .p2-more>summary::-webkit-details-marker{display:none}
+#sk-journey .p2-more>summary::before{content:"+";color:var(--muted);width:12px}
+#sk-journey .p2-more[open]>summary::before{content:"−"}
+#sk-journey .p2-more>summary:hover{color:#c4501f}
+#sk-journey .p2-more[open]>.p2-vs{margin-top:6px}
+#sk-journey .p2-empty{margin:0;font-size:.85rem;color:var(--muted)}
+/* preferences in one compact row */
+#sk-journey .p2-prefs{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;margin-top:10px;font-size:.85rem;line-height:1.4}
+#sk-journey .p2-k{font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+#sk-journey .p2-pref small{color:var(--muted);font-size:.78rem}
+#sk-journey .p2-pref i{color:var(--muted)}
+#sk-journey .p2-nf{font-style:normal;font-size:.7rem;color:var(--muted)}
+#sk-journey .p2-pref .pl-pen{vertical-align:-1px}
+#sk-journey .p2-sec .pl-tlist{margin:0}
+#sk-journey .p2-sec .pl-todo{padding:5px 0}
+/* start page: the phase number before each name; preview topics short */
+#sk-journey .jc-card .jc-ph{display:block;font-family:var(--sans,inherit);font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-bottom:2px}
+#sk-journey .p2-part>.p2-ph{justify-content:flex-start!important;border:0!important;padding:0!important;text-align:left}
+#sk-journey .p2-part>.p2-ph::before,#sk-journey .p2-part>.p2-ph::after{display:none!important}
+#sk-journey .p2-part+.p2-part{margin-top:14px}
+#sk-journey .p2-sec .pl-todo{padding:2px 0!important;min-height:0}
+#sk-journey .p2-sec .pl-todo-t,#sk-journey .p2-sec .pl-todo-t span{font-size:.88rem!important;line-height:1.35}
+#sk-journey .p2-sec .pl-box{width:18px!important;height:18px!important;font-size:.7rem}
+@media (min-width:700px){ #sk-journey .ji-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-flow:row;column-gap:28px} }
+#sk-journey .p2-part{padding-top:12px!important;padding-bottom:0!important}
+#sk-journey .p2-part+.p2-part{margin-top:18px!important}
+#sk-journey .pl-page{row-gap:10px}
+/* v148 (Jacie 2026-11-07): progress bar steps read as buttons; the current one is a filled pill in its phase colour */
+#sk-journey .sn,#sk-journey .sn-plan{border-radius:999px!important;padding:6px 16px 6px 7px!important;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(19,42,58,.16);transition:background-color .2s,box-shadow .2s,color .2s}
+#sk-journey .sn-plan{padding:9px 18px!important}
+#sk-journey .sn:not(.cur):hover,#sk-journey .sn:not(.cur):focus-visible{background:color-mix(in srgb,var(--ph) 13%,transparent);box-shadow:inset 0 0 0 1.5px var(--ph)}
+#sk-journey .sn-plan:not(.cur):hover,#sk-journey .sn-plan:not(.cur):focus-visible{background:rgba(234,106,60,.12);box-shadow:inset 0 0 0 1.5px #ea6a3c}
+#sk-journey .sn.cur{background:var(--ph)!important;box-shadow:0 8px 20px -10px var(--ph)}
+#sk-journey .sn.cur .sn-t b,#sk-journey .sn.cur .sn-t small,#sk-journey .sn.cur .sn-q{color:#fff!important}
+#sk-journey .sn.cur .sn-tr{stroke:rgba(255,255,255,.35)!important}
+#sk-journey .sn.cur .sn-pr{stroke:#fff!important}
+#sk-journey .sn.cur .sn-ring{filter:none!important;animation:none!important}
+#sk-journey .sn-plan.cur{background:#c4501f!important;box-shadow:0 8px 20px -10px #ea6a3c}
+#sk-journey .sn-plan.cur,#sk-journey .sn-plan.cur span{color:#fff!important}
+#sk-journey .sn-plan.cur::before{background:transparent!important;border:3px solid #fff!important;box-shadow:none!important}
+@media (max-width:640px){
+  #sk-journey .sn,#sk-journey .sn-plan{border-radius:16px!important;padding:6px 5px!important;min-width:0}
+  #sk-journey .sn .sn-t b,#sk-journey .sn-plan span{font-size:.7rem!important}
+}
+/* ===== v149 (Jacie 2026-11-07) ===== */
+/* Planning start page: the three phases in a row, like the progress bar */
+@media (min-width:821px){
+  body.framed.on-jstart #sk-journey .jc-cards{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(40px,8vw,140px);align-items:start;max-width:1000px;margin-inline:auto}
+  body.framed.on-jstart #sk-journey .jc-card{justify-self:center;text-align:center}
+}
+body.framed.on-jstart #sk-journey .jc-card .jc-ph{color:#b9c6cc!important;opacity:1}
+body.framed.on-jstart #sk-journey .jc-card:hover .jc-ph,body.framed.on-jstart #sk-journey .jc-card:focus-visible .jc-ph{color:var(--stc)!important}
+/* progress bar: count inside the ring, name on one line */
+#sk-journey .sn-rw{position:relative;display:grid;place-items:center;flex:none}
+#sk-journey .sn-rw .sn-ring{width:42px!important;height:42px!important;background:none!important}
+#sk-journey .sn-c{position:absolute;inset:0;display:grid;place-items:center;font-size:.6rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);letter-spacing:-.02em}
+#sk-journey .sn.cur .sn-c{color:#fff}
+#sk-journey .sn{gap:8px!important;align-items:center}
+#sk-journey .sn-t{display:flex;align-items:center}
+/* the line under the progress bar takes the current phase colour, as a thick bar */
+body[data-jph] #sk-journey .sk-bar.jbar{border-bottom:5px solid var(--line)!important;border-image:none!important;transition:border-color .3s}
+body[data-jph="pl"] #sk-journey .sk-bar.jbar{border-bottom-color:var(--ph-pl)!important}
+body[data-jph="pr"] #sk-journey .sk-bar.jbar{border-bottom-color:var(--ph-pr)!important}
+body[data-jph="ci"] #sk-journey .sk-bar.jbar{border-bottom-color:var(--ph-ci)!important}
+body[data-jph="plan"] #sk-journey .sk-bar.jbar{border-bottom-color:#ea6a3c!important}
+/* Your Plan: a coloured strip per phase, few lines, icons next to their text */
+#sk-journey .p2-part{border-top:0!important;border-left:5px solid var(--ph);padding:4px 0 6px 20px!important;margin-top:26px!important}
+#sk-journey .p2-part+.p2-part{margin-top:30px!important}
+#sk-journey .p2-grp,#sk-journey .p2-part-b>.p2-grp:first-child{border:0!important}
+#sk-journey .p2-grp>summary{justify-content:flex-start;padding:5px 0}
+#sk-journey .p2-grp>summary::after{margin-left:2px;font-size:1rem;color:var(--ph-tx)}
+#sk-journey .p2-sec .pl-todo{grid-template-columns:auto max-content auto 1fr!important;border:0!important;gap:4px 8px}
+#sk-journey .p2-sec .pl-todo .pl-pen{justify-self:start}
+#sk-journey .p2-grp .pl-fact{border:0!important}
+#sk-journey .pl-page .pl-head{border:0}
+@media (max-width:640px){ #sk-journey .sn-rw .sn-ring{width:34px!important;height:34px!important} #sk-journey .sn-c{font-size:.52rem} #sk-journey .p2-part{padding-left:12px!important} }
+#sk-journey .p2-vs{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+@media (min-width:821px){ body.framed.on-jstart #sk-journey .jc{min-height:calc(100vh - 260px);display:flex;flex-direction:column;justify-content:center} }
+@media (min-width:821px){ body.framed.on-jstart #sk-journey .jc{align-items:center;text-align:center} }
+/* ===== v150 (Jacie 2026-11-07) ===== */
+/* the bar under the progress bar runs the full width of the panel, as thick as the Questions rail's edge */
+@media (min-width:641px){ body[data-jph] #sk-journey .sk-bar.jbar{margin-inline:-28px!important;padding-inline:28px!important} }
+body[data-jph] #sk-journey .sk-bar.jbar{border-bottom-width:3px!important}
+/* progress steps: no pill, just the circle. Hover tints the circle; the current step is a solid circle with a soft halo */
+#sk-journey .sn,#sk-journey .sn-plan{background:none!important;box-shadow:none!important;padding:4px 6px!important;border-radius:0!important}
+#sk-journey .sn-rw{border-radius:50%;transition:background-color .2s,box-shadow .2s}
+#sk-journey .sn:not(.cur):hover .sn-rw,#sk-journey .sn:not(.cur):focus-visible .sn-rw{background:color-mix(in srgb,var(--ph) 18%,transparent)}
+#sk-journey .sn:not(.cur):hover .sn-t b,#sk-journey .sn:not(.cur):focus-visible .sn-t b{color:var(--ph-tx)!important}
+#sk-journey .sn.cur .sn-rw{background:var(--ph);box-shadow:0 0 0 5px color-mix(in srgb,var(--ph) 22%,transparent),0 6px 16px -6px var(--ph)}
+#sk-journey .sn.cur .sn-t b{color:var(--ph-tx)!important;font-weight:700}
+#sk-journey .sn-plan.cur,#sk-journey .sn-plan.cur span{color:#b0461a!important;font-weight:700}
+#sk-journey .sn-plan.cur::before{background:#ea6a3c!important;border:3px solid #ea6a3c!important;box-shadow:0 0 0 5px rgba(234,106,60,.22),0 6px 16px -6px #ea6a3c!important}
+#sk-journey .sn-plan:not(.cur):hover::before{background:rgba(234,106,60,.18)!important}
+#sk-journey .sn-plan:not(.cur):hover span{color:#b0461a!important}
+#sk-journey .sn.cur,#sk-journey .sn-plan.cur{background:none!important;box-shadow:none!important}
+@media (max-width:640px){ body[data-jph] #sk-journey .sk-bar.jbar{margin-inline:-12px!important;padding-inline:12px!important} }
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -2309,7 +2441,7 @@ body .sk-star:hover{color:#ea6a3c!important}
   <button class="logo wm" data-sk="app" data-go="home" aria-label="Immersive Distribution and Exhibition Toolkit, home"><span class="wm-a">immersive</span> <span class="wm-b">Distribution</span> <span class="wm-b">&amp; Exhibition</span> <span class="wm-c">toolkit</span></button>
   <button class="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="app-tabs"><span class="dots9" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></button>
   <div class="app-tabs" id="app-tabs" role="tablist" aria-label="Ways in">
-    <button role="tab" data-sk="app" data-go="journey" data-app-tab="journey" aria-controls="sk-journey"><span>Distribution plan</span></button>
+    <button role="tab" data-sk="app" data-go="journey" data-app-tab="journey" aria-controls="sk-journey"><span>Planning</span></button>
     <button role="tab" data-sk="app" data-go="database" data-app-tab="database" aria-controls="sk-pathway"><span>Database</span></button>
     <button role="tab" data-sk="app" data-go="resources" data-app-tab="resources" aria-controls="v-res"><span>Resources</span></button>
     <button role="tab" data-sk="app" data-go="glossary" data-app-tab="glossary" aria-controls="v-gloss"><span>Glossary</span></button>
@@ -3050,7 +3182,7 @@ button:focus-visible,a:focus-visible,.vp:focus-visible{outline:2px solid var(--f
     </div>
   </section>
 
-  <div class="sketch" id="sk-journey" role="tabpanel" aria-label="Distribution plan" hidden><div class="sk-wait">Loading…</div></div>
+  <div class="sketch" id="sk-journey" role="tabpanel" aria-label="Planning" hidden><div class="sk-wait">Loading…</div></div>
   <div class="sketch" id="sk-pathway" role="tabpanel" aria-label="Database" hidden><div class="sk-wait">Loading…</div></div>
   <section class="res" id="v-res" role="tabpanel" aria-label="Resources" hidden></section>
   <section class="res gloss" id="v-gloss" role="tabpanel" aria-label="Glossary" hidden></section>
@@ -3328,7 +3460,7 @@ if (pwEl) {
   const addNext = (id) => { const l=id?LAY[id]:suggest(); if(!l) return; const b=document.getElementById('pw-add'); if(b) b.classList.add('pulse'); pw.layers=[...pw.layers,l]; pw.step=pw.layers.length-1; pw.anim=pw.step; render(); };
   bridge.toPathway = sel => { timers.forEach(clearTimeout); timers=[]; Object.assign(pw,{intro:false,demo:false,played:true,showAll:false,open:null,sup:false,menu:false,q:'',route:'format'}); const ls=ROUTES.format.order.filter(k=>(sel[k]||[]).length).map(k=>LAY[k]); pw.layers=ls.length?ls:[LAY.discipline]; pw.sel=Object.fromEntries(Object.entries(sel).filter(([,x])=>x.length)); pw.step=pw.layers.length-1; prune(); render(); };
   const PWDESC = {who:'Start from your creative field',format:'Start from the format of your work',venue:'Start from a kind of venue'};
-  const pwIntro = () => `<div class="sk-body sk-full"><div class="jc"><h2 class="jc-h">Where would you like to start?</h2><div class="jc-cards">${Object.entries(ROUTES).map(([k,r])=>`<button class="jc-card" data-sk="pw-route" data-route="${k}"><b><span class="jc-name">${esc(r.q)}</span></b><span>${PWDESC[k]||''}</span></button>`).join('')}</div></div></div>`;
+  const pwIntro = () => `<div class="sk-body sk-full"><div class="jc"><h2 class="jc-h">Where would you like to start?</h2><p class="jc-k">Search the venue and festival database by format, by creative field or by kind of venue, then narrow it with more filters</p><div class="jc-cards">${Object.entries(ROUTES).map(([k,r])=>`<button class="jc-card" data-sk="pw-route" data-route="${k}"><b><span class="jc-name">${esc(r.q)}</span></b><span>${PWDESC[k]||''}</span></button>`).join('')}</div></div></div>`;
   const startRoute = k => { pw.route=k; pw.layers=[LAY[ROUTES[k].order[0]]]; pw.step=0; };
   function demo(){
     timers.forEach(clearTimeout); timers=[];
@@ -3445,7 +3577,7 @@ const jEl = document.getElementById('sk-journey');
 if (jEl) {
   // Premiere is now Festivals and Circulation is Exhibition (client, 2026-11-04)
   const SEC=[
-    {key:'pl',label:'Planning',short:'Identifying your project, values, and goals',line:'Your project, audience, needs and priorities. Saved to your plan; it doesn’t filter venues.'},
+    {key:'pl',label:'Positioning',short:'Identifying your project, values, and goals',line:'Your project, its audience, needs and goals. Saved to your plan; it doesn’t filter venues.'},
     {key:'pr',label:'Festivals',short:'Premiere and circuit',line:'Find festivals that fit, and prepare for a premiere.'},
     {key:'ci',label:'Exhibition',short:'Venues and Platforms',line:'Find venues and platforms, and what to confirm with each host.'}];
   // Each journey has its own colour: section tabs, the left panel, the question panel, the brief and the plan use it
@@ -3649,7 +3781,7 @@ if (jEl) {
     let curC=INK; const marks=[], mark=(t,lv)=>marks.push({t:clean(t),lv,page:doc.getCurrentPageInfo().pageNumber,c:curC});
     put(planTitle(),{size:22,bold:true,gap:0}); put('Immersive Distribution and Exhibition Toolkit · '+today(),{size:9,color:MUTED,gap:12});
     const tocN=m.parts.reduce((n,p)=>n+1+p.subs.length,0), tocY=y; if(tocN) y+=22+tocN*14+14;
-    if(!m.parts.length) put('Nothing saved yet. Start with Planning, or go straight to Festivals or Exhibition.',{size:10,color:MUTED});
+    if(!m.parts.length) put('Nothing saved yet. Start with Positioning, or go straight to Festivals or Exhibition.',{size:10,color:MUTED});
     const factsOut=fs=>fs.forEach(f=>{ room(28); put(f.label.toUpperCase()+(f.prov?'  ('+f.prov.toLowerCase()+')':''),{size:7.5,bold:true,color:MUTED,gap:0}); put(f.value+(f.note?`  ·  "${f.note}"`:''),{size:10,gap:6}); });
     m.parts.forEach(p=>{ const C=PCOL[p.key]; y+=10; room(80); curC=C; mark(p.title,0); doc.setFillColor(...C); doc.rect(M,y-14,maxW,26,'F'); doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(255,255,255); doc.text(clean(p.title),M+10,y+4); y+=24; put(p.line,{size:9,color:MUTED,gap:6});
       p.subs.forEach(sb=>{ y+=10; room(60); mark(sb.h,1); put(sb.h,{size:14,bold:true,color:C,gap:2}); if(sb.note) put(sb.note,{size:8.5,color:MUTED,gap:6}); else y+=4;
@@ -3685,20 +3817,26 @@ if (jEl) {
   const factHtml=f=>`<div class="pl-fact${f.long?' pl-fact-long':''}"><small>${esc(f.label)}${pen(f.s,f.i,f.label)}</small><b>${esc(f.value)}</b>${f.note?`<span class="pl-note">“${esc(f.note)}”</span>`:''}${f.prov?`<span class="pl-prov">${esc(f.prov)}</span>`:''}</div>`;
   const reflHtml=r=>`<li class="pl-todo plain"><span class="pl-nobox" aria-hidden="true">${PEN}</span><span class="pl-todo-t"><span>${esc(r.text)}</span><small class="pl-note">${esc(r.value)}</small></span>${pen(r.s,r.i,r.text)}</li>`;
   const opened=k=>j.secOpen.has(k)?' open':'';
+  // v148 (Jacie 2026-11-07): a compact plan. Three open phase sections with small titles; Positioning's groups fold closed;
+  // Festivals and Exhibition lead with the shortlist (open cards) and the other fits (folded), then a one-line row of preferences,
+  // then preparation or the host checklist. No counts, no boxes inside boxes.
+  const GO='<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11L11 5"/><path d="M6 5h5v5"/></svg>';
+  const vcard2=x=>`<li class="p2-v${x.on?' on':''}">${starBtn(vById(x.id))}<div class="p2-v-b"><span class="p2-v-n"><b>${esc(x.name)}</b>${x.web?`<a class="p2-go" href="${esc(x.web)}" target="_blank" rel="noopener" aria-label="${esc(x.name)} website (opens in a new tab)" title="${esc(host(x.web))}">${GO}</a>`:''}</span><small>${esc(x.sub)}</small><span class="p2-v-c">${contactHtml(x.v)}</span></div></li>`;
+  const prefRow=fs=>`<div class="p2-prefs"><span class="p2-k">Preferences</span>${fs.map(f=>`<span class="p2-pref"><small>${esc(f.label)}</small> ${esc(f.value)}${f.note?` <i>“${esc(f.note)}”</i>`:''}${f.prov?' <em class="p2-nf">not a filter yet</em>':''}${pen(f.s,f.i,f.label)}</span>`).join('')}</div>`;
   function subHtml(p,sb){
+    if(sb.fits){ const rest=sb.fits.filter(x=>!x.on), sl=sb.shortlist;
+      return `<section class="p2-sec" id="pl-${p.key}-${sb.k}"><h3 class="p2-h">Your shortlist</h3>
+        ${sl.length?`<ul class="p2-vs">${sl.map(vcard2).join('')}</ul>`:`<p class="p2-empty">Nothing shortlisted yet. Tap ☆ on one below.</p>`}
+        ${rest.length?`<details class="p2-more p2-fd" data-sec="${p.key}:all"${opened(p.key+':all')}><summary>${sl.length?`${rest.length} more that fit`:`All ${rest.length} that fit`}</summary><ul class="p2-vs">${rest.map(vcard2).join('')}</ul></details>`:(sb.fits.length?'':`<p class="p2-empty">No recorded ${sb.kind} match all of these filters.</p>`)}
+        ${sb.facts.length?prefRow(sb.facts):''}</section>`; }
     let inner='';
-    if(sb.facts) inner+=sb.facts.length?`${sb.fits?'<h4 class="pl-sh">Preferences</h4>':''}<div class="pl-facts row">${sb.facts.map(factHtml).join('')}</div>`:'';
+    if(sb.facts) inner+=sb.facts.length?`<div class="pl-facts row">${sb.facts.map(factHtml).join('')}</div>`:'';
     if(sb.prio) inner+=sb.prio.length?`<ol class="pl-prio">${sb.prio.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:`<p class="pl-empty">Not ranked yet. ${pen(sb.s,sb.i,'priorities')}</p>`;
-    if(sb.tasks) inner+=sb.tasks.length?(sb.tasks.some(x=>x.grp)?[...new Set(sb.tasks.map(x=>x.grp))].map(g=>`<h4 class="pl-sh">${esc(g)}</h4><ul class="pl-tlist">${sb.tasks.filter(x=>x.grp===g).map(tickRow).join('')}</ul>`).join(''):`<ul class="pl-tlist">${sb.tasks.map(tickRow).join('')}</ul>`):`<p class="pl-empty">${sb.empty}</p>`;
+    if(sb.tasks) inner+=sb.tasks.length?`<ul class="pl-tlist">${sb.tasks.map(tickRow).join('')}</ul>`:`<p class="pl-empty">${sb.empty}</p>`;
     if(sb.text) inner+=`<p class="pl-note">Your note: ${esc(sb.text)}</p>`;
-    if(sb.refl&&sb.refl.length) inner+=`<div class="pl-facts row refl">${sb.refl.map(r=>factHtml({label:r.text,value:r.value,s:r.s,i:r.i})).join('')}</div>`;
-    if(sb.fits) inner+=`${sb.off?`<p class="pl-empty">${sb.off}</p>`:''}
-        <h4 class="pl-sh">Your shortlist</h4>
-        ${sb.shortlist.length?`<div class="pl-vgrid">${sb.shortlist.map(vcard).join('')}</div>`:`<p class="pl-empty">Tap ☆ on one below to shortlist it.</p>`}
-        ${sb.fits.length?`<details class="pl-more" data-sec="${p.key}:all"${opened(p.key+':all')}><summary>All ${sb.ok} that fit <small>☆ to add to your shortlist</small></summary><ol class="pl-vlist">${sb.fits.map(vrow).join('')}</ol></details>`:`<p class="pl-empty">No recorded ${sb.kind} match all of these filters.</p>`}`;
-    const small=sb.fits?`${sb.ok} fit · ${sb.shortlist.length} shortlisted`:sb.tasks?`${sb.tasks.filter(x=>j.tick.has(x.id)).length} of ${sb.tasks.length} done`:sb.note||'';
-    return `<section class="pl-sub pl-sub-s" id="pl-${p.key}-${sb.k}"><div class="pl-sub-hd"><span class="pl-vh"><h3 class="pl-h">${sb.h}</h3><small>${small}</small></span></div><div class="pl-sub-b">${inner}</div></section>`; }
-  const partHtml=p=>`<details class="pl-part ph-${p.key}" id="pl-${p.key}" data-sec="${p.key}"${opened(p.key)}><summary><span class="pl-sec-t"><span class="pl-sec-h">${p.title}</span><small>${p.line}</small></span></summary><div class="pl-part-b">${p.subs.map(sb=>subHtml(p,sb)).join('')}</div></details>`;
+    if(p.key==='pl') return `<details class="p2-grp p2-fd" id="pl-${p.key}-${sb.k}" data-sec="pl:${sb.k}"${opened('pl:'+sb.k)}><summary><h3 class="p2-h">${sb.h}</h3></summary><div class="p2-b">${inner}</div></details>`;
+    return `<section class="p2-sec" id="pl-${p.key}-${sb.k}"><h3 class="p2-h">${sb.h}</h3><div class="p2-b">${inner}</div></section>`; }
+  const partHtml=p=>`<section class="p2-part ph-${p.key}" id="pl-${p.key}"><h2 class="p2-ph"><span class="p2-n">Phase ${p.si+1}</span> ${p.title}</h2><div class="p2-part-b">${p.subs.map(sb=>subHtml(p,sb)).join('')}</div></section>`;
   const startBtns=sis=>sis.map(si=>`<button class="sk-mini ph-${PH[si]}" data-sk="j-sec" data-i="${si}">Start ${SEC[si].label} →</button>`).join(' ');
   const tocHtml=m=>`<div class="jl"><div class="jl-in jl-sticky"><b class="jl-t">Contents</b>
       <nav class="jl-qs" aria-label="Plan contents">${m.parts.map(p=>`<button class="jl-q lv0 ph-${p.key}" data-sk="j-toc" data-to="pl-${p.key}">${p.title}</button>${p.subs.map(sb=>`<button class="jl-q lv1 ph-${p.key}" data-sk="j-toc" data-to="pl-${p.key}-${sb.k}"><span>${sb.h}</span></button>`).join('')}`).join('')||'<span class="jl-none">Nothing saved yet</span>'}</nav>
@@ -3707,7 +3845,7 @@ if (jEl) {
     return `<div class="pl-page">
       <header class="pl-head"><h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0">Your plan</h2><div class="pl-head-t"><span class="eyebrow">${today()}${j.example?' · Example project':''}</span><label class="pl-title-w"><span class="sr-only">Project name</span><input class="pl-title pl-title-in" id="pl-title" value="${esc(j.title)}" placeholder="Your distribution plan" aria-label="Project name, click to edit" autocomplete="off">${PEN}</label></div>
         <div class="pl-acts"><span class="pl-btns"><button class="btn-primary" data-sk="j-dl">${j.saved?esc(j.saved):'↓ Download PDF'}</button><button class="pl-ghost" data-sk="j-copy">${j.copied?'Copied':'Copy as text'}</button></span></div></header>
-      ${m.parts.length?`<div class="pl-fold">${(()=>{ const all=m.parts.every(p=>j.secOpen.has(p.key)); return `<button class="pl-fold-t" data-sk="j-fold" data-open="${all?0:1}" aria-label="${all?'Collapse':'Expand'} all sections"><span aria-hidden="true">${all?'−':'+'}</span> ${all?'Collapse':'Expand'} all</button>`; })()}</div>`:''}
+      ${false?`<div class="pl-fold">${(()=>{ const fd=[...(m.parts.find(p=>p.key==='pl')||{subs:[]}).subs.map(sb=>'pl:'+sb.k),...m.parts.filter(p=>p.key!=='pl').map(p=>p.key+':all')], all=fd.length&&fd.every(k=>j.secOpen.has(k)); return `<button class="pl-fold-t" data-sk="j-fold" data-open="${all?0:1}" aria-label="${all?'Collapse':'Expand'} all sections"><span aria-hidden="true">${all?'−':'+'}</span> ${all?'Collapse':'Expand'} all</button>`; })()}</div>`:''}
       ${m.parts.length?m.parts.map(partHtml).join(''):`<div class="pl-emptyp"><p>Nothing saved yet. Answers and shortlisted places appear here as you go.</p><p>${startBtns([0,1,2])}</p></div>`}
       ${m.parts.length&&m.notStarted.length?`<p class="pl-notyet">Not started: ${startBtns(m.notStarted)}</p>`:''}
       <p class="pl-src">${esc(SRC)}</p></div>`; }
@@ -3824,12 +3962,12 @@ if (jEl) {
     const nav=`<nav class="secnav" aria-label="Journeys and progress">${SEC.map((x,i)=>{ const n=STAGES[i].qs.length, d=STAGES[i].qs.filter(done).length, cur=j.stage===i;
         // A ring per journey that fills as questions are answered, joined to the next by a line (Jacie 2026-11-02)
         const pct=Math.round(100*d/n), ring=`<svg class="sn-ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="sn-tr" cx="18" cy="18" r="15"/>${d?`<circle class="sn-pr" cx="18" cy="18" r="15" pathLength="100" stroke-dasharray="${pct} 100" transform="rotate(-90 18 18)"/>`:''}</svg>`;
-        return `${i?root(i,`var(--ph-${PH[i-1]})`,`var(--ph-${PH[i]})`):''}<button class="sn ph-${PH[i]}${cur?' cur':''}" data-sk="j-sec" data-i="${i}"${cur?' aria-current="page"':''} aria-label="${x.label}, ${d} of ${n} questions answered">${ring}<span class="sn-t"><b>${x.label}</b><small>${d} of ${n}<span class="sn-q"> questions</span></small></span></button>`; }).join('')}${root(3,'var(--ph-ci)','var(--muted)')}<button class="sn-plan${j.stage===3?' cur':''}" data-sk="j-sec" data-i="3"${j.stage===3?' aria-current="page"':''} aria-label="Your Plan"><span>Your Plan</span></button></nav>`;
+        return `${i?root(i,`var(--ph-${PH[i-1]})`,`var(--ph-${PH[i]})`):''}<button class="sn ph-${PH[i]}${cur?' cur':''}" data-sk="j-sec" data-i="${i}"${cur?' aria-current="page"':''} aria-label="${x.label}, ${d} of ${n} questions answered"><span class="sn-rw">${ring}<span class="sn-c" aria-hidden="true">${d}/${n}</span></span><span class="sn-t"><b>${x.label}</b></span></button>`; }).join('')}${root(3,'var(--ph-ci)','var(--muted)')}<button class="sn-plan${j.stage===3?' cur':''}" data-sk="j-sec" data-i="3"${j.stage===3?' aria-current="page"':''} aria-label="Your Plan"><span>Your Plan</span></button></nav>`;
     let body, match=null;
     if(j.stage===-1){
       // Where to start (Jacie 2026-11-02): kept minimal, three options stacked, Planning highlighted as the suggested start
       body=`<div class="sk-body sk-full"><div class="jc"><h2 class="jc-h">Where would you like to start?</h2><p class="jc-k">Start from any of the three phases or be guided through the entire journey</p>
-        <div class="jc-cards">${SEC.map((x,i)=>`<button class="jc-card ph-${PH[i]}${i===0?' first':''}" data-sk="j-sec" data-i="${i}"><b><span class="jc-dot" aria-hidden="true"></span><span class="jc-name">${x.label}</span></b><span>${esc(x.short)}</span><i aria-hidden="true">→</i></button>`).join('')}</div></div></div>`;
+        <div class="jc-cards">${SEC.map((x,i)=>`<button class="jc-card ph-${PH[i]}${i===0?' first':''}" data-sk="j-sec" data-i="${i}"><b><span class="jc-dot" aria-hidden="true"></span><span class="jc-ph">Phase ${i+1}</span><span class="jc-name">${x.label}</span></b><span>${esc(x.short)}</span><i aria-hidden="true">→</i></button>`).join('')}</div></div></div>`;
     } else if(j.stage===3){
       const m=planModel();
       // Your Plan (client, 2026-11-04): no contents list; the plan is centred, its three parts are clear +/− sections
@@ -3838,8 +3976,8 @@ if (jEl) {
       // Each journey opens on its list of questions, then Next goes to the questions (client, 2026-11-04)
       const si=j.stage, s=STAGES[si];
       body=`<div class="sk-body sk-full"><div class="ji ph-${PH[si]}" style="--glow:var(--ph-${PH[si]}-deep);--qc:var(--ph-${PH[si]}-tx)">
-        <h2 class="ji-h">${s.label}</h2><div class="ji-top"><p class="ji-k">Question preview</p><button class="ji-next" data-sk="j-start" aria-label="Skip the preview and start the questions" title="Start the questions"><span aria-hidden="true">→</span></button></div>
-        <ol class="ji-list">${s.qs.map((q,i)=>`<li class="ji-q${done(q)?' done':''}"><span class="ji-n">${i+1}</span><span class="ji-t">${esc(q.text)}</span></li>`).join('')}</ol></div></div>`;
+        <h2 class="ji-h">${s.label}</h2><div class="ji-top"><p class="ji-k">${esc(s.line)}</p><button class="ji-next" data-sk="j-start" aria-label="Skip the preview and start the questions" title="Start the questions"><span aria-hidden="true">→</span></button></div>
+        <ol class="ji-list">${s.qs.map((q,i)=>`<li class="ji-q${done(q)?' done':''}"><span class="ji-n">${i+1}</span><span class="ji-t">${esc(q.topic||q.short)}</span></li>`).join('')}</ol></div></div>`;
     } else {
       const si=j.stage, s=STAGES[si], qi=j.qi[si];
       const onQ=i=>i===qi;
@@ -3911,7 +4049,7 @@ if (jEl) {
     'j-match':()=>pull('match'),
     'j-lay':t=>{ briefMode=t.dataset.m; if(briefMode!=='collapsed'&&j.panel==='brief') j.panel=null; render(); },
     'j-toc':t=>{ const el=document.getElementById(t.dataset.to); if(!el) return; for(let d=el.closest('details'); d; d=d.parentElement&&d.parentElement.closest('details')) d.open=true; el.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); },
-    'j-fold':t=>{ const on=t.dataset.open==='1'; jEl.querySelectorAll('details.pl-part').forEach(d=>d.open=on); setTimeout(foldLbl,0); tocSpy(); },
+    'j-fold':t=>{ const on=t.dataset.open==='1'; jEl.querySelectorAll('details.p2-fd').forEach(d=>d.open=on); setTimeout(foldLbl,0); tocSpy(); },
     'j-edit':t=>{ go(+t.dataset.s,+t.dataset.i); },
     // Checkboxes allow several answers, radios one. Flexible clears specific values, and a specific value clears Flexible.
     'j-ans':t=>{ const k=t.dataset.key, a=A(k), v=t.dataset.val; j.lit=k+':'+v;
@@ -3953,9 +4091,9 @@ if (jEl) {
   // Next fills in as soon as the screen counts as answered (design plan 2026-11-02)
   jEl.addEventListener('input',()=>{ const b=jEl.querySelector('.q-next'); if(b&&j.stage>=0&&j.stage<3) b.classList.toggle('on',done(STAGES[j.stage].qs[j.qi[j.stage]])); });
   // one Expand all / Collapse all toggle (Jacie 2026-11-04): it reads "Collapse all" once every big section is open
-  const foldLbl=()=>{ const t=jEl.querySelector('.pl-fold-t'); if(!t) return; const ps=[...jEl.querySelectorAll('details.pl-part')], all=ps.length&&ps.every(d=>d.open);
+  const foldLbl=()=>{ const t=jEl.querySelector('.pl-fold-t'); if(!t) return; const ps=[...jEl.querySelectorAll('details.p2-fd')], all=ps.length&&ps.every(d=>d.open);
     t.dataset.open=all?'0':'1'; t.setAttribute('aria-label',(all?'Collapse':'Expand')+' all sections'); t.innerHTML=`<span aria-hidden="true">${all?'−':'+'}</span> ${all?'Collapse':'Expand'} all`; };
-  jEl.addEventListener('toggle',e=>{ if(e.target.classList&&e.target.classList.contains('pl-part')) setTimeout(foldLbl,0); },true);
+  jEl.addEventListener('toggle',e=>{ if(e.target.classList&&e.target.classList.contains('p2-fd')) setTimeout(foldLbl,0); },true);
   jEl.addEventListener('toggle',e=>{ const k=e.target.dataset&&e.target.dataset.sec; if(!k) return; if(e.target.open){ j.secOpen.add(k); j.shut.delete(k); } else { j.secOpen.delete(k); j.shut.add(k); } },true);
   // Opening a folded note puts the cursor straight in it
   jEl.addEventListener('click',e=>{ const sm=e.target.closest&&e.target.closest('.note-d>summary'); if(!sm) return; const d=sm.parentElement; setTimeout(()=>{ if(d.open){ const ta=d.querySelector('textarea'); if(ta) ta.focus(); } },0); });
@@ -4139,12 +4277,16 @@ if (jEl) {
 
 // v144 (Jacie 2026-11-07): on the Distribution plan start page every root ends in one vertical line on each side, level with the
 // option's title, and the hover ring passes through that end point so root and ring stay joined
+window.__jRow=card=>{ const cs=[...card.parentElement.querySelectorAll(':scope>.jc-card')]; return cs.length>1&&Math.abs(cs[0].getBoundingClientRect().top-cs[1].getBoundingClientRect().top)<4; };
 window.__jEnds=card=>{ if(!card||card.closest('#sk-res')||!card.closest('.sk-full .jc-cards')) return null;
+  // v149 (Jacie 2026-11-07): Planning start page laid out in a row like the progress bar; each phase keeps its own ends, level with its name
+  if(card.closest('#sk-journey')&&window.__jRow(card)){ const nm=(card.querySelector('.jc-name')||card.querySelector(':scope>b')).getBoundingClientRect(), b0=card.querySelector(':scope>b').getBoundingClientRect(), sp=card.querySelector(':scope>span'), q1=sp?sp.getBoundingClientRect():b0;
+    return {XL:Math.min(b0.left,q1.left)-26,XR:Math.max(b0.right,q1.right)+26,ty:(nm.top+nm.bottom)/2}; }
   // v145: on the Database start page each option keeps its own ends (middle of its name and line), and the hover ring passes through them too
   if(!card.closest('#sk-journey')){ const b0=card.querySelector(':scope>b'); if(!b0) return null; const q0=b0.getBoundingClientRect(), sp=card.querySelector(':scope>span'), q1=sp?sp.getBoundingClientRect():q0;
     return {XL:Math.min(q0.left,q1.left)-30,XR:Math.max(q0.right,q1.right)+30,ty:(q0.top+Math.max(q0.bottom,q1.bottom))/2}; } const cs=[...card.parentElement.querySelectorAll(':scope>.jc-card')]; let l=1e9,r=-1e9;
   cs.forEach(c=>{ [c.querySelector(':scope>b'),c.querySelector(':scope>span')].forEach(e=>{ if(!e) return; const q=e.getBoundingClientRect(); l=Math.min(l,q.left); r=Math.max(r,q.right); }); });
-  const t=card.querySelector(':scope>b').getBoundingClientRect(); return {XL:l-30,XR:r+30,ty:(t.top+t.bottom)/2}; };
+  const t=(card.querySelector('.jc-name')||card.querySelector(':scope>b')).getBoundingClientRect(); return {XL:l-30,XR:r+30,ty:(t.top+t.bottom)/2}; };
 // Trial (Jacie 2026-11-03): "Colored bg" gives each part of the distribution plan its own bold earth-tone background
 // (Planning plum, Festivals orange, Exhibition blue, Your Plan yellow). Plain stays the default.
 {
@@ -4246,11 +4388,15 @@ window.__jEnds=card=>{ if(!card||card.closest('#sk-res')||!card.closest('.sk-ful
       const je=window.__jEnds&&window.__jEnds(card);
       const L=je?je.XL+30-sr.left:Math.min(b0.left,b1.left)-sr.left, Rr=je?je.XR-30-sr.left:Math.max(b0.right,b1.right)-sr.left, cy=je?je.ty-sr.top:(b0.top+Math.max(b0.bottom,b1.bottom))/2-sr.top, c=colOf(card,i);
       const g=el('g',{class:'st-c st-c'+i,style:`--c:${c}`}); const dl=i*.28;
-      [[0,L-30],[sr.width,Rr+30]].forEach(([x0,x1],side)=>{ if(Math.abs(x1-x0)<24) return; const y0=cy+(R()-.5)*90;
+      const rowJ=je&&body.closest('#sk-journey')&&window.__jRow(card), prevE=rowJ&&i?window.__jEnds(cards[i-1]):null;
+      // in the row layout the roots run screen edge > phase 1 > phase 2 > phase 3 > screen edge
+      const sides=rowJ?[[prevE?prevE.XR-sr.left:0,L-30],...(i===cards.length-1?[[sr.width,Rr+30]]:[])]:[[0,L-30],[sr.width,Rr+30]];
+      sides.forEach(([x0,x1],side)=>{ if(Math.abs(x1-x0)<24) return; const G=(rowJ&&side===1)?el('g',{class:'st-c st-c'+i+' st-toplan',style:'--c:#ea6a3c'}):g; if(G!==g) svg.appendChild(G); /* v150: the last root, on to Your Plan, is orange */ const y0=(rowJ&&prevE&&side===0)?cy:cy+(R()-.5)*90;
         const m=meander(x0,y0,x1,cy,Math.max(2,Math.round(Math.abs(x1-x0)/90)),34);
-        g.appendChild(el('path',{d:m.d,pathLength:1,class:'st-r',style:`animation-delay:${Math.round((dl+side*.1)*1000)}ms`}));
-        tendrils(g,m.pts,'st-r',dl+side*.1,1);
-        const n=el('g',{class:'st-end',style:`animation-delay:${Math.round((dl+side*.1+.75)*1000)}ms`}); n.appendChild(el('circle',{cx:f1(x1),cy:f1(cy),r:9,class:'st-glow'})); n.appendChild(el('circle',{cx:f1(x1),cy:f1(cy),r:2.6,class:'st-core'})); g.appendChild(n); });
+        G.appendChild(el('path',{d:m.d,pathLength:1,class:'st-r',style:`animation-delay:${Math.round((dl+side*.1)*1000)}ms`}));
+        tendrils(G,m.pts,'st-r',dl+side*.1,1);
+        const n=el('g',{class:'st-end',style:`animation-delay:${Math.round((dl+side*.1+.75)*1000)}ms`}); n.appendChild(el('circle',{cx:f1(x1),cy:f1(cy),r:9,class:'st-glow'})); n.appendChild(el('circle',{cx:f1(x1),cy:f1(cy),r:2.6,class:'st-core'})); G.appendChild(n);
+          if(rowJ&&prevE&&side===0){ const n0=el('g',{class:'st-end',style:`animation-delay:${Math.round((dl+.75)*1000)}ms`}); n0.appendChild(el('circle',{cx:f1(x0),cy:f1(cy),r:9,class:'st-glow'})); n0.appendChild(el('circle',{cx:f1(x0),cy:f1(cy),r:2.6,class:'st-core'})); G.appendChild(n0); } });
       g.dataset.cx=f1((L+Rr)/2); g.dataset.cy=f1(Math.max(b0.bottom,b1.bottom)-sr.top); svg.appendChild(g); });
     if(RM) svg.classList.add('st-still'); };
   const startBody=()=>[...document.querySelectorAll('.app-main .sk-body.sk-full')].find(b=>b.querySelector(':scope .jc-cards')&&b.offsetParent);
