@@ -4031,6 +4031,7 @@ if (jEl) {
   const refocus=sel=>{ const b=jEl.querySelector(sel); if(b) b.focus(); };
   const pull=k=>{ const was=j.panel; j.panel=was===k?null:k; j.panelAnim=!!j.panel&&!was; j.more=0; render(); if(!j.panel||was) refocus(`.pull-${k[0]}`); };
   const dlCap=window.claude&&window.claude.use?window.claude.use('downloads').catch(()=>null):Promise.resolve(null);
+  window.__vlJ=()=>({STAGES,j,go,done,PH,SEC});
   const go=(stage,qi,intro)=>{ j.stage=stage; j.intro=intro&&stage>=0&&stage<3?stage:null; if(qi!=null&&stage>=0&&stage<3) j.qi[stage]=qi; j.panel=null; j.more=0; j.showChk=false; j.copied=false; j.saved=''; j.rkMsg=''; render(); if(jEl.getBoundingClientRect().top<0) jEl.scrollIntoView({block:'start'}); };
   const loadEx=()=>{ j=fresh(); j.ans=JSON.parse(JSON.stringify(EXAMPLE)); j.example=true; stars.clear(); results('circ').ok.slice(0,2).forEach(x=>stars.add(x.v.id)); results('first').ok.slice(0,2).forEach(x=>stars.add(x.v.id)); j.seen={cands:true,ccands:true}; j.tick.add('host:acc'); j.tick.add('prep:desc'); A('host').add={own1:'Can the room be fully darkened?'}; A('host').cn=1; };
   const next=()=>{ const s=STAGES[j.stage]; if(j.qi[j.stage]<s.qs.length-1) return go(j.stage,j.qi[j.stage]+1); const n=j.stage+1; go(n,n<3?j.qi[n]:null,true); };
@@ -4267,7 +4268,7 @@ if (jEl) {
               last=c.animate([{transform:'none',opacity:1},{transform:`translateX(${xr-cr.right}px) scaleX(.06)`,opacity:0}],{duration:480,delay:Math.min(i,10)*35,easing:'cubic-bezier(.6,0,.3,1)',fill:'forwards'}); });
             const done=()=>{ ghRoot.remove(); const r2=root.querySelector('.sk-body.fold>.rz-rail.r'); if(r2){ r2.classList.add('rz-hint'); setTimeout(()=>r2.classList.remove('rz-hint'),1700); } };
             if(last) last.onfinish=done; else done(); },0); } }
-      if(root.classList.contains('rz-l')&&e.target.closest('.sk-body>div:first-child [data-sk]')&&(matchMedia('(max-width:1100px)').matches||e.target.closest('.sk-body.qv'))) root.classList.remove('rz-l'); },true);
+      if(root.classList.contains('rz-l')&&e.target.closest('.sk-body>div:first-child [data-sk]')&&!(root.classList.contains('vl')&&matchMedia('(min-width:821px)').matches)&&(matchMedia('(max-width:1100px)').matches||e.target.closest('.sk-body.qv'))) root.classList.remove('rz-l'); },true);
     root.addEventListener('keydown',e=>{ if(e.key==='Escape'&&(root.classList.contains('rz-l')||root.classList.contains('rz-r'))){ root.classList.remove('rz-l','rz-r'); root.querySelectorAll('.rz-rail').forEach(x=>x.remove()); fit(root); } });
   });
 }
@@ -4506,4 +4507,221 @@ document.addEventListener('keydown', e => {
   if(n && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); handlers['pw-node'](n); }
 });
 })();
+
+/* Proposal B (Jacie 2026-11-07): the progress steps sit on a squiggly root that runs down the whole panel; the question list sits
+   to its left and folds away, leaving the root. The Planning start page stacks the three phases, strung together by an S-shaped root. */
+(()=>{
+  const root=document.getElementById('sk-journey'); if(!root) return; root.classList.add('vl');
+  const NS='http://www.w3.org/2000/svg', DESK=matchMedia('(min-width:821px)'), WIDE=matchMedia('(min-width:1101px)'), RMq=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const f1=v=>v.toFixed(1), el=(t,a)=>{ const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); return e; };
+  let sd=1; const R=()=>((sd=(sd*16807)%2147483647)/2147483647);
+  const css=(n,v)=>getComputedStyle(n).getPropertyValue(v).trim();
+  // smooth curve through points (Catmull-Rom as cubic Béziers)
+  const smooth=P=>{ let d=`M${f1(P[0][0])} ${f1(P[0][1])}`; for(let i=0;i<P.length-1;i++){ const p0=P[i-1]||P[i], p1=P[i], p2=P[i+1], p3=P[i+2]||p2;
+    d+=`C${f1(p1[0]+(p2[0]-p0[0])/6)} ${f1(p1[1]+(p2[1]-p0[1])/6)} ${f1(p2[0]-(p3[0]-p1[0])/6)} ${f1(p2[1]-(p3[1]-p1[1])/6)} ${f1(p2[0])} ${f1(p2[1])}`; } return d; };
+  // short rootlets with a fork, like the landing page's roots
+  const rootlets=(P,keep,sc)=>{ let d=''; P.forEach(([x,y],i)=>{ if(!i||i===P.length-1||!keep(x,y)||R()<.4) return; const s=R()<.5?-1:1, L=(9+R()*17)*(sc||1), a=(s<0?Math.PI:0)+s*(R()<.5?.55:-.55)+(R()-.5)*.5,
+    x1=x+Math.cos(a)*L, y1=y+Math.sin(a)*L, fx=x+(x1-x)*.6, fy=y+(y1-y)*.6, fa=a+(R()<.5?-.7:.7);
+    d+=`M${f1(x)} ${f1(y)}Q${f1(x+Math.cos(a+.4)*L*.5)} ${f1(y+Math.sin(a+.4)*L*.5)} ${f1(x1)} ${f1(y1)}M${f1(fx)} ${f1(fy)}l${f1(Math.cos(fa)*L*.35)} ${f1(Math.sin(fa)*L*.35)}`; }); return d; };
+
+  /* ---------- 1. progress root on the journey pages ---------- */
+  const PLAN='<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M5 3.5h7l3 3v10H5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 9.5h5M7.5 12.5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  let lastY=null;
+  const sync=()=>{ const t=root.querySelector('.vl-tg'); if(!t) return; const o=root.classList.contains('rz-l'); t.setAttribute('aria-expanded',o); t.setAttribute('aria-label',(o?'Hide':'Show')+' the question list'); t.title=o?'Hide questions':'Show questions'; };
+  const layout=()=>{ const b=root.querySelector(':scope>.sk-body'), nav=b&&b.querySelector(':scope>.vl-nav'); if(!nav||!DESK.matches) return;
+    const main=document.getElementById('app-main'), mr=main.getBoundingClientRect(), br=b.getBoundingClientRect(); if(!mr.height) return;
+    nav.style.top=f1(mr.top-br.top)+'px'; nav.style.bottom=f1(br.bottom-mr.bottom)+'px';
+    const H=mr.height, W=nav.offsetWidth||78, cx=W/2, tg=nav.querySelector('.vl-tg'), span=Math.min(H-(tg?64:0),Math.max(560,innerHeight-200)); /* a long page (Your Plan) keeps the steps within the first screen */
+    const steps=[...nav.querySelectorAll('.vl-s')], Y=steps.map((s,i)=>span*(i+.5)/steps.length);
+    steps.forEach((s,i)=>{ s.style.top=f1(Y[i])+'px'; });
+    // the root: from the very top of the panel to the very bottom, passing through the middle of every step
+    sd=9001+Math.round(H); const P=[[cx,0]]; let y=0;
+    while(y<H){ y+=38+R()*30; if(y>H-20) break; if(Y.some(v=>Math.abs(v-y)<26)) continue; P.push([cx+(R()-.5)*9,y]); }
+    Y.forEach(v=>P.push([cx,v])); P.push([cx+(R()-.5)*4,H]); P.sort((a,b)=>a[1]-b[1]);
+    const d=smooth(P), t=rootlets(P,(x,yy)=>!Y.some(v=>Math.abs(v-yy)<30));
+    const cur=+(nav.dataset.cur), yC=cur>=0?Y[cur]:0;
+    const ph=['--ph-pl','--ph-pr','--ph-ci'].map(v=>css(root,v)||'#7d4f77');
+    const svg=el('svg',{class:'vl-svg','aria-hidden':'true',width:f1(W),height:f1(H),viewBox:`0 0 ${f1(W)} ${f1(H)}`});
+    svg.innerHTML=`<defs><linearGradient id="vl-g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${f1(H)}"><stop offset="0" stop-color="${ph[0]}"/><stop offset="${(Y[0]/H).toFixed(3)}" stop-color="${ph[0]}"/><stop offset="${(Y[1]/H).toFixed(3)}" stop-color="${ph[1]}"/><stop offset="${(Y[2]/H).toFixed(3)}" stop-color="${ph[2]}"/><stop offset="${(Y[3]/H).toFixed(3)}" stop-color="#ea6a3c"/><stop offset="1" stop-color="#ea6a3c"/></linearGradient>
+      <clipPath id="vl-c"><rect class="vl-cr" x="-40" y="0" width="${f1(W+80)}" height="${f1(lastY==null?yC:lastY)}"/></clipPath></defs>
+      <path class="vl-r" d="${d}"/><path class="vl-r vl-t" d="${t}"/><g clip-path="url(#vl-c)" style="stroke:url(#vl-g)"><path class="vl-r vl-on" d="${d}"/><path class="vl-r vl-t vl-on" d="${t}"/></g>`;
+    nav.querySelectorAll(':scope>.vl-svg').forEach(x=>x.remove()); nav.prepend(svg);
+    const rc=svg.querySelector('.vl-cr'); requestAnimationFrame(()=>requestAnimationFrame(()=>{ rc.setAttribute('height',f1(yC)); rc.style.height=f1(yC)+'px'; })); lastY=yC; };
+  const navOf=(bar,b)=>{ const sn=[...bar.querySelectorAll('.sn')], pl=bar.querySelector('.sn-plan');
+    let cur=sn.findIndex(x=>x.classList.contains('cur')); if(pl&&pl.classList.contains('cur')) cur=3;
+    const qv=b.classList.contains('qv');
+    const steps=sn.map((x,i)=>{ const pr=x.querySelector('.sn-pr'), da=pr?pr.getAttribute('stroke-dasharray'):'0 100', ph=(x.className.match(/\bph-(\w+)/)||[])[1], lab=x.querySelector('.sn-t b').textContent, c=x.querySelector('.sn-c').textContent;
+      return `<button class="vl-s ph-${ph}${i===cur?' cur':''}" data-sk="j-sec" data-i="${i}"${i===cur?' aria-current="page"':''} aria-label="Phase ${i+1}, ${x.getAttribute('aria-label')}"><svg class="vl-ring" viewBox="0 0 40 40" aria-hidden="true"><circle class="vl-tr" cx="20" cy="20" r="18"/><circle class="vl-pr" cx="20" cy="20" r="18" pathLength="100" stroke-dasharray="${da}" transform="rotate(-90 20 20)"/></svg><span class="vl-n" aria-hidden="true">${c}</span><span class="vl-tip" aria-hidden="true"><i>Phase ${i+1}</i><b>${lab}</b></span></button>`; }).join('');
+    const plan=`<button class="vl-s vl-plan${cur===3?' cur':''}" data-sk="j-sec" data-i="3"${cur===3?' aria-current="page"':''} aria-label="Your Plan"><span class="vl-n" aria-hidden="true">${PLAN}</span><span class="vl-tip" aria-hidden="true"><b>Your Plan</b></span></button>`;
+    const tg=qv?`<button class="vl-tg" data-rz="l"><span aria-hidden="true"></span></button>`:'';
+    return {cur,sn,qv,html:`<nav class="vl-nav" aria-label="Phases and progress" data-cur="${cur}">${steps}${plan}${tg}</nav>`}; };
+
+  // Jacie 2026-11-07: the open list folds itself away after 8 seconds without use (not while the pointer or focus is in it)
+  let idle=0; const arm=()=>{ clearTimeout(idle); if(!root.classList.contains('rz-l')||!DESK.matches||!root.querySelector(':scope>.sk-body.qv')) return;
+    idle=setTimeout(()=>{ const l=root.querySelector(':scope>.sk-body>.jl'), n=root.querySelector('.vl-nav'); if(!l||!root.classList.contains('rz-l')) return;
+      if(l.matches(':hover')||(n&&n.matches(':hover'))||l.contains(document.activeElement)) return arm();
+      root.dataset.vlUser='auto'; root.classList.remove('rz-l'); },8000); };
+  ['pointermove','wheel','focusin','keydown'].forEach(ev=>root.addEventListener(ev,e=>{ if(e.target.closest&&e.target.closest('.jl,.vl-nav')) arm(); },{passive:true}));
+  // which phase the list is showing right now: its circle gets a soft ring
+  const peek=()=>{ const sc=root.querySelector(':scope>.sk-body>.jl'); if(!sc) return; const q=sc.getBoundingClientRect(); let k=-1;
+    sc.querySelectorAll('.vl-sec').forEach((s,i)=>{ const r=s.getBoundingClientRect(); if(r.top<q.top+q.height*.4) k=i; });
+    root.querySelectorAll('.vl-nav .vl-s').forEach((c,i)=>c.classList.toggle('peek',i===k&&!c.classList.contains('cur')))
+    sc.classList.toggle('vl-ft',sc.scrollTop>4); sc.classList.toggle('vl-fb',sc.scrollTop+sc.clientHeight<sc.scrollHeight-4); };
+  root.addEventListener('click',e=>{ if(!DESK.matches) return;
+    const g=e.target.closest('[data-vlgo]'); if(g){ e.preventDefault(); e.stopImmediatePropagation(); const [si,qi]=g.dataset.vlgo.split(':').map(Number); root.dataset.vlScroll=''; delete root.dataset.vlScroll; window.__vlJ().go(si,qi,false); return; }
+    const t=e.target.closest('.vl-tg'); if(t){ root.dataset.vlUser=root.classList.contains('rz-l')?'closed':'open'; return; }
+    // a phase circle goes straight to that phase's questions (where you left off), not to its preview page: one click
+    const c=e.target.closest('.vl-nav .vl-s:not(.vl-plan)'); if(c){ e.preventDefault(); e.stopImmediatePropagation(); const J=window.__vlJ(), i=+c.dataset.i; J.go(i,J.j.qi[i]||0,false); }
+  },true);
+
+  /* ---------- 2. the Planning start page: phases stacked, strung on an S-shaped root ---------- */
+  const snake=b=>{ if(!DESK.matches) return; const cards=[...b.querySelectorAll(':scope .jc-cards>.jc-card')]; if(cards.length<3||!window.__jEnds) return;
+    b.querySelectorAll(':scope>.st-roots').forEach(x=>x.remove());
+    const br=b.getBoundingClientRect(), svg=el('svg',{class:'st-roots vl-snake','aria-hidden':'true'}); svg.style.left=f1(-br.left)+'px'; svg.style.width=document.documentElement.clientWidth+'px'; b.prepend(svg);
+    const sr=svg.getBoundingClientRect(); if(!sr.width){ svg.remove(); return; } svg.setAttribute('viewBox',`0 0 ${f1(sr.width)} ${f1(sr.height)}`);
+    const E=cards.map(c=>{ const e=window.__jEnds(c); return {l:e.XL-sr.left,r:e.XR-sr.left,y:e.ty-sr.top,c:css(c,'--stc')||css(c,'--ph')||'#cf9fc6'}; });
+    sd=4711+Math.round(sr.width); const H=sr.height, bow=Math.min(190,Math.max(120,(E[0].l)*.45));
+    const bez=(p0,c1,c2,p3,n)=>{ const P=[]; for(let k=0;k<=n;k++){ const t=k/n, u=1-t, x=u*u*u*p0[0]+3*u*u*t*c1[0]+3*u*t*t*c2[0]+t*t*t*p3[0], y=u*u*u*p0[1]+3*u*u*t*c1[1]+3*u*t*t*c2[1]+t*t*t*p3[1]; P.push(k&&k<n?[x+(R()-.5)*7,y+(R()-.5)*7]:[x,y]); } return P; };
+    const segs=[
+      {g:0,c:E[0].c,P:bez([E[0].l-bow*1.3,0],[E[0].l-bow*1.3,E[0].y*.75],[E[0].l-bow*.5,E[0].y],[E[0].l,E[0].y],7),e:[[E[0].l,E[0].y]]},
+      {g:1,c:[E[0].c,E[1].c],P:bez([E[0].r,E[0].y],[E[0].r+bow*1.15,E[0].y],[E[1].r+bow*1.15,E[1].y],[E[1].r,E[1].y],9),e:[[E[0].r,E[0].y],[E[1].r,E[1].y]]},
+      {g:2,c:[E[1].c,E[2].c],P:bez([E[1].l,E[1].y],[E[1].l-bow*1.15,E[1].y],[E[2].l-bow*1.15,E[2].y],[E[2].l,E[2].y],9),e:[[E[1].l,E[1].y],[E[2].l,E[2].y]]},
+      {g:2,plan:1,c:'#ea6a3c',P:bez([E[2].r,E[2].y],[E[2].r+bow*.5,E[2].y],[E[2].r+bow*1.3,E[2].y+(H-E[2].y)*.25],[E[2].r+bow*1.3,H],7),e:[[E[2].r,E[2].y]]}];
+    let defs='';
+    segs.forEach((s,k)=>{ const G=el('g',{class:'st-c st-c'+s.g+(s.plan?' st-toplan':''),style:`--c:${Array.isArray(s.c)?s.c[0]:s.c}`}), dl=k*.3;
+      let stroke=''; if(Array.isArray(s.c)){ const a=s.P[0], z=s.P[s.P.length-1]; defs+=`<linearGradient id="vl-s${k}" gradientUnits="userSpaceOnUse" x1="${f1(a[0])}" y1="${f1(a[1])}" x2="${f1(z[0])}" y2="${f1(z[1])}"><stop offset="0" stop-color="${s.c[0]}"/><stop offset="1" stop-color="${s.c[1]}"/></linearGradient>`; stroke=`stroke:url(#vl-s${k});`; }
+      G.appendChild(el('path',{d:smooth(s.P),pathLength:1,class:'st-r',style:stroke+`animation-delay:${Math.round(dl*1000)}ms`}));
+      const t=rootlets(s.P,()=>true,1); if(t) G.appendChild(el('path',{d:t,class:'st-r st-t vl-tl',style:stroke+`animation-delay:${Math.round((dl+.35)*1000)}ms`}));
+      s.e.forEach(([x,y],j)=>{ const n=el('g',{class:'st-end',style:`animation-delay:${Math.round((dl+.7)*1000)}ms;--c:${Array.isArray(s.c)?s.c[j]:s.c}`}); n.appendChild(el('circle',{cx:f1(x),cy:f1(y),r:9,class:'st-glow'})); n.appendChild(el('circle',{cx:f1(x),cy:f1(y),r:2.6,class:'st-core'})); G.appendChild(n); });
+      svg.appendChild(G); });
+    svg.insertAdjacentHTML('afterbegin',`<defs>${defs}</defs>`);
+    if(RMq) svg.classList.add('st-still'); };
+
+  const apply=()=>{ const b=root.querySelector(':scope>.sk-body'); if(!b) return;
+    if(b.querySelector(':scope .jc-cards')){ if(DESK.matches&&!b.querySelector(':scope>.vl-snake')){ snake(b); const c0=b.querySelector('.jc-card'), t0=c0&&c0.getBoundingClientRect().top; setTimeout(()=>{ if(b.isConnected&&c0&&Math.abs(c0.getBoundingClientRect().top-t0)>2) snake(b); },400); } return; }
+    const bar=root.querySelector(':scope>.jbar'); if(!bar||b.querySelector(':scope>.vl-nav')) return;
+    const {cur,sn,qv,html}=navOf(bar,b);
+    b.classList.add('vl-b'); b.insertAdjacentHTML('beforeend',html);
+    const jl=qv&&b.querySelector(':scope>.jl .jl-in'), J=window.__vlJ&&window.__vlJ();
+    // Jacie 2026-11-07: the list holds every phase's questions, so you can look through another phase before going there
+    if(jl&&J&&cur>=0&&cur<3&&!jl.querySelector('.vl-all')){ const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+      const qs=J.STAGES.slice(0,3).map((st,si)=>{ const ph=J.PH[si], here=si===cur, qi=J.j.qi[si];
+        const items=st.qs.map((x,i)=>{ const on=here&&i===qi, dn=J.done(x); return `<button class="jl-q${on?' cur':''}${dn?' done':''}" ${here?`data-sk="j-q" data-i="${i}"`:`data-vlgo="${si}:${i}"`}${on?' aria-current="step"':''}><span>${esc(x.nav||x.short)}</span>${dn?'<em aria-label="answered">✓</em>':''}</button>`; }).join('');
+        const head=here?`<p class="vl-head ph-${ph}"><span>Phase ${si+1}</span><b>${esc(st.label)}</b></p>`:`<button class="vl-head vl-hgo ph-${ph}" data-vlgo="${si}:${qi==null?0:qi}" aria-label="Go to ${esc(st.label)}"><span>Phase ${si+1}</span><b>${esc(st.label)} <i aria-hidden="true">→</i></b></button>`;
+        return `<section class="vl-sec ph-${ph}${here?' here':''}" data-vlph="${si}" aria-label="Phase ${si+1}, ${esc(st.label)} questions">${head}<div class="jl-qs">${items}</div></section>`; }).join('');
+      const nv=jl.querySelector('.jl-qs'); const box=document.createElement('div'); box.className='vl-all'; box.innerHTML=qs; (nv||jl).replaceWith?nv.replaceWith(box):jl.appendChild(box);
+      const sc=b.querySelector(':scope>.jl'); if(sc){ const keep=root.dataset.vlScroll!=null&&+root.dataset.vlPh===cur; requestAnimationFrame(()=>{ if(keep) sc.scrollTop=+root.dataset.vlScroll; const c=sc.querySelector('.jl-q.cur'), sec=sc.querySelector('.vl-sec.here');
+        if(!keep&&sec) sc.scrollTop=sec.offsetTop-8; else if(c){ const r=c.getBoundingClientRect(), q=sc.getBoundingClientRect(); if(r.top<q.top+40||r.bottom>q.bottom-20) c.scrollIntoView({block:'center'}); } root.dataset.vlPh=cur; peek(); });
+        sc.addEventListener('scroll',()=>{ root.dataset.vlScroll=sc.scrollTop; peek(); arm(); },{passive:true}); } }
+    const jh=b.querySelector('.ji-h'); if(jh&&cur>=0&&cur<3&&!jh.querySelector('.vl-ey')) jh.insertAdjacentHTML('afterbegin',`<span class="vl-ey">Phase ${cur+1}</span>`);
+    sync(); arm(); layout(); requestAnimationFrame(layout); };
+  new MutationObserver(apply).observe(root,{childList:true});
+  new MutationObserver(()=>{ sync(); arm(); const b=root.querySelector(':scope>.sk-body'); if(b&&!b.querySelector(':scope>.vl-nav')) apply(); }).observe(root,{attributes:true,attributeFilter:['class']});
+  let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ layout(); const b=root.querySelector(':scope>.sk-body'); if(b&&b.querySelector(':scope .jc-cards')&&DESK.matches&&b.offsetParent) snake(b); },260); });
+  const main=document.getElementById('app-main'); if(main&&window.ResizeObserver){ let lh=0; new ResizeObserver(()=>{ const h=Math.round(main.getBoundingClientRect().height); if(h!==lh){ lh=h; layout(); } }).observe(main); }
+  // entering the Planning tab from elsewhere re-shows the start page without a new render
+  addEventListener('hashchange',()=>setTimeout(()=>{ const b=root.querySelector(':scope>.sk-body'); if(b&&b.querySelector(':scope .jc-cards')&&DESK.matches&&b.offsetParent&&!b.querySelector(':scope>.vl-snake')) snake(b); },60));
+  apply();
+})();
 </script>
+<style id="vl-style">/* Proposal B: vertical progress root (desktop only; phones keep the top bar) */
+@property --vlw{syntax:'<length>';inherits:true;initial-value:0px}
+.vl-nav,.vl-head{display:none}
+@media (min-width:821px){
+  #sk-journey.vl{--vlw:0px;--vl-l:78px;transition:--vlw .45s cubic-bezier(.4,0,.2,1)}
+  #sk-journey.vl.rz-l{--vlw:290px}
+  #sk-journey.vl>.jbar{display:none!important}
+  body.framed #sk-journey.vl.sketch{overflow-y:visible!important}
+  #sk-journey.vl>.sk-body.vl-b{position:relative}
+  #sk-journey.vl>.sk-body.vl-b.sk-full{padding-left:calc(var(--vl-l) - var(--fx,0px) + 12px)!important}
+  body.framed #sk-journey.vl>.sk-body.vl-b.qv{padding-left:calc(var(--fx) + var(--vlw) + var(--vl-l))!important;min-height:560px}
+  #sk-journey.vl.rz-l>.sk-body.qv.vl-b{min-height:var(--vl-h,560px)}
+  #sk-journey.vl>.sk-body.vl-b>.rz-rail.l{display:none!important}
+  /* the root and its steps */
+  .vl-nav{display:block;position:absolute;top:0;bottom:0;left:0;width:var(--vl-l);z-index:7}
+  #sk-journey.vl>.sk-body.qv>.vl-nav{left:var(--vlw)}
+  #sk-journey.vl>.sk-body.sk-full>.vl-nav{left:calc(-1 * var(--fx,0px))}
+  .vl-svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+  .vl-r{fill:none;stroke:#cfc8bd;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .vl-r.vl-t{stroke-width:.9}
+  .vl-on{stroke:inherit;stroke-width:2.2}.vl-on.vl-t{stroke-width:1.1}
+  .vl-cr{transition:height .7s cubic-bezier(.4,0,.2,1)}
+  #sk-journey.vl .vl-nav .vl-s{position:absolute;left:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;border:0!important;padding:0;background:#f1f1ef!important;display:grid;place-items:center;cursor:pointer;
+    --c:var(--ph-pl);--t:var(--ph-pl-tx,var(--ph-pl));color:var(--t)!important;font:600 .84rem/1 var(--body,inherit)!important;letter-spacing:-.01em;transition:transform .2s,box-shadow .25s,background-color .25s}
+  #sk-journey.vl .vl-nav .vl-s.ph-pr{--c:var(--ph-pr);--t:var(--ph-pr-tx,var(--ph-pr))}
+  #sk-journey.vl .vl-nav .vl-s.ph-ci{--c:var(--ph-ci);--t:var(--ph-ci-tx,var(--ph-ci))}
+  #sk-journey.vl .vl-nav .vl-plan{--c:#ea6a3c;--t:#c4501f;box-shadow:inset 0 0 0 2px #ea6a3c}
+  .vl-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transition:inset .3s}
+  .vl-tr{fill:none;stroke:var(--c);stroke-opacity:.25;stroke-width:2.6}
+  .vl-pr{fill:none;stroke:var(--c);stroke-width:2.6;stroke-linecap:round}
+  .vl-n{position:relative;display:grid;place-items:center;white-space:nowrap}
+  #sk-journey.vl .vl-nav .vl-s:hover{transform:scale(1.07)}
+  /* the phase you're in: filled, and its progress ring moves just outside so it stays readable */
+  #sk-journey.vl .vl-nav .vl-s.cur{background:var(--c)!important;color:#fff!important;box-shadow:0 0 18px 5px color-mix(in srgb,var(--c) 40%,transparent)}
+  .vl-s.cur .vl-ring{inset:-9px;width:calc(100% + 18px);height:calc(100% + 18px)}
+  .vl-s.cur .vl-tr{stroke-opacity:.28;stroke-width:2}.vl-s.cur .vl-pr{stroke-width:2}
+  #sk-journey.vl .vl-nav .vl-plan.cur{background:#ea6a3c!important;box-shadow:0 0 0 5px #f1f1ef,0 0 0 7px #ea6a3c,0 0 18px 6px rgba(234,106,60,.45)}
+  .vl-tip{position:absolute;left:calc(100% + 14px);top:50%;transform:translateY(-50%) translateX(-4px);opacity:0;pointer-events:none;white-space:nowrap;display:flex;gap:8px;align-items:baseline;padding:6px 12px;border-radius:999px;background:#132a3a;color:#fff;font:500 .9rem/1.2 var(--body,inherit);transition:opacity .2s,transform .2s;z-index:3}
+  .vl-tip b{font-family:var(--display,Georgia,serif);font-weight:600}.vl-tip i{font-style:normal;opacity:.7;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+  .vl-s:hover .vl-tip,.vl-s:focus-visible .vl-tip{opacity:1;transform:translateY(-50%)}
+  #sk-journey.vl .vl-nav .vl-tg{position:absolute;left:50%;bottom:22px;margin-left:-17px;width:34px;height:34px;border-radius:50%;border:1.5px solid #cfc8bd!important;background:#f1f1ef!important;color:#5b5a57!important;padding:0;cursor:pointer;display:grid;place-items:center}
+  #sk-journey.vl .vl-nav .vl-tg:hover{border-color:#ea6a3c!important;color:#c9522a!important}
+  .vl-tg span{display:block;width:8px;height:8px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateX(2px) rotate(45deg);transition:transform .35s}
+  #sk-journey.vl:not(.rz-l) .vl-tg span{transform:translateX(-2px) rotate(-135deg)}
+  /* the question list: a column left of the root that folds to nothing */
+  #sk-journey.vl .sk-body.qv.rz>.jl{display:flex!important;flex-direction:column;position:absolute!important;left:0!important;top:0;bottom:0;width:var(--vlw)!important;overflow:hidden auto;background:transparent!important;border-right:0!important;box-shadow:none!important;z-index:6;visibility:visible;transition:visibility 0s}
+  #sk-journey.vl:not(.rz-l) .sk-body.qv.rz>.jl{visibility:hidden;transition:visibility 0s .45s}
+  #sk-journey.vl .sk-body.qv>.jl>.jl-in{width:290px;min-width:290px;box-sizing:border-box;padding:40px 18px 40px calc(var(--fx,0px) + 14px)}
+  .vl-head{display:grid;gap:4px;margin:0 0 14px 10px;color:var(--ink)}
+  .vl-head span{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .vl-head b{font:600 1.55rem/1.15 var(--display,Georgia,serif);color:var(--ph-pl-tx,var(--ph-pl))}
+  .vl-head.ph-pr b{color:var(--ph-pr-tx,var(--ph-pr))}.vl-head.ph-ci b{color:var(--ph-ci-tx,var(--ph-ci))}
+  /* question preview names its phase */
+  #sk-journey.vl .ji-h{position:static!important;width:auto!important;height:auto!important;overflow:visible!important;clip:auto!important;white-space:normal!important;margin:0 0 18px!important;font-size:2rem!important;line-height:1.1!important;display:grid;gap:6px}
+  #sk-journey.vl .ji-h .vl-ey{font:500 .78rem/1 var(--body,inherit);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  /* Planning start page: the three phases stacked */
+  #sk-journey.vl .sk-body.sk-full .jc-cards{flex-direction:column!important;flex-wrap:nowrap!important;align-items:center!important;gap:96px!important;margin-top:64px!important}
+  #sk-journey.vl .sk-body.sk-full .jc-card{width:280px!important;align-items:center}
+  .vl-snake .vl-tl{stroke-width:.8}
+}
+@media (min-width:821px) and (prefers-reduced-motion:reduce){#sk-journey.vl,.vl-cr,.vl-s,.vl-tip,.vl-ring{transition:none}}
+@media (min-width:821px){
+  /* every phase in the list; the list scrolls on its own inside the panel */
+  #sk-journey.vl.rz-l>.sk-body.qv.vl-b{min-height:560px}
+  #sk-journey.vl .sk-body.qv>.jl>.jl-in{padding-bottom:60px}
+  .vl-all{display:grid;gap:30px}
+  .vl-sec{display:grid;gap:2px;border-radius:14px;transition:background-color .6s}
+  .vl-sec.flash{animation:vlFlash 1.4s ease-out}
+  @keyframes vlFlash{0%{background:color-mix(in srgb,var(--ph-c,#7d4f77) 14%,transparent)}100%{background:transparent}}
+  .vl-sec.ph-pl{--ph-c:var(--ph-pl)}.vl-sec.ph-pr{--ph-c:var(--ph-pr)}.vl-sec.ph-ci{--ph-c:var(--ph-ci)}
+  .vl-sec:not(.here) .jl-q{opacity:.78}
+  .vl-sec .vl-head{margin:0 0 8px 10px}
+  #sk-journey.vl button.vl-hgo{display:grid;gap:4px;text-align:left;background:none!important;border:0!important;padding:0;cursor:pointer}
+  .vl-hgo b{font-size:1.3rem!important}.vl-hgo b i{font-style:normal;font-size:1rem;color:#c4501f;opacity:0;transition:opacity .2s}
+  .vl-hgo:hover b i,.vl-hgo:focus-visible b i{opacity:1}
+  .vl-hgo:hover b{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  #sk-journey.vl .vl-nav .vl-s.peek{transform:scale(1.06);box-shadow:0 0 0 4px #f1f1ef,0 0 0 5.5px var(--c)}
+}
+@media (min-width:821px){
+  body.framed.on-jstart #sk-journey.vl .jc-cards{display:flex!important;flex-direction:column!important;align-items:center!important;gap:88px!important;max-width:none;margin:56px auto 40px!important}
+  body.framed.on-jstart #sk-journey.vl .jc-card{width:300px!important}
+  /* soft fades show there are more questions above or below */
+  #sk-journey.vl .sk-body.qv>.jl{--ft:0px;--fb:0px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 var(--ft),#000 calc(100% - var(--fb)),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 var(--ft),#000 calc(100% - var(--fb)),transparent 100%)}
+  #sk-journey.vl .sk-body.qv>.jl.vl-ft{--ft:70px}
+  #sk-journey.vl .sk-body.qv>.jl.vl-fb{--fb:90px}
+}
+@media (min-width:821px){
+  body.framed #sk-journey.vl .sk-body.sk-full .jc-cards{display:flex!important;flex-direction:column!important;align-items:center!important;gap:88px!important;max-width:none;margin:56px auto 40px!important}
+  body.framed #sk-journey.vl .sk-body.sk-full .jc-card{width:300px!important}
+}
+@media (min-width:821px){
+  /* Jacie 2026-11-07: smaller circles when not selected, bigger when selected; the scroll ring is also the hover ring */
+  #sk-journey.vl .vl-nav .vl-s{width:44px;height:44px;margin:-22px 0 0 -22px;font-size:.74rem!important;transition:transform .2s,box-shadow .25s,background-color .25s,width .25s,height .25s,margin .25s}
+  #sk-journey.vl .vl-nav .vl-s.cur{width:60px;height:60px;margin:-30px 0 0 -30px;font-size:.9rem!important}
+  #sk-journey.vl .vl-nav .vl-s:hover{transform:none}
+  #sk-journey.vl .vl-nav .vl-s:not(.cur):hover,#sk-journey.vl .vl-nav .vl-s:not(.cur):focus-visible,#sk-journey.vl .vl-nav .vl-s.peek{transform:scale(1.06);box-shadow:0 0 0 4px #f1f1ef,0 0 0 5.5px var(--c)}
+  #sk-journey.vl .vl-nav .vl-plan:not(.cur):hover,#sk-journey.vl .vl-nav .vl-plan:not(.cur):focus-visible{box-shadow:inset 0 0 0 2px #ea6a3c,0 0 0 4px #f1f1ef,0 0 0 5.5px #ea6a3c}
+  .vl-n svg{width:16px;height:16px}
+  #sk-journey.vl .vl-nav .vl-plan.cur .vl-n svg{width:20px;height:20px}
+}
+</style>
