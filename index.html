@@ -2480,6 +2480,10 @@ body[data-view="journey"] #sk-journey .sk-body.rz>.rz-rail.l{border-bottom-left-
 #sk-pathway .pw-share{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
 #sk-pathway .pw-sh{background:none;border:0;padding:0 0 1px;font:inherit;font-size:.8rem;font-weight:600;color:#a8431a;border-bottom:1.5px solid currentColor;cursor:pointer;text-decoration:none}
 #sk-pathway .pw-sh:hover{color:#ea6a3c}
+/* v160: a selected node's glow never blocks clicks on its neighbours; nodes without data yet */
+#sk-pathway .pw-halo{pointer-events:none}
+#sk-pathway .pw-nd{cursor:default}
+#sk-pathway svg>g[aria-hidden="true"]{pointer-events:none}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -3355,6 +3359,11 @@ const SUPT = {dist:'Distribution & catalogues',tour:'Exhibition & touring',prod:
 const SVCF = {dist:'Distribution',edu:'Education',tour:'Exhibition',tech:'Tech services'};
 const host = u => String(u).replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
 const detail = v => `<span>${esc(v.desc||'No description in the export yet.')}</span><span><b>How it curates:</b> not in this export yet</span><span><b>Contact:</b> ${contactHtml(v)}</span><span><b>Website:</b> <a href="${esc(v.web)}" target="_blank" rel="noopener" style="text-decoration:underline">${esc(host(v.web))} ↗</a></span><span><b>Networks and partners:</b> ${v.net?esc(v.net):'none listed yet'}</span>`;
+const PLAT={venue:{l:'Venue',t:v=>v.type!=='online'&&!v.online},online:{l:'Online',t:v=>v.type==='online'||v.online},dist:{l:'Distribution',t:v=>(v.svc||[]).includes('dist')},tech:{l:'Technology Services',t:v=>(v.svc||[]).includes('tech')},consult:{l:'Consulting',t:v=>(v.svc||[]).includes('consult')},net:{l:'Networking',t:v=>(v.svc||[]).includes('net')},tour:{l:'Exhibition',t:v=>(v.svc||[]).includes('tour')},edu:{l:'Education',t:v=>(v.svc||[]).includes('edu')}};
+const DFMT={v3:{l:'VR plug and play: 3DoF',m:'hmd-360'},v6:{l:'VR plug and play: 6DoF',m:'hmd-6p'},vb:{l:'Bespoke VR',m:'hmd-6b'},ar:{l:'Augmented Reality',m:'ss-phone'},mr:{l:'Mixed reality',m:'hmd-mr'},set:{l:'Set-based installation (no headset)',m:'nh-set'},screen:{l:'Screen media'},games:{l:'Games'},glasses:{l:'Glasses'},it:{l:'Immersive theater',m:'it-live'},proj:{l:'Projections',m:'nh-proj'},sound:{l:'Sound-led',m:'ss-sound'},live:{l:'Live Events',m:'it-pres'}};
+const DVT={xr:{l:'Dedicated XR Space',t:v=>v.type==='xr'},cinema:{l:'Cinema'},museum:{l:'Museum',t:v=>v.type==='museum'},library:{l:'Library',t:v=>v.type==='library'},gallery:{l:'Art gallery',t:v=>v.type==='gallery'},dome:{l:'Dome',t:v=>v.type==='dome'},theater:{l:'Theater',t:v=>v.type==='theatre'},uni:{l:'University'},culture:{l:'Cultural center'},civic:{l:'Civic organization'},community:{l:'Community organization'}};
+const UNM=new Set([...Object.entries(DVT).filter(([,o])=>!o.t).map(([k])=>'type:'+k),...Object.entries(DFMT).filter(([,o])=>!o.m).map(([k])=>'fgroup:'+k)]);
+const labs=o=>Object.fromEntries(Object.entries(o).map(([k,x])=>[k,x.l]));
 const FIELDS = {
   discipline:{label:'Discipline', opts:DISC, test:(v,x)=>v.disc.some(d=>x.includes(d))},
   type:{label:'Platform / venue type', opts:TYPE, test:(v,x)=>x.includes(v.type)},
@@ -3363,6 +3372,7 @@ const FIELDS = {
   region:{label:'Region', opts:REGION, test:(v,x)=>v.online ? x.includes('online') : x.includes(v.cont)},
   services:{label:'Services', opts:SVCF, test:(v,x)=>(v.svc||[]).some(k=>x.includes(k))}
 };
+Object.assign(FIELDS,{type:{label:'Venue Type',opts:labs(DVT),test:(v,x)=>x.some(k=>DVT[k]&&DVT[k].t&&DVT[k].t(v))},fgroup:{label:'Format',opts:labs(DFMT),test:(v,x)=>x.some(k=>DFMT[k]&&DFMT[k].m&&v.fmt.includes(DFMT[k].m))},services:{label:'Platform',opts:labs(PLAT),test:(v,x)=>x.some(k=>PLAT[k]&&PLAT[k].t(v))}});
 const vals = (f, x) => x.length ? x.map(k=>FIELDS[f].opts[k]).join(', ') : 'Any';
 const stars = new Set();
 const starBtn = (v) => `<button class="sk-star ${stars.has(v.id)?'on':''}" data-sk="star" data-id="${v.id}" aria-pressed="${stars.has(v.id)}" aria-label="Shortlist ${esc(v.name)}">${stars.has(v.id)?'★':'☆'}</button>`;
@@ -3375,17 +3385,17 @@ const bridge = {};
 /* ================= PATHWAY ================= */
 const pwEl = document.getElementById('sk-pathway');
 if (pwEl) {
-  const LAY = {discipline:{id:'discipline',label:'Discipline',tier:'Primary'},type:{id:'type',label:'Venue type',tier:'Primary'},region:{id:'region',label:'Location',tier:'Primary'},
-    fgroup:{id:'fgroup',label:'Format type',tier:'Primary'},format:{id:'format',label:'Format detail',tier:'Secondary'},services:{id:'services',label:'Services',tier:'Secondary'},
+  const LAY = {discipline:{id:'discipline',label:'Discipline',tier:'Primary'},type:{id:'type',label:'Venue Type',tier:'Primary'},region:{id:'region',label:'Location',tier:'Primary'},
+    fgroup:{id:'fgroup',label:'Format',tier:'Primary'},format:{id:'format',label:'Format detail',tier:'Secondary'},services:{id:'services',label:'Platform',tier:'Primary'},
     route:{id:'route',label:'Go direct or find support',fork:true},both:{id:'both',label:'Discipline + format type',rows:['discipline','fgroup']}};
   const TIP = {discipline:'Which venues already show work from your discipline, and which would be a stretch?',type:'Who would staff and install the work at each kind of venue?',
     fgroup:'A theatre and a gallery take different formats. Which version of your work fits each, and what would change?',format:'What is essential to the work, and what could adapt to a different setup?',
-    region:'Can the work travel, or does it need rebuilding at each stop? Think about shipping, power and internet.',services:'Do you need a venue that also offers education, networking, distribution, exhibition or tech services?',
+    region:'Can the work travel, or does it need rebuilding at each stop? Think about shipping, power and internet.',services:'Are you looking for a venue, an online platform, or a partner for distribution, technology, consulting, networking, exhibition or education?',
     route:'Support organisations do different things. Do you need someone to sell the work, tour it, or run the tech?',both:'Does the venue type you picked usually show work from your discipline, in your format?'};
   const ROUTES = {
-    format:{q:'I already have a format in mind', order:['fgroup','type','discipline','region','format','services']},
-    who:{q:'Who shows work like mine?', order:['discipline','type','fgroup','format','region','services']},
-    venue:{q:'I want to show at a certain kind of venue', order:['type','services','region','discipline','fgroup','format']}
+    format:{q:'I already have a format in mind', order:['fgroup','services','type','discipline','region']},
+    who:{q:'Who shows work like mine?', order:['discipline','services','type','fgroup','region']},
+    venue:{q:'I want to show at a certain kind of venue', order:['type','services','fgroup','region','discipline']}
   };
   const SHAPE = {discipline:'sq', type:'tri', fgroup:'circ', format:'circ2', region:'pill', services:'pill', route:'fork'};
   // Database diagram: every node is a circle, coloured by layer; secondary filters are smaller; the selected node glows (Jacie 2026-11-02)
@@ -3397,9 +3407,9 @@ if (pwEl) {
   const R = () => pw.layers;
   const usedRows = () => new Set(pw.layers.flatMap(rowsOf));
   const suggest = () => ROUTES[pw.route].order.map(k=>LAY[k]).find(l=>!pw.layers.includes(l) && (l.fork || !rowsOf(l).every(r=>usedRows().has(r))));
-  const others = () => { const sg=suggest(), u=usedRows(); return ['discipline','type','region','fgroup','format','services'].map(k=>LAY[k]).filter(l=>l!==sg&&!u.has(l.id)); };
+  const others = () => { const sg=suggest(), u=usedRows(); return ['services','fgroup','type','discipline','region'].map(k=>LAY[k]).filter(l=>l!==sg&&!u.has(l.id)); };
   const match = k => { let out=V; R().forEach((L,i)=>{ if(i>=k||L.fork) return; rowsOf(L).forEach(r=>{ const x=pw.sel[r]; if(x&&x.length) out=out.filter(v=>FIELDS[r].test(v,x)); }); }); return out; };
-  const options = (k,r) => { if(r==='route') return [['direct','Go direct'],['support','Find support']]; const base=match(k); return Object.keys(FIELDS[r].opts).filter(key=>base.some(v=>FIELDS[r].test(v,[key]))).map(key=>[key,r==='services'?SVS[key]:FIELDS[r].opts[key]]); };
+  const options = (k,r) => { if(r==='route') return [['direct','Go direct'],['support','Find support']]; const base=match(k); return Object.keys(FIELDS[r].opts).filter(key=>UNM.has(r+':'+key)||base.some(v=>FIELDS[r].test(v,[key]))).map(key=>[key,FIELDS[r].opts[key]]); };
   const SVS=SVCF;
   const prune = () => R().forEach((L,k)=>{ if(L.fork) return; rowsOf(L).forEach(r=>{ if(!pw.sel[r]) return; const ok=new Set(options(k,r).map(o=>o[0])); pw.sel[r]=pw.sel[r].filter(x=>ok.has(x)); }); });
 
@@ -3423,10 +3433,11 @@ if (pwEl) {
     let yy=58;
     rows.forEach((row,i)=>{ row.y=yy; row.opts=options(row.k,row.r); const n=row.opts.length; row.pos=row.opts.map((o,j)=>x0+(x1-x0)*(j+.5)/Math.max(n,1)); row.sp=(x1-x0)/Math.max(n,1);
       const cnts=row.r==='route'?null:match(row.k), max=Math.min(row.sp-4,150);
-      row.cn=row.opts.map(o=>cnts?cnts.filter(v=>FIELDS[row.r].test(v,[o[0]])).length:null); row.rad=row.cn.map(c=>c==null?12:+(12+12*Math.sqrt(c/Math.max(1,V.length))).toFixed(1));
+      row.cn=row.opts.map(o=>cnts?cnts.filter(v=>FIELDS[row.r].test(v,[o[0]])).length:null); row.rad=row.cn.map(c=>c==null?12:+(12+12*Math.sqrt(c/Math.max(1,V.length))).toFixed(1)); { const mr=Math.max(...row.rad), lim=row.sp/2-3-4; if(mr>lim){ const k=Math.max(.45,lim/mr); row.rad=row.rad.map(r=>+(r*k).toFixed(1)); } }
       for(const fs of [10,9.5,9,8.5,8]){ row.fs=fs; row.lab=row.opts.map(o=>wrap(o[1], 0, fs, max)); if(row.lab.every(l=>l.ok&&l.ls.length<=3)) break; }
-      row.lh=row.fs*1.18; row.nl=Math.max(1,...row.lab.map((l,j)=>l.ls.length+(row.opts[j][0]==='festival'&&!(pw.sel[row.r]||[]).includes('festival')?1:0)));
-      yy+=rowH+Math.max(0,row.nl-2)*row.lh; });
+      row.dy=row.opts.map(()=>0); row.off=0; if(!row.lab.every(l=>l.ok&&l.ls.length<=3)&&row.opts.length>3){ const m2=Math.min(2*row.sp-8,150); for(const fs of [10,9.5,9,8.5,8]){ row.fs=fs; row.lab=row.opts.map((o,j)=>wrap(o[1],0,fs,Math.min(m2,2*Math.min(row.pos[j],W-row.pos[j])-6))); if(row.lab.every(l=>l.ok&&l.ls.length<=3)) break; } const lh0=row.fs*1.18, ev=Math.max(1,...row.lab.map((l,j)=>j%2?0:l.ls.length+(UNM.has(row.r+':'+row.opts[j][0])?1:0))), mr=Math.max(...row.rad); row.off=Math.round(2*mr+18+ev*lh0); row.dy=row.opts.map((o,j)=>j%2?row.off:0); }
+      row.lh=row.fs*1.18; row.nl=Math.max(1,...row.lab.map((l,j)=>l.ls.length+(row.opts[j][0]==='festival'&&!(pw.sel[row.r]||[]).includes('festival')||UNM.has(row.r+':'+row.opts[j][0])?1:0)));
+      yy+=rowH+Math.max(0,row.nl-2)*row.lh+row.off; });
     const H=yy-rowH+62;
     let out='';
     rows.forEach((row,i)=>{
@@ -3437,28 +3448,29 @@ if (pwEl) {
         let cnt=null;
         if(p.r!=='route'&&row.r!=='route'){ cnt=match(row.k).filter(v=>FIELDS[p.r].test(v,[po[0]])&&FIELDS[row.r].test(v,[o[0]])).length; if(!cnt) return; }
         const lit=sel.includes(o[0]), xa=p.pos[pj], xb=row.pos[j], wd=cnt==null?(lit?2.4:1):1+9*Math.sqrt(cnt/V.length);
-        const ya=p.y+p.rad[pj]+18+(p.lab[pj].ls.length-1)*p.lh, yb=row.y-row.rad[j]-3;
+        const ya=p.y+p.dy[pj]+p.rad[pj]+18+(p.lab[pj].ls.length-1)*p.lh, yb=row.y+row.dy[j]-row.rad[j]-3;
         const dash=(p.r==='route'||row.r==='route'||o[0]==='festival')?' stroke-dasharray="4 4"':'';
         L+=`<g style="fill:none;stroke-linecap:round;${lit?'stroke:var(--accent);opacity:.85':'stroke:var(--muted);opacity:.32'}"><title>${cnt==null?'':cnt+' venues'}</title>${rootLn(xa,ya,xb,yb,p.r+po[0]+row.r+o[0],wd,dash)}</g>`; }); }); });
-      const lab = row.first ? `${({discipline:'DISCIPLINE',type:'VENUE TYPE',fgroup:'FORMAT TYPE',format:'FORMAT DETAIL',region:'LOCATION',services:'SERVICES',route:'DIRECT OR SUPPORT',both:'DISCIPLINE'})[row.L.id]}` : 'FORMAT TYPE';
+      const lab = row.first ? `${({discipline:'DISCIPLINE',type:'VENUE TYPE',fgroup:'FORMAT',format:'FORMAT DETAIL',region:'LOCATION',services:'PLATFORM',route:'DIRECT OR SUPPORT',both:'DISCIPLINE'})[row.L.id]}` : 'FORMAT TYPE';
       N+=`<text role="heading" aria-level="3" aria-label="${esc((LAY[row.r]||row.L||{label:row.r}).label)}" x="8" y="${row.y-LT}" font-size="9" style="paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round"><tspan style="fill:var(--muted);font-family:var(--display);font-weight:600;letter-spacing:.06em">${lab}</tspan>${row.r==='route'?`<tspan dx="8" style="fill:var(--accent);font-family:var(--mono)">${sel[0]==='support'?'support list':'not a filter'}</tspan>`:''}</text>`;
       const rb=row.r==='route'?null:match(row.k), cn=k=>rb?rb.filter(v=>FIELDS[row.r].test(v,[k])).length:null, fs=row.fs, lh=+row.lh.toFixed(2);
       const ct=()=>'';
       row.opts.forEach((o,j)=>{
-        const x=row.pos[j], y=row.y, on=sel.includes(o[0]), fade=sel.length&&!on, fest=o[0]==='festival', ls=row.lab[j].ls;
+        const x=row.pos[j], y=row.y+row.dy[j], on=sel.includes(o[0]), fade=sel.length&&!on, fest=o[0]==='festival', ls=row.lab[j].ls;
         const lb=(yy)=>`<text y="${yy}" text-anchor="middle" font-size="${fs}" style="fill:var(--ink);font-family:var(--body)"${on?' font-weight="700"':''}>${ls.map((l,m)=>`<tspan x="${x}"${m?` dy="${lh}"`:''}>${esc(l)}${m===ls.length-1?ct(o[0]):''}</tspan>`).join('')}</text>`;
         const col=NCOL[row.r], rad=row.rad[j], opt=fest&&!on, nc=row.cn[j];
         // A selected node is drawn like the landing's nodes of light: a flat disc, slightly larger, inside a wide, faint, soft halo of its colour
         const rr = on ? rad+3 : rad;
         const halo = on ? `<circle class="pw-halo${pw.flash===row.r+':'+o[0]?' pw-new':''}" cx="${x}" cy="${y}" r="${(rr*3.2).toFixed(1)}" style="fill:url(#pwg-${row.r})"/>` : '';
-        const sh = `${halo}<circle class="shape" cx="${x}" cy="${y}" r="${rr}" style="fill:${col};${opt?'fill-opacity:.4;':''}stroke:none"/>${nc==null?'':`<text class="pw-cnt" x="${x}" y="${(y+Math.max(8,Math.min(10.5,rr*.6))*.36).toFixed(1)}" text-anchor="middle" font-size="${Math.max(8,Math.min(10.5,rr*.6)).toFixed(1)}" aria-hidden="true">${nc}</text>`}${lb(y+rad+15)}${opt?`<text x="${x}" y="${(y+rad+15+ls.length*lh).toFixed(1)}" text-anchor="middle" font-size="${Math.min(9,fs)}" style="fill:var(--muted);font-family:var(--body)">optional stop</text>`:''}`;
+        const nd=UNM.has(row.r+':'+o[0]);
+        const sh = `${halo}<circle class="shape" cx="${x}" cy="${y}" r="${rr}" style="fill:${col};${opt||nd?'fill-opacity:.3;':''}stroke:none"/>${nc==null||nd?'':`<text class="pw-cnt" x="${x}" y="${(y+Math.max(8,Math.min(10.5,rr*.6))*.36).toFixed(1)}" text-anchor="middle" font-size="${Math.max(8,Math.min(10.5,rr*.6)).toFixed(1)}" aria-hidden="true">${nc}</text>`}${lb(y+rad+15)}${opt?`<text x="${x}" y="${(y+rad+15+ls.length*lh).toFixed(1)}" text-anchor="middle" font-size="${Math.min(9,fs)}" style="fill:var(--muted);font-family:var(--body)">optional stop</text>`:''}${nd?`<text x="${x}" y="${(y+rad+15+ls.length*lh).toFixed(1)}" text-anchor="middle" font-size="${Math.min(9,fs)}" style="fill:var(--muted);font-family:var(--body)">no data yet</text>`:''}`;
         const ping = pw.flash===row.r+':'+o[0] && !RM ? `<circle class="sk-ping" cx="${x}" cy="${y}" r="${rad+5}" style="stroke:${col}"/>` : '';
-        N+=`<g class="sk-node" tabindex="0" role="checkbox" aria-checked="${on}" aria-label="${esc(o[1])}${rb?', '+cn(o[0])+' venues':''}" data-sk="pw-node" data-row="${row.r}" data-val="${o[0]}" style="opacity:${fade?.65:1}">${sh}${ping}</g>`;
+        N+=nd?`<g class="sk-node pw-nd" role="img" aria-label="${esc(o[1])}, no data yet" style="opacity:.7;cursor:default">${sh}</g>`:`<g class="sk-node" tabindex="0" role="checkbox" aria-checked="${on}" aria-label="${esc(o[1])}${rb?', '+cn(o[0])+' venues':''}" data-sk="pw-node" data-row="${row.r}" data-val="${o[0]}" style="opacity:${fade?.65:1}">${sh}${ping}</g>`;
       });
       const lbA=(LAY[row.r]||row.L||{label:row.r}).label+', '+(row.r==='route'?'':sel.length+' selected');
       out+=`<g aria-hidden="true" class="${ent&&!RM?'sk-enter-l':''}">${L}</g><g role="group" aria-label="${esc(lbA)}" class="${ent&&!RM?'sk-enter':''}">${N}</g>`;
     });
-    return `<h2 class="vh">Filters</h2><svg viewBox="0 0 ${W} ${H}" width="100%" role="group" aria-label="Pathway layers: filter types from format type to location; tick options in each" style="display:block;max-width:100%"><defs>${Object.entries(NCOL).map(([r,c])=>`<radialGradient id="pwg-${r}"><stop offset="0" style="stop-color:${c};stop-opacity:.55"/><stop offset=".32" style="stop-color:${c};stop-opacity:.3"/><stop offset=".62" style="stop-color:${c};stop-opacity:.1"/><stop offset="1" style="stop-color:${c};stop-opacity:0"/></radialGradient>`).join('')}</defs>${out}</svg>`;
+    return `<h2 class="vh">Filters</h2><svg viewBox="0 0 ${W} ${H}" width="100%" role="group" aria-label="Pathway layers: filter types: platform, format, venue type, discipline and location; tick options in each" style="display:block;max-width:100%"><defs>${Object.entries(NCOL).map(([r,c])=>`<radialGradient id="pwg-${r}"><stop offset="0" style="stop-color:${c};stop-opacity:.55"/><stop offset=".32" style="stop-color:${c};stop-opacity:.3"/><stop offset=".62" style="stop-color:${c};stop-opacity:.1"/><stop offset="1" style="stop-color:${c};stop-opacity:0"/></radialGradient>`).join('')}</defs>${out}</svg>`;
   }
   const pwSum=()=>{ const L=R(), res=match(L.length), F=[];
     L.forEach(l=>{ const o=rowsOf(l).flatMap(r=>(pw.sel[r]||[]).map(x=>r==='route'?(x==='support'?'Find support':'Go direct'):FIELDS[r].opts[x])); F.push([l.label,o.length?o.join(', '):'any']); });
