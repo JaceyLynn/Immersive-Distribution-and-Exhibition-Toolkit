@@ -4104,10 +4104,10 @@ if (jEl) {
       {id:'pr_fin',g:'prep',short:'Financing',text:'If a festival is not covering all costs, how are you financing your showcase?',kind:'multi',opts:{self:'Self',sponsor:'Sponsor',funder:'Funder'}},
       {id:'pr_pitch',g:'prep',short:'Marketing',text:'Are you interested in a pitching forum?',kind:'choice',opts:{yes:'Yes',no:'No'}}]},
     {...SEC[2], groups:{find:'Find venues',host:'Confirm with hosts'}, qs:[
-      {id:'svc',g:'find',short:'Platform',text:'What Platforms or Service are you interested in?',kind:'multi',opts:lab(XSVC),fx:'xsvc'},
-      {id:'vtype',g:'find',short:'Venue Type',text:'What Venue Type are you interested in?',kind:'multi',opts:lab(XVT),fx:'xvt'},
+      {id:'svc',g:'find',short:'Platform',text:'What kind of platform or service are you looking for?',kind:'multi',opts:lab(XSVC),fx:'xsvc'},
+      {id:'vtype',g:'find',short:'Venue Type',text:'What type of venue would you like to show in?',kind:'multi',opts:lab(XVT),fx:'xvt'},
       {id:'disc',g:'find',short:'Discipline',text:'What is the venue’s primary discipline',kind:'multi',opts:lab(XDISC),fx:'xdisc',kase:'Soul Paint: between art and health'},
-      {id:'fmt',g:'find',short:'Format',text:'What format would you like to explore?',kind:'multi',opts:lab(XFMT),fx:'xfmt'},
+      {id:'fmt',g:'find',short:'Format',text:'Which version do you want to present now?',kind:'multi',opts:lab(XFMT),fx:'xfmt'},
       {id:'region',g:'find',short:'Continent',text:'Would you like sites listed by continent?',kind:'multi',opts:REGL,fx:'region',kase:'AI & Me: shipping and customs'},
       // v167 (Jacie 2026-11-08): country and city on one screen; the city list narrows to the chosen country
       {id:'ctry',g:'find',short:'Country',nav:'Country and city',text:'Are you interested in a particular country?',kind:'pick',opts:FIELDS.country.opts,fx:'ctry',ph:'Choose a country',
@@ -4515,7 +4515,7 @@ if (jEl) {
     jGo:st=>{ if(st.s<0) go(-1); else go(st.s,st.q,st.i!=null); },
     // v163: the answers travel in the page link, so saving or sharing the link saves the progress
     jSave:()=>{ const o={a:j.ans,q:j.qi,s:j.stage}; if(j.intro!=null) o.i=j.intro; if(j.title) o.t=j.title; if(j.tick.size) o.k=[...j.tick]; if(j.hide.size) o.h=[...j.hide]; if(stars.size) o.st=[...stars]; if(Object.keys(j.seen||{}).length) o.se=j.seen; if(j.example) o.ex=1; return o; },
-    jLoad:o=>{ if(!o||typeof o!=='object') return; j=fresh(); j.ans=o.a||{}; STAGES.forEach(st=>st.qs.flatMap(q=>q.pair?[q,q.pair]:[q]).forEach(q=>{ const a=j.ans[q.id]; if(q.opts&&a&&Array.isArray(a.v)) a.v=a.v.filter(k=>k==='other'||k==='flex'||q.opts[k]!=null||(a.add||{})[k]!=null); })); if(Array.isArray(o.q)) j.qi=o.q; j.stage=typeof o.s==='number'?o.s:-1; j.intro=o.i!=null?o.i:null; j.title=o.t||''; j.tick=new Set(o.k||[]); j.hide=new Set(o.h||[]); j.seen=o.se||{}; j.example=!!o.ex; stars.clear(); (o.st||[]).forEach(x=>stars.add(x)); render(); }
+    jLoad:o=>{ if(!o||typeof o!=='object') return; j=fresh(); j.ans=o.a||{}; STAGES.forEach(st=>st.qs.flatMap(q=>q.pair?[q,q.pair]:[q]).forEach(q=>{ const a=j.ans[q.id]; if(q.opts&&a&&Array.isArray(a.v)) a.v=a.v.filter(k=>k==='other'||k==='flex'||q.opts[k]!=null||(a.add||{})[k]!=null).filter(k=>k==='other'||k==='flex'||!NDX.has(q.fx)||k in FX[q.fx].keys); })); /* v182: saved picks with no venue data (e.g. Projections) are dropped on load */ if(Array.isArray(o.q)) j.qi=o.q; j.stage=typeof o.s==='number'?o.s:-1; j.intro=o.i!=null?o.i:null; j.title=o.t||''; j.tick=new Set(o.k||[]); j.hide=new Set(o.h||[]); j.seen=o.se||{}; j.example=!!o.ex; stars.clear(); (o.st||[]).forEach(x=>stars.add(x)); render(); }
   });
   Object.assign(handlers,{
     'j-sec':t=>{ const i=+t.dataset.i; go(i,i<3?j.qi[i]:null,true); },
