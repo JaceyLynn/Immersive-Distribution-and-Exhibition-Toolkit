@@ -2807,6 +2807,28 @@ select.pk-s{padding-right:44px!important;background-position:right 20px center!i
 .sk-vrow .chip.k-detail{background:rgba(234,106,60,.12)!important;border-color:rgba(234,106,60,.5)!important;color:#8a3a17!important}
 body #sk-journey .pl-head-t .pl-h.pl-h-sm{font-size:12px!important}
 body #sk-journey .pl-head-t .eyebrow{font-size:12px!important}
+/* v187 (Jacie 2026-11-11): Database category tabs above the results list; count reads "X matching entries" */
+#sk-pathway .pw-count{margin:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px}
+#sk-pathway .pw-count-w{font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--ink)}
+#sk-pathway .pw-cat{display:flex;gap:5px;margin:10px 0 8px;min-width:0}
+#sk-pathway .pw-cat-t{min-width:0;white-space:nowrap;font:inherit;font-size:.72rem;font-weight:600;line-height:1.2;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 8px;justify-content:center;flex:1 1 auto;flex-direction:column;gap:1px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;min-height:32px}
+#sk-pathway .pw-cat-t:hover{border-color:#ea6a3c}
+#sk-pathway .pw-cat-n{font-variant-numeric:tabular-nums;font-weight:500;color:var(--muted)}
+#sk-pathway .pw-cat-t.on{background:#c4501f;border-color:#c4501f;color:#fff;box-shadow:0 0 10px rgba(234,106,60,.35)}
+#sk-pathway .pw-cat-t.on:hover{background:#b9471e}
+#sk-pathway .pw-cat-t.on .pw-cat-n{color:#fff;opacity:.9}
+#sk-pathway .pw-cat-t.z:not(.on){color:var(--muted)}
+#sk-pathway .pw-cat-t:focus-visible{outline:2px solid #c4501f;outline-offset:2px}
+#sk-pathway .pw-cat-0{margin:6px 0 10px;padding:10px 12px;border:1px dashed var(--line);border-radius:10px;font-size:.85rem;line-height:1.45;color:var(--ink)}
+@media (max-width:820px){ #sk-pathway .pw-cat{display:flex;flex-wrap:wrap;gap:6px} #sk-pathway .pw-cat-t{flex:1 1 auto;flex-direction:row;gap:6px;justify-content:space-between;font-size:.8rem;padding:6px 11px;border-radius:999px} }
+/* v187c: search icon beside the count; tighter gap between the country/city pickers and the category toggles */
+#sk-pathway .pw-cat{margin-top:0}
+#sk-pathway .pw-qbtn{margin-left:auto;align-self:center;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;padding:0}
+#sk-pathway .pw-qbtn:hover{border-color:#ea6a3c;color:#c4501f}
+#sk-pathway .pw-qbtn.on{background:#c4501f;border-color:#c4501f;color:#fff}
+#sk-pathway .pw-qbtn:focus-visible{outline:2px solid #c4501f;outline-offset:2px}
+#sk-pathway .pw-cat{margin:8px 0 0}
+#sk-pathway .pw-lf{margin:4px 0 8px}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -3587,7 +3609,7 @@ button:focus-visible,a:focus-visible,.vp:focus-visible{outline:2px solid var(--f
     </nav>
     <nav class="sf-col" aria-label="Get in touch">
       <p class="sf-h">Get in touch</p>
-      <a class="sf-a" data-mail="add" href="#">Suggest a new venue</a>
+      <a class="sf-a" data-mail="add" href="#">Add a site</a>
       <a class="sf-a" data-mail="fix" href="#">Report an error</a>
       <a class="sf-a" data-mail="contact" href="#">Contact us</a>
     </nav>
@@ -3604,7 +3626,7 @@ button:focus-visible,a:focus-visible,.vp:focus-visible{outline:2px solid var(--f
     <h3>Downloads and copies</h3>
     <p>PDFs and Markdown copies of your plan or your Database search are made in your browser and saved to your device. Nothing is uploaded.</p>
     <h3>Email links</h3>
-    <p>“Send via email”, “Suggest a new venue”, “Report an error” and “Contact us” open your own email app with a draft message. Nothing is sent unless you send it yourself.</p>
+    <p>“Send via email”, “Add a site”, “Report an error” and “Contact us” open your own email app with a draft message. Nothing is sent unless you send it yourself.</p>
     <h3>Cookies and storage</h3>
     <p>The toolkit uses no cookies, analytics or advertising trackers. It remembers two display settings (the page background and frame) in your browser’s local storage, and nothing else.</p>
     <h3>Other services</h3>
@@ -3728,7 +3750,7 @@ const SVCF = {dist:'Distribution',edu:'Education',tour:'Exhibition',tech:'Tech s
 const host = u => String(u).replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
 // v163 (Jacie 2026-11-08): contact links. The research team's address goes in CONTACT_TO; until then the email opens with no recipient.
 const CONTACT_TO = '';
-const MAILS = {add:['Suggest a new venue','Venue name:\nCity and country:\nWebsite:\nWhat kind of work it shows:\nHow it selects work:\nContact:\n'],fix:['Report an error','Venue or page:\nWhat is wrong:\nWhat it should say:\nSource (link), if any:\n'],contact:['Question about the toolkit','']};
+const MAILS = {add:['Add a site','We welcome venues, festivals, online platforms and other organizations that show, distribute or support immersive work.\n\nSite name:\nCity and country:\nWebsite:\nWhat kind of work it shows:\nHow it selects work:\nContact:\n'],fix:['Report an error','Venue or page:\nWhat is wrong:\nWhat it should say:\nSource (link), if any:\n'],contact:['Question about the toolkit','']};
 const mailHref = (k, subj, body) => { const m=MAILS[k]||MAILS.contact; return 'mailto:'+CONTACT_TO+'?subject='+encodeURIComponent((subj||m[0])+' · Immersive Distribution and Exhibition Toolkit')+'&body='+encodeURIComponent(body!=null?body:m[1]); };
 const detail = v => `<span>${esc(v.desc||'No description in the export yet.')}</span><span><b>How it curates:</b> not in this export yet</span><span><b>Contact:</b> ${contactHtml(v)}</span><span><b>Website:</b> <a href="${esc(v.web)}" target="_blank" rel="noopener" style="text-decoration:underline">${esc(host(v.web))} ↗</a></span><span><b>Networks and partners:</b> ${v.net?esc(v.net):'none listed yet'}</span>`;
 const sv=k=>v=>(v.p2||[]).includes(k);
@@ -3780,7 +3802,7 @@ if (pwEl) {
     route:'Support organisations do different things. Do you need someone to sell the work, tour it, or run the tech?',both:'Does the venue type you picked usually show work from your discipline, in your format?'};
   const ROUTES = {
     format:{q:'I have a format in mind.', order:['fgroup','services','type','discipline','region']},
-    who:{q:'Who shows immersive in my discipline?', order:['discipline','services','type','fgroup','region']},
+    who:{q:'What venues, festivals and platforms show disciplines like mine?', order:['discipline','services','type','fgroup','region']},
     region:{q:'I want to show my work in a particular part of the world', order:['region','services','type','fgroup','discipline']}
   };
   const SHAPE = {discipline:'sq', type:'tri', fgroup:'circ', format:'circ2', region:'pill', services:'pill', route:'fork'};
@@ -3860,12 +3882,22 @@ if (pwEl) {
     return `<h2 class="vh">Filters</h2><svg viewBox="0 0 ${W} ${H}" width="100%" role="group" aria-label="Pathway layers: filter types: platform, format, venue type, discipline and location; tick options in each" style="display:block;max-width:100%"><defs>${Object.entries(NCOL).map(([r,c])=>`<radialGradient id="pwg-${r}"><stop offset="0" style="stop-color:${c};stop-opacity:.55"/><stop offset=".32" style="stop-color:${c};stop-opacity:.3"/><stop offset=".62" style="stop-color:${c};stop-opacity:.1"/><stop offset="1" style="stop-color:${c};stop-opacity:0"/></radialGradient>`).join('')}</defs>${(()=>{ const l=(window.__pwL||[]).join(''); window.__pwL=[]; return l; })()}${out}</svg>`;
   }
   pw.x=[]; pw.lc_c=''; pw.lc_t='';
-  const lfRes=res=>res.filter(v=>(!pw.lc_c||(v.ctry||[]).includes(pw.lc_c))&&(!pw.lc_t||(v.cty||[]).includes(pw.lc_t)));
+  const lfRes0=res=>res.filter(v=>(!pw.lc_c||(v.ctry||[]).includes(pw.lc_c))&&(!pw.lc_t||(v.cty||[]).includes(pw.lc_t)));
+  const PWCAT={venue:{l:'Venues',n:['venue','venues'],t:sv('venue')},festival:{l:'Festivals',n:['festival','festivals'],t:sv('festival')},online:{l:'Online platforms',n:['online platform','online platforms'],t:v=>sv('online')(v)||!!v.online}};
+  const pwCats=()=>{ const c=Object.keys(PWCAT).filter(k=>(pw.cats||[]).includes(k)); return c.length===Object.keys(PWCAT).length?[]:c; };
+  const catW=n=>{ const c=pwCats(); if(!c.length) return n===1?'entry':'entries'; const w=c.map(k=>PWCAT[k].n[n===1?0:1]); return n===1?w.join(' or '):w.join(' and '); };
+  const catL=()=>{ const c=pwCats(); return c.length?c.map(k=>PWCAT[k].l).join(', '):'All entries'; };
+  const lfRes=res=>{ const c=pwCats(); return lfRes0(res).filter(v=>!c.length||c.some(k=>PWCAT[k].t(v))); };
+  const catTabs=res=>{ const b=lfRes0(res); return `<div class="pw-cat" role="group" aria-label="Show only these categories. None picked shows all entries">${Object.entries(PWCAT).map(([k,o])=>{ const on=(pw.cats||[]).includes(k), n=b.filter(o.t).length; return `<button type="button" id="pw-cat-${k}" class="pw-cat-t${on?' on':''}${n?'':' z'}" data-sk="pw-cat" data-cat="${k}" aria-pressed="${on}" aria-controls="pw-catpanel">${o.l} <span class="pw-cat-n">${n}</span></button>`; }).join('')}</div>`; };
+  const catZero=()=>{ const c=pwCats(); return `<p class="pw-cat-0">${!c.length?'No entries match these filters. Try removing a filter.':`No ${c.map(k=>PWCAT[k].n[1]).join(' or ')} match these filters. Try another category, or remove a filter.`}</p>`; };
   const pwOut=()=>lfRes(match(R().length)).filter(v=>!pw.x.includes(v.id));
   const lfPick=res=>{ const cnt=(list,f)=>{ const m={}; list.forEach(v=>(v[f]||[]).forEach(c=>m[c]=(m[c]||0)+1)); return Object.keys(m).sort((a,b)=>a.localeCompare(b)).map(c=>[c,m[c]]); };
     const C=cnt(res,'ctry'), T=cnt(res.filter(v=>!pw.lc_c||(v.ctry||[]).includes(pw.lc_c)),'cty');
     const sel=(id,k,all,o,cur)=>`<label class="pw-lf-s"><span class="vh">${all}</span><select id="${id}" data-lf="${k}"><option value="">${all}</option>${o.map(([c,n])=>`<option value="${esc(c)}"${c===cur?' selected':''}>${esc(c)} (${n})</option>`).join('')}</select></label>`;
     return `<div class="pw-lf" role="group" aria-label="Narrow the list by country and city">${sel('pw-lf-c','c','All countries',C,pw.lc_c)}${sel('pw-lf-t','t','All cities',T,pw.lc_t)}</div>`; };
+  handlers['pw-cat']=t=>{ stopDemo(); const k=t.dataset.cat, c=pw.cats||[]; pw.cats=c.includes(k)?c.filter(x=>x!==k):c.concat(k); pw.showAll=false; pw.open=null; render(); const n=document.getElementById('pw-cat-'+k); if(n) n.focus(); };
+  handlers['pw-qt']=()=>{ const op=!(pw.qo||pw.q); pw.qo=op; if(!op) pw.q=''; render(); const n=document.getElementById(op?'pw-q':'')||pwEl.querySelector('[data-sk=pw-qt]'); if(n) n.focus(); };
+  pwEl.addEventListener('keydown', e=>{ if(e.target.id==='pw-q'&&e.key==='Escape'){ e.preventDefault(); pw.qo=false; pw.q=''; render(); const b=pwEl.querySelector('[data-sk=pw-qt]'); if(b) b.focus(); } });
   const xNote=res=>{ const n=lfRes(res).filter(v=>pw.x.includes(v.id)).length; return n?`<p class="pw-xn">${n} crossed off, left out of the PDF, Markdown and email. <button data-sk="pw-xr">Restore all</button></p>`:''; };
   pwEl.addEventListener('change', e=>{ const s=e.target.closest&&e.target.closest('select[data-lf]'); if(!s) return; stopDemo();
     if(s.dataset.lf==='c'){ pw.lc_c=s.value; if(pw.lc_c&&pw.lc_t&&!V.concat(S).some(v=>(v.ctry||[]).includes(pw.lc_c)&&(v.cty||[]).includes(pw.lc_t))) pw.lc_t=''; } else pw.lc_t=s.value;
@@ -3893,14 +3925,14 @@ if (pwEl) {
     addEventListener('resize',()=>{ const b=pwEl.querySelector('.sk-bar'); if(b) pwEl.style.setProperty('--pwbar',b.offsetHeight+'px'); fades(); }); }
   const pwSum=()=>{ const L=R(), res=pwOut(), F=[];
     L.forEach(l=>{ const o=rowsOf(l).flatMap(r=>(pw.sel[r]||[]).map(x=>r==='route'?(x==='support'?'Find support':'Go direct'):FIELDS[r].opts[x])); F.push([l.label,o.length?o.join(', '):'any']); });
-    if(pw.lc_c) F.push(['Country',pw.lc_c]); if(pw.lc_t) F.push(['City',pw.lc_t]); return {F,res,start:ROUTES[pw.route].q}; };
+    if(pw.lc_c) F.push(['Country',pw.lc_c]); if(pw.lc_t) F.push(['City',pw.lc_t]); F.push(['Category',catL()]); return {F,res,start:ROUTES[pw.route].q,w:catW(res.length)}; };
   const pwMd=()=>{ const m=pwSum(), L=['# Database search','','*Immersive Distribution and Exhibition Toolkit*','',`**Starting point:** \u201c${m.start}\u201d`,''];
     if(m.F.length){ L.push('## Filters',''); m.F.forEach(f=>L.push(`- **${f[0]}:** ${f[1]}`)); L.push(''); }
-    L.push(`## ${m.res.length} matching venues`,''); m.res.forEach(v=>L.push(`- ${v.web?`[${v.name}](${v.web})`:v.name} \u00b7 ${[v.city,TYPE[v.type]].filter(Boolean).join(', ')}${v.email?` \u00b7 ${v.email}`:''}`));
+    L.push(`## ${m.res.length} matching ${m.w}`,''); m.res.forEach(v=>L.push(`- ${v.web?`[${v.name}](${v.web})`:v.name} \u00b7 ${[v.city,TYPE[v.type]].filter(Boolean).join(', ')}${v.email?` \u00b7 ${v.email}`:''}`));
     return L.join('\n')+'\n'; };
   handlers['pw-md']=()=>{ const ok=()=>{ pw.mdOk=true; render(); const f=()=>{ const b=pwEl.querySelector('[data-sk=pw-md]'); if(b) b.focus(); }; f(); setTimeout(()=>{ pw.mdOk=false; const had=document.activeElement&&document.activeElement.dataset.sk==='pw-md'; render(); if(had) f(); },2000); }; try{ navigator.clipboard.writeText(pwMd()).then(ok,()=>{}); }catch(e){} };
-  const pwMail=()=>{ const m=pwSum(); let b='Database search · Immersive Distribution and Exhibition Toolkit\n\nStarting point: \u201c'+m.start+'\u201d\n'+m.F.map(f=>f[0]+': '+f[1]).join('\n')+'\n\n'+m.res.length+' matching venues\n\n'+m.res.map(v=>'- '+v.name+' ('+v.city+' \u00b7 '+TYPE[v.type]+')'+(v.web?' '+v.web:'')).join('\n');
-    if(b.length>6000) b=b.slice(0,6000)+'\n\u2026'; return 'mailto:?subject='+encodeURIComponent(m.res.length+' matching venues \u00b7 Immersive Distribution and Exhibition Toolkit')+'&body='+encodeURIComponent(b); };
+  const pwMail=()=>{ const m=pwSum(); let b='Database search · Immersive Distribution and Exhibition Toolkit\n\nStarting point: \u201c'+m.start+'\u201d\n'+m.F.map(f=>f[0]+': '+f[1]).join('\n')+'\n\n'+m.res.length+' matching '+m.w+'\n\n'+m.res.map(v=>'- '+v.name+' ('+v.city+' \u00b7 '+TYPE[v.type]+')'+(v.web?' '+v.web:'')).join('\n');
+    if(b.length>6000) b=b.slice(0,6000)+'\n\u2026'; return 'mailto:?subject='+encodeURIComponent(m.res.length+' matching '+m.w+' \u00b7 Immersive Distribution and Exhibition Toolkit')+'&body='+encodeURIComponent(b); };
   function pwPdf(){ const J=window.jspdf&&window.jspdf.jsPDF; if(!J) return null; const m=pwSum();
     const doc=window.pdfSafe?pdfSafe(new J({unit:'pt',format:'a4'})):new J({unit:'pt',format:'a4'}), M=56, maxW=595-2*M, INK=[20,20,20], MUTED=[86,88,94], C=[190,90,38]; let y=M+8;
     const clean=s=>String(s==null?'':s).normalize('NFKC').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/[\u2013\u2014]/g,'-').replace(/\u2192/g,'->').replace(/[^\x00-\xFF]/g,c=>c.normalize('NFKD').replace(/[^\x00-\xFF]/g,''));
@@ -3910,7 +3942,7 @@ if (pwEl) {
     put('Database search',{size:22,bold:true,gap:0}); put('Immersive Distribution and Exhibition Toolkit \u00b7 '+d,{size:9,color:MUTED,gap:14});
     put('YOUR FILTERS',{size:8,bold:true,color:MUTED,gap:4}); put('Starting point: "'+m.start+'"',{size:10,gap:4});
     m.F.forEach(f=>{ put(f[0].toUpperCase(),{size:7.5,bold:true,color:C,gap:0}); put(f[1],{size:10,gap:6}); });
-    y+=8; put(m.res.length+' MATCHING VENUES',{size:8,bold:true,color:MUTED,gap:6});
+    y+=8; put(m.res.length+' MATCHING '+m.w.toUpperCase(),{size:8,bold:true,color:MUTED,gap:6});
     m.res.forEach(v=>{ room(40); put(v.name,{size:10.5,bold:true,gap:0}); put(v.city+' \u00b7 '+(DBT[v.type]||TYPE[v.type]),{size:8.5,color:MUTED,gap:0}); const c=[v.email,v.phone,v.web].filter(Boolean).join(' \u00b7 '); if(c) put(c,{size:8.5,color:C,gap:6}); else y+=4; });
     y+=6; put('Venue data from the Airtable export used by the toolkit.',{size:8,color:MUTED});
     return doc.output('blob'); }
@@ -3926,7 +3958,7 @@ if (pwEl) {
     const resL=lfRes(res), resQ = pw.q ? resL.filter(v=>(v.name+' '+v.city).toLowerCase().includes(pw.q.toLowerCase())) : resL;
     const list = pw.sup||(pw.sel.route||[])[0]==='support'
       ? `<span class="eyebrow">Find support · ${sup.length}</span>${sup.slice(0,pw.showAll?99:4).map(s=>`<span class="sk-vrow" style="grid-template-columns:1fr"><span>${esc(s.name)}</span><small style="grid-column:1">${SUPT[s.type]} · ${esc(s.city)}</small></span>`).join('')}<button class="sk-mini" data-sk="pw-sup">← Back to venues</button>`
-      : `<button class="pw-lc-b" data-sk="pw-lc" aria-expanded="${!pw.lc}" title="${pw.lc?'Show':'Hide'} matching venues"><span class="pw-lc-a" aria-hidden="true">${pw.lc?'‹':'›'}</span><span class="pw-lc-l">${pw.lc?`Matching venues · ${lfRes(res).length}`:'Hide list'}</span></button><h2 class="vh">Matching venues</h2><input id="pw-q" class="sk-search" type="search" placeholder="Search by name or city" aria-label="Search matching venues" value="${esc(pw.q)}">${lfPick(res)}${pw.q&&!resQ.length?'<span style="font-size:.72rem;color:var(--muted)">No matching venue has that name or city.</span>':''}<div class="pw-vwrap"><div class="sk-vlist" tabindex="0" aria-label="Matching venues list, scrolls">${resQ.map(v=>`<div class="sk-vrow${pw.x.includes(v.id)?' out':''}">${starBtn(v)}<button class="pw-xo" data-sk="pw-xo" data-id="${v.id}" aria-pressed="${pw.x.includes(v.id)}" aria-label="${pw.x.includes(v.id)?'Put back':'Cross off'} ${esc(v.name)}" title="${pw.x.includes(v.id)?'Put back in the PDF, Markdown and email':'Cross off: leave out of the PDF, Markdown and email'}">${pw.x.includes(v.id)?'↺':'✕'}</button><button class="nm" data-sk="pw-open" data-id="${v.id}" aria-expanded="${pw.open===v.id}">${esc(v.name)}</button><small>${esc(v.city)} · ${DBT[v.type]||TYPE[v.type]}</small>${pw.open===v.id?`<div class="more">${detail(v)}<span>${fchips(v,'.66rem')}</span></div>`:''}</div>`).join('')}</div><p class="pw-vmore" aria-hidden="true">Scroll for more <span>↓</span></p></div>`;
+      : `<button class="pw-lc-b" data-sk="pw-lc" aria-expanded="${!pw.lc}" title="${pw.lc?'Show':'Hide'} matching ${catW(2)}"><span class="pw-lc-a" aria-hidden="true">${pw.lc?'‹':'›'}</span><span class="pw-lc-l">${pw.lc?`Matching ${catW(2)} · ${lfRes(res).length}`:'Hide list'}</span></button><h2 class="vh">Matching ${catW(2)}</h2>${pw.qo||pw.q?`<input id="pw-q" class="sk-search" type="search" placeholder="Search by name or city" aria-label="Search matching ${catW(2)}" value="${esc(pw.q)}">`:''}${catTabs(res)}${lfPick(res)}${pw.q&&!resQ.length?`<span style="font-size:.72rem;color:var(--muted)">No matching ${catW(1)} has that name or city.</span>`:''}<div class="pw-vwrap" id="pw-catpanel">${!pw.q&&!resQ.length?catZero():''}<div class="sk-vlist" tabindex="0" aria-label="Matching ${catW(2)} list, scrolls">${resQ.map(v=>`<div class="sk-vrow${pw.x.includes(v.id)?' out':''}">${starBtn(v)}<button class="pw-xo" data-sk="pw-xo" data-id="${v.id}" aria-pressed="${pw.x.includes(v.id)}" aria-label="${pw.x.includes(v.id)?'Put back':'Cross off'} ${esc(v.name)}" title="${pw.x.includes(v.id)?'Put back in the PDF, Markdown and email':'Cross off: leave out of the PDF, Markdown and email'}">${pw.x.includes(v.id)?'↺':'✕'}</button><button class="nm" data-sk="pw-open" data-id="${v.id}" aria-expanded="${pw.open===v.id}">${esc(v.name)}</button><small>${esc(v.city)} · ${DBT[v.type]||TYPE[v.type]}</small>${pw.open===v.id?`<div class="more">${detail(v)}<span>${fchips(v,'.66rem')}</span></div>`:''}</div>`).join('')}</div><p class="pw-vmore" aria-hidden="true">Scroll for more <span>↓</span></p></div>`;
     // One dropdown of the filters that can be added next (Jacie 2026-11-03); the suggested one is already added automatically
     const addable=[sg,...oth].filter(Boolean);
     const next = last ? `<div class="pw-done">All filters added. Every venue on the right shows how it curates and how to reach out.</div>`
@@ -3935,9 +3967,9 @@ if (pwEl) {
     pwEl.innerHTML = `<div class="sk-bar"><span class="pw-from" style="font-size:.72rem;color:var(--muted)">Start from</span><button class="tab" style="border-color:var(--accent);color:var(--accent)" data-sk="pw-menu" aria-expanded="${pw.menu}">“${ROUTES[pw.route].q}” ▾</button><button class="tab" data-sk="pw-clear">Clear all</button><span class="pw-br" aria-hidden="true"></span>${L.map((l,i)=>`<span class="tab pw-tab ${i===pw.step?'on':''}" style="--tc:${NCOL[rowsOf(l)[0]]||'var(--ink)'};${i>pw.step?'opacity:.5':''}" title="${esc(PWTIP[l.id]||l.label)}"><span class="pw-tdot" aria-hidden="true"></span>${esc(l.label)}${nsel(l)?' · '+nsel(l):''}<button class="pw-x" data-sk="pw-del" data-i="${i}" aria-label="Remove the ${esc(l.label)} filter" title="Remove filter">×</button></span>`).join('')}${pwTopQ()}</div>
       ${pw.menu?`<div class="sk-menu">${Object.entries(ROUTES).map(([k,r])=>`<button class="${k===pw.route?'on':''}" data-sk="pw-route" data-route="${k}">“${r.q}”</button>`).join('')}</div>`:''}
       <div class="sk-body live${Object.values(pw.sel).some(x=>x&&x.length)&&matchMedia('(max-width:820px)').matches?' fold':''}${pw.lc&&!matchMedia('(max-width:820px)').matches?' lc':''}">
-        <div style="background:var(--bg);padding:6px">${svg()}${next}<div class="pw-viewrow"><button class="pw-view${!suggest()&&rowsOf(R()[pw.step]).some(r=>(pw.sel[r]||[]).length)?' on':''}" data-sk="pw-view">View ${lfRes(res).length} matching venue${lfRes(res).length===1?'':'s'} <span aria-hidden="true">→</span></button></div></div>
-        <div><span class="eyebrow">Matching venues</span><span class="live-n">${lfRes(res).length}</span>
-          ${list}${xNote(res)}<div class="pw-share"><button class="pw-sh" data-sk="pw-pdf">${pw.saved?'PDF downloaded':'Download PDF'}</button><button class="pw-sh" data-sk="pw-md">${pw.mdOk?'Copied':'Copy as Markdown'}</button><a class="pw-sh" href="${pwMail()}" target="_blank" rel="noopener">Send via email</a></div><div class="pw-help"><b>Know a venue that's missing, or spotted a mistake?</b><span><a href="${mailHref('add')}" target="_blank" rel="noopener">Suggest a new venue</a><a href="${mailHref('fix')}" target="_blank" rel="noopener">Report an error</a></span></div></div>
+        <div style="background:var(--bg);padding:6px">${svg()}${next}<div class="pw-viewrow"><button class="pw-view${!suggest()&&rowsOf(R()[pw.step]).some(r=>(pw.sel[r]||[]).length)?' on':''}" data-sk="pw-view">View ${lfRes(res).length} matching ${catW(lfRes(res).length)} <span aria-hidden="true">→</span></button></div></div>
+        <div><p class="pw-count"><span class="live-n">${lfRes(res).length}</span> <span class="pw-count-w">matching ${catW(lfRes(res).length)}</span><button type="button" class="pw-qbtn${pw.qo||pw.q?' on':''}" data-sk="pw-qt" aria-expanded="${!!(pw.qo||pw.q)}" aria-label="${pw.qo||pw.q?'Close search':'Search by name or city'}" title="${pw.qo||pw.q?'Close search':'Search by name or city'}"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12.6 12.6 17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></p>
+          ${list}${xNote(res)}<div class="pw-share"><button class="pw-sh" data-sk="pw-pdf">${pw.saved?'PDF downloaded':'Download PDF'}</button><button class="pw-sh" data-sk="pw-md">${pw.mdOk?'Copied':'Copy as Markdown'}</button><a class="pw-sh" href="${pwMail()}" target="_blank" rel="noopener">Send via email</a></div><div class="pw-help"><b>Know a venue, festival, online platform or other organization that's missing, or spotted a mistake?</b><span><a href="${mailHref('add')}" target="_blank" rel="noopener">Add a site</a><a href="${mailHref('fix')}" target="_blank" rel="noopener">Report an error</a></span></div></div>
       </div>
 `;
     pw.anim=null; pw.flash=null;
@@ -3969,7 +4001,7 @@ if (pwEl) {
   const pwTopQ=()=>{ const L=R(), l=L[pw.step], q=l&&PWQ[l.id], n=L.length;
     if(pw._n!=null&&n>pw._n&&!pw.demo&&l){ const r=rowsOf(l)[0]; setTimeout(()=>{ const g=pwEl.querySelector(`.sk-node[data-sk][data-row="${r}"]`); if(g){ g.scrollIntoView({block:'center',inline:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); pw.qRow=r; const tq=pwEl.querySelector('.pw-topq'); if(tq) tq.focus({preventScroll:true}); else g.focus({preventScroll:true}); } },60); }
     pw._n=n; return q?`<p class="pw-topq" tabindex="-1" aria-live="polite"><span class="pw-qk" style="--tc:${NCOL[rowsOf(l)[0]]||'var(--ink)'}">Filter ${pw.step+1} · ${esc(l.label)}</span>${esc(q)}</p>`:''; };
-  bridge.pSave=()=>pw.intro||!pw.layers?null:{r:pw.route,l:pw.layers.map(l=>l.id),s:pw.sel,c:pw.lc_c||undefined,t:pw.lc_t||undefined,x:pw.x.length?pw.x:undefined}; bridge.pLoad=o=>{ if(!o||!ROUTES[o.r]) return; pw.route=o.r; pw.layers=(o.l||[]).map(id=>LAY[id]).filter(Boolean); if(!pw.layers.length) pw.layers=[LAY[ROUTES[o.r].order[0]]]; pw.sel=o.s||{}; pw.lc_c=o.c||(o.s&&o.s.country||[])[0]||''; pw.lc_t=o.t||(o.s&&o.s.city||[])[0]||''; pw.x=o.x||[]; delete pw.sel.country; delete pw.sel.city; pw.step=pw.layers.length-1; pw.intro=false; render(); };
+  bridge.pSave=()=>pw.intro||!pw.layers?null:{r:pw.route,l:pw.layers.map(l=>l.id),s:pw.sel,c:pw.lc_c||undefined,t:pw.lc_t||undefined,k:(pw.cats||[]).length?pw.cats:undefined,x:pw.x.length?pw.x:undefined}; bridge.pLoad=o=>{ if(!o||!ROUTES[o.r]) return; pw.route=o.r; pw.layers=(o.l||[]).map(id=>LAY[id]).filter(Boolean); if(!pw.layers.length) pw.layers=[LAY[ROUTES[o.r].order[0]]]; pw.sel=o.s||{}; pw.lc_c=o.c||(o.s&&o.s.country||[])[0]||''; pw.lc_t=o.t||(o.s&&o.s.city||[])[0]||''; pw.x=o.x||[]; pw.cats=(Array.isArray(o.k)?o.k:[o.k]).filter(k=>PWCAT[k]); delete pw.sel.country; delete pw.sel.city; pw.step=pw.layers.length-1; pw.intro=false; render(); };
   bridge.pNav=()=>({i:!!pw.intro,r:pw.route}); bridge.pGo=st=>{ if(st.i){ if(!pw.intro){ pw.intro=true; render(); } } else if(pw.route===st.r&&pw.layers&&pw.layers.length){ if(pw.intro){ pw.intro=false; render(); } } else handlers['pw-route']({dataset:{route:st.r}}); };
   const startRoute = k => { pw.route=k; pw.layers=[LAY[ROUTES[k].order[0]]]; pw.step=0; };
   function demo(){
@@ -4002,8 +4034,8 @@ if (pwEl) {
     'pw-open':(t)=>{ stopDemo(); pw.open=pw.open===t.dataset.id?null:t.dataset.id; render(); },
     'pw-menu':()=>{ stopDemo(); pw.menu=!pw.menu; render(); },
     'pw-del':(t)=>{ stopDemo(); const i=+t.dataset.i, l=pw.layers[i]; if(!l) return; rowsOf(l).forEach(r=>delete pw.sel[r]); if(pw.layers.length>1) pw.layers=pw.layers.filter((_,k)=>k!==i); pw.step=pw.layers.length-1; prune(); render(); },
-    'pw-clear':()=>{ stopDemo(); Object.assign(pw,{lc_c:'',lc_t:'',x:[],sel:{},showAll:false,open:null,sup:false,menu:false,q:''}); startRoute(pw.route); render(); },
-    'pw-route':(t)=>{ Object.assign(pw,{lc_c:'',lc_t:'',x:[],intro:false,sel:{},showAll:false,open:null,sup:false,menu:false}); startRoute(t.dataset.route); render(); },
+    'pw-clear':()=>{ stopDemo(); Object.assign(pw,{cats:[],qo:false,lc_c:'',lc_t:'',x:[],sel:{},showAll:false,open:null,sup:false,menu:false,q:''}); startRoute(pw.route); render(); },
+    'pw-route':(t)=>{ Object.assign(pw,{cats:[],qo:false,lc_c:'',lc_t:'',x:[],intro:false,sel:{},showAll:false,open:null,sup:false,menu:false}); startRoute(t.dataset.route); render(); },
     'pw-demo':()=>demo(),
     'pw-fromj':()=>{ const s=bridge.journeySel&&bridge.journeySel(); if(s) bridge.toPathway(s); }
   });
@@ -4169,10 +4201,10 @@ if (jEl) {
       {id:'pr_prio',g:'find',short:'Priority',text:'What is your priority for the premiere?',kind:'multi',opts:{alist:'A-list',press:'Press',xr:'XR focused',award:'XR award',size:'Size',disc:'Discipline focused',loc:'Location',date:'Date of festival',sub:'Date of application submission',fin:'Financial support from festival',acc:'Accessibility',other:'Other'},prov:true},
       {id:'pr_type',g:'find',short:'Type of festival',text:'What kind of festival are you most interested in?',kind:'multi',other:true,opts:lab(XFEST),fx:'xfest'},
       {id:'pr_region',g:'find',short:'Festival region',text:'Where do you want to premiere?',kind:'multi',opts:REG7,fx:'region'},
-      {id:'pr_when',g:'find',short:'Festival timing',text:'What time of year do you want to show?',kind:'multi',other:true,opts:{winter:'Winter',spring:'Spring',summer:'Summer',fall:'Fall'},prov:true},
+      {id:'pr_when',g:'find',short:'Festival timing',text:'What time of year do you want to show?',kind:'multi',opts:{winter:'Winter',spring:'Spring',summer:'Summer',fall:'Fall'},prov:true},
       {id:'pr_acc',g:'find',short:'Access',text:'What access needs for the audience are important to you?',kind:'multi',opts:{wheel:'Wheelchair accessible',cc:'Closed captions',audio:'Audio',lang:'Language translation',na:'N/A',other:'Other'},prov:true},
       {id:'cands',g:'find',short:'Review festivals',text:'Which of these are worth investigating?',kind:'recs',mode:'first'},
-      {id:'prep',g:'prep',short:'Checklist',text:'Have you checked what you need to prepare before approaching a festival?',kind:'multi',opts:{desc:'Project description',docs:'Documentation or a build or file to share',tech:'Technical rider',qs:'Specific questions for each festival',route:'Official application',contact:'Key contact or contact for sales',trailer:'One-minute trailer',credits:'Complete credit list',stills:'Stills for promotion including a poster if required',fees:'Have you checked whether there are fees involved in submission and showcasing?',exp:'Have you checked what expenses the festival will cover towards travel and installation costs such as fabrication or set dressing?'},other:true},
+      {id:'prep',g:'prep',short:'Checklist',text:'What do you need to prepare before approaching a festival?',kind:'multi',opts:{desc:'Project description',docs:'Documentation or a build or file to share',tech:'Technical rider',qs:'Specific questions for each festival',route:'Official application',contact:'Key contact or contact for sales',trailer:'One-minute trailer',credits:'Complete credit list',stills:'Stills for promotion including a poster if required',fees:'Have you checked whether there are fees involved in submission and showcasing?',exp:'Have you checked what expenses the festival will cover towards travel and installation costs such as fabrication or set dressing?'},other:true},
       {id:'pr_fin',g:'prep',short:'Financing',text:'If a festival is not covering all costs, how are you financing your showcase?',kind:'multi',other:true,opts:{self:'Self',sponsor:'Sponsor',funder:'Funder'}},
       {id:'pr_pitch',g:'prep',short:'Markets',text:'Are you interested in a pitching market?',kind:'choice',opts:{yes:'Yes',no:'No'}}]},
     {...SEC[2], groups:{find:'Find venues',host:'Confirm with hosts'}, qs:[
@@ -4833,7 +4865,7 @@ if (jEl) {
 }
 // Side panels on narrow screens: the left panel folds away below 1100px, the right one too below 760px; a rail reopens each as a drawer
 {
-  const NAMES={'sk-journey':[b=>b.classList.contains('plan')?'Contents':'Questions',null],'sk-pathway':[null,()=>'Matching venues']}; // the Database has no left panel (Jacie 2026-11-03)
+  const NAMES={'sk-journey':[b=>b.classList.contains('plan')?'Contents':'Questions',null],'sk-pathway':[null,()=>{ const w=document.querySelector('#sk-pathway .pw-count-w'); return w?w.textContent.replace(/^./,c=>c.toUpperCase()):'Matching entries'; }]}; // the Database has no left panel (Jacie 2026-11-03)
   const rail=(side,label,open)=>`<button class="rz-rail ${side}" data-rz="${side}" aria-expanded="${open}" title="${open?'Hide':'Show'} ${label}"><span class="rz-arr" aria-hidden="true">${open?'−':'+'}</span><span class="rz-lbl">${label}</span></button>`;
   const fit=root=>{ const b=root.querySelector(':scope>.sk-body'); if(!b||b.classList.contains('sk-full')||b.children.length<2||b.querySelector(':scope>.rz-rail')) return;
     // Database: the venue list folds away the moment the first filter is picked (Jacie 2026-11-04)
