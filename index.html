@@ -2838,6 +2838,42 @@ body #sk-journey .pl-head-t .eyebrow{font-size:12px!important}
 #sk-pathway .pw-back .res-back-i{width:40px;height:40px}
 #sk-pathway .pw-back:hover,#sk-pathway .pw-back:focus-visible{color:#b9471e;text-decoration:none;outline:none}
 #sk-pathway .pw-back:hover .res-back-i,#sk-pathway .pw-back:focus-visible .res-back-i{background:#ea6a3c;color:#fff;box-shadow:0 0 0 4px color-mix(in srgb,#ea6a3c 18%,transparent)}
+
+/* v189 (Jacie 2026-11-12): case study carousel. 4 per row on wide screens, 3, then 2, then 1 at a time on phones with the next ones peeking in */
+.cs-car{position:relative;--cs-n:4;--cs-g:clamp(18px,2.6vw,40px);--cs-fade:#f1f0ec}
+.cs-track.res-gal.res-gal4{display:flex!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;justify-content:flex-start!important;gap:var(--cs-g)!important;scroll-behavior:auto}
+.cs-track::-webkit-scrollbar{display:none}
+.cs-track .res-tile{flex:0 0 calc((100% - (var(--cs-n) - 1) * var(--cs-g)) / var(--cs-n))!important;max-width:none!important;min-width:0}
+.cs-car::before,.cs-car::after{content:"";position:absolute;top:0;bottom:0;width:clamp(36px,6vw,90px);pointer-events:none;z-index:4;opacity:0;transition:opacity .25s}
+.cs-car::before{left:0;background:linear-gradient(90deg,var(--cs-fade) 15%,transparent)}
+.cs-car::after{right:0;background:linear-gradient(270deg,var(--cs-fade) 15%,transparent)}
+.cs-car.can-l::before,.cs-car.can-r::after{opacity:1}
+.cs-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:5;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1.5px solid #ea6a3c;background:#fff;color:#b9471e;font-size:1.25rem;line-height:1;cursor:pointer;transition:background-color .2s,color .2s,box-shadow .2s}
+.cs-arr[hidden]{display:none}
+.cs-prev{left:4px}.cs-next{right:4px}
+.cs-arr:hover,.cs-arr:focus-visible{background:#ea6a3c;color:#fff;box-shadow:0 0 0 4px color-mix(in srgb,#ea6a3c 18%,transparent);outline:none}
+@media (max-width:1199px){ .cs-car{--cs-n:3} }
+@media (max-width:899px){ .cs-car{--cs-n:2} }
+@media (max-width:599px){
+  .cs-car{--cs-n:1;--cs-g:14px;margin-inline:-16px}
+  .cs-track.res-gal.res-gal4{scroll-snap-type:x mandatory;padding-inline:11%!important}
+  .cs-track .res-tile{flex-basis:100%!important;scroll-snap-align:center}
+  .cs-car::before,.cs-car::after{width:9%}
+  .cs-arr{width:38px;height:38px;font-size:1.05rem;top:28%}
+  .cs-prev{left:6px}.cs-next{right:6px}
+}
+@media (min-width:821px){ .cs-track.res-gal.res-gal4{padding-inline:46px!important} }
+/* v189b: keep the arc on wide screens; the turn follows each case study's place in view, not its number */
+.cs-car{width:100%;max-width:100%;min-width:0}
+.cs-track.res-gal.res-gal4{width:100%;box-sizing:border-box;min-width:0}
+@media (min-width:821px){ .cs-track .res-tile{--off:var(--cso,0)} .cs-track.res-gal.res-gal4{padding-inline:64px!important} }
+@media (min-width:821px) and (max-width:1199px){ .cs-track .res-tile{transform:rotateY(calc(var(--off) * -8deg)) scale(calc(1 + (var(--off) * var(--off)) * .03))} }
+#v-res{min-width:0;max-width:100%}
+@media (min-width:821px){ .cs-track.res-gal.res-gal4{padding-bottom:230px!important;margin-bottom:-40px} }
+/* v189b: loop, fades always on, line arrows that fill orange on hover */
+.cs-car::before,.cs-car::after{opacity:1}
+.cs-arr{background:transparent;color:#b9471e;border:1.5px solid #ea6a3c;box-shadow:0 2px 8px rgba(19,42,58,.18)}
+.cs-arr:hover,.cs-arr:focus-visible{background:#ea6a3c;color:#fff;border-color:#ea6a3c;box-shadow:0 4px 14px rgba(234,106,60,.35)}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -3617,7 +3653,8 @@ button:focus-visible,a:focus-visible,.vp:focus-visible{outline:2px solid var(--f
     </nav>
     <nav class="sf-col" aria-label="Get in touch">
       <p class="sf-h">Get in touch</p>
-      <a class="sf-a" data-mail="add" href="#">Add a site</a>
+      <a class="sf-a" data-site-ext href="#" aria-label="Add a site, opens in a new tab">Add a site</a>
+      <a class="sf-a" data-res-ext href="#" aria-label="Add a resource, opens in a new tab">Add a resource</a>
       <a class="sf-a" data-mail="fix" href="#">Report an error</a>
       <a class="sf-a" data-mail="contact" href="#">Contact us</a>
     </nav>
@@ -3634,7 +3671,7 @@ button:focus-visible,a:focus-visible,.vp:focus-visible{outline:2px solid var(--f
     <h3>Downloads and copies</h3>
     <p>PDFs and Markdown copies of your plan or your Database search are made in your browser and saved to your device. Nothing is uploaded.</p>
     <h3>Email links</h3>
-    <p>“Send via email”, “Add a site”, “Report an error” and “Contact us” open your own email app with a draft message. Nothing is sent unless you send it yourself.</p>
+    <p>“Send via email”, “Report an error” and “Contact us” open your own email app with a draft message. Nothing is sent unless you send it yourself.</p>
     <h3>Cookies and storage</h3>
     <p>The toolkit uses no cookies, analytics or advertising trackers. It remembers two display settings (the page background and frame) in your browser’s local storage, and nothing else.</p>
     <h3>Other services</h3>
@@ -3977,7 +4014,7 @@ if (pwEl) {
       <div class="sk-body live${Object.values(pw.sel).some(x=>x&&x.length)&&matchMedia('(max-width:820px)').matches?' fold':''}${pw.lc&&!matchMedia('(max-width:820px)').matches?' lc':''}">
         <div style="background:var(--bg);padding:6px">${svg()}${next}<div class="pw-viewrow"><button class="pw-view${!suggest()&&rowsOf(R()[pw.step]).some(r=>(pw.sel[r]||[]).length)?' on':''}" data-sk="pw-view">View ${lfRes(res).length} matching ${catW(lfRes(res).length)} <span aria-hidden="true">→</span></button></div></div>
         <div><p class="pw-count"><span class="live-n">${lfRes(res).length}</span> <span class="pw-count-w">matching ${catW(lfRes(res).length)}</span><button type="button" class="pw-qbtn${pw.qo||pw.q?' on':''}" data-sk="pw-qt" aria-expanded="${!!(pw.qo||pw.q)}" aria-label="${pw.qo||pw.q?'Close search':'Search by name or city'}" title="${pw.qo||pw.q?'Close search':'Search by name or city'}"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12.6 12.6 17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></p>
-          ${list}${xNote(res)}<div class="pw-share"><button class="pw-sh" data-sk="pw-pdf">${pw.saved?'PDF downloaded':'Download PDF'}</button><button class="pw-sh" data-sk="pw-md">${pw.mdOk?'Copied':'Copy as Markdown'}</button><a class="pw-sh" href="${pwMail()}" target="_blank" rel="noopener">Send via email</a></div><div class="pw-help"><b>Know a venue, festival, online platform or other organization that's missing, or spotted a mistake?</b><span><a href="${mailHref('add')}" target="_blank" rel="noopener">Add a site</a><a href="${mailHref('fix')}" target="_blank" rel="noopener">Report an error</a></span></div></div>
+          ${list}${xNote(res)}<div class="pw-share"><button class="pw-sh" data-sk="pw-pdf">${pw.saved?'PDF downloaded':'Download PDF'}</button><button class="pw-sh" data-sk="pw-md">${pw.mdOk?'Copied':'Copy as Markdown'}</button><a class="pw-sh" href="${pwMail()}" target="_blank" rel="noopener">Send via email</a></div><div class="pw-help"><b>Know a venue, festival, online platform or other organization that's missing, or spotted a mistake?</b><span><a href="#" data-site-ext aria-label="Add a site, opens in a new tab">Add a site</a><a href="${mailHref('fix')}" target="_blank" rel="noopener">Report an error</a></span></div></div>
       </div>
 `;
     pw.anim=null; pw.flash=null;
@@ -4752,7 +4789,38 @@ if (jEl) {
     const CIMG=window.CASE_IMG||{};
     // v118 (Jacie 2026-11-05): the case studies play as a carousel that moves on by itself, every project shown for the same time
     // v122 (Jacie 2026-11-05): with only four case studies, all four sit in one row (two by two on smaller screens), pictures from MIT Open Doc Lab
-    const galleryHtml=()=>`<div class="res-in res-gal-in"><h2 class="res-h">Resources</h2><div class="res-gal res-gal4">${CASES.map((c,ci)=>`<button class="res-tile" data-sk="res-case" data-k="${c.k}" style="--ci:${ci};--cn:${CASES.length}"><span class="res-tile-i" aria-hidden="true">${String(ci+1).padStart(2,'0')}.</span><span class="res-shot">${CIMG[c.k]?`<img src="${CIMG[c.k]}" alt="" loading="lazy">`:`<span class="res-shot-ph">${esc(c.site)}</span>`}</span><span class="res-tile-n">${esc(c.name)}</span><span class="res-tile-wt"><span class="res-tile-w">${esc(c.who)}</span>${c.tags?`<span class="res-tags">${c.tags.map(t=>`<span class="res-tag">${esc(t)}</span>`).join('')}</span>`:''}</span></button>`).join('')}</div><p class="res-credit">Images: <a href="https://opendoclab.mit.edu/presents/xr-distribution-pipelines/" target="_blank" rel="noopener">MIT Open Documentary Lab, XR Distribution Pipelines</a></p></div>`;
+    // v189 (Jacie 2026-11-12): the case studies sit in a carousel so more can be added later: side arrows and edge fades when more are off screen,
+    // hovering an edge case study brings it to the middle, fewer per row on narrower screens, one at a time on phones (moves on by itself, next ones peek in)
+    const CSL=()=>/[?&]csdemo\b/.test(location.search)?[...CASES,...CASES,...CASES]:CASES; // ?csdemo previews a longer row
+    // v189b (Jacie 2026-11-12): the row loops both ways: a copy sits on each side of the real list and the scroll jumps back by one set when it drifts into a copy
+    const CSX=()=>{ const L=CSL(); return [...L,...L,...L].map((c,i)=>({c,i:i%L.length,clone:i<L.length||i>=2*L.length})); };
+    const galleryHtml=()=>`<div class="res-in res-gal-in"><h2 class="res-h">Resources</h2><div class="cs-car"><button type="button" class="cs-arr cs-prev" data-cs="-1" aria-label="Previous case studies"><span aria-hidden="true">←</span></button><div class="res-gal res-gal4 cs-track" role="group" aria-label="Case studies, scroll sideways for more">${CSX().map(({c,i:ci,clone})=>`<button class="res-tile${clone?' cs-clone':''}" data-sk="res-case" data-k="${c.k}" style="--ci:${ci};--cn:${CASES.length}"${clone?' aria-hidden="true" tabindex="-1"':''}><span class="res-tile-i" aria-hidden="true">${String(ci+1).padStart(2,'0')}.</span><span class="res-shot">${CIMG[c.k]?`<img src="${CIMG[c.k]}" alt="" loading="lazy">`:`<span class="res-shot-ph">${esc(c.site)}</span>`}</span><span class="res-tile-n">${esc(c.name)}</span><span class="res-tile-wt"><span class="res-tile-w">${esc(c.who)}</span>${c.tags?`<span class="res-tags">${c.tags.map(t=>`<span class="res-tag">${esc(t)}</span>`).join('')}</span>`:''}</span></button>`).join('')}</div><button type="button" class="cs-arr cs-next" data-cs="1" aria-label="Next case studies"><span aria-hidden="true">→</span></button></div><p class="res-credit">Images: <a href="https://opendoclab.mit.edu/presents/xr-distribution-pipelines/" target="_blank" rel="noopener">MIT Open Documentary Lab, XR Distribution Pipelines</a></p></div>`;
+    let csT=null;
+    const csInit=()=>{ clearInterval(csT); csT=null; const car=resEl.querySelector('.cs-car'); if(!car) return; const tr=car.querySelector('.cs-track'), tiles=[...tr.querySelectorAll('.res-tile')], n=tiles.length/3;
+      const phone=()=>matchMedia('(max-width:599px)').matches, RMc=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const gap=()=>parseFloat(getComputedStyle(tr).columnGap||0)||0, setW=()=>tiles[n].offsetLeft-tiles[0].offsetLeft;
+      const mid=t=>t.offsetLeft+t.offsetWidth/2-tr.clientWidth/2;
+      // wide screens keep the gentle arc: each case study turns by its distance from the middle of what is in view
+      const arc=()=>{ const tb=tr.getBoundingClientRect(), m=tb.left+tb.width/2, g=gap(); tiles.forEach(t=>{ const c=t.offsetLeft-tr.scrollLeft+tb.left+t.offsetWidth/2; t.style.setProperty('--cso',((c-m)/(t.offsetWidth+g)).toFixed(3)); }); };
+      // keep the scroll inside the middle (real) set: jump by one set width, which looks identical
+      const wrap=()=>{ const w=setW(), a=mid(tiles[n])-w/2, b=a+w; if(tr.scrollLeft<a) tr.scrollLeft+=w; else if(tr.scrollLeft>b) tr.scrollLeft-=w; arc(); };
+      let raf=0, idle=0; tr.addEventListener('scroll',()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; arc(); }); clearTimeout(idle); idle=setTimeout(wrap,140); },{passive:true});
+      // start centred: the middle of the real set sits in the middle of the view
+      const home=()=>{ tr.scrollLeft=(tiles[n].offsetLeft+tiles[2*n-1].offsetLeft+tiles[2*n-1].offsetWidth)/2-tr.clientWidth/2; if(phone()) tr.scrollLeft=mid(tiles[n]); arc(); };
+      window.addEventListener('resize',home);
+      const centre=t=>tr.scrollTo({left:mid(t),behavior:RMc?'auto':'smooth'});
+      const cur=()=>{ const m=tr.scrollLeft+tr.clientWidth/2; let b=0,d=1e9; tiles.forEach((t,k)=>{ const x=Math.abs(t.offsetLeft+t.offsetWidth/2-m); if(x<d){d=x;b=k;} }); return b; };
+      const step=dir=>{ wrap(); if(phone()){ centre(tiles[cur()+dir]); return; } tr.scrollTo({left:tr.scrollLeft+dir*(tiles[0].offsetWidth+gap()),behavior:RMc?'auto':'smooth'}); };
+      car.querySelectorAll('[data-cs]').forEach(b=>b.addEventListener('click',()=>{ hold(6000); step(+b.dataset.cs); }));
+      // desktop: an edge case study comes to the middle when hovered or focused, so it is never cut off
+      tiles.forEach(t=>{ const go=()=>{ if(phone()) return; const tb=tr.getBoundingClientRect(), b=t.getBoundingClientRect(), w=b.width; if(b.left<tb.left+w*.6||b.right>tb.right-w*.6) centre(t); };
+        t.addEventListener('pointerenter',go); t.addEventListener('focus',go); });
+      // phones: one case study at a time, moving on every 5 seconds; paused while touched, hovered or focused
+      let until=0; const hold=ms=>{ until=Date.now()+ms; };
+      ['pointerdown','touchstart','wheel'].forEach(ev=>tr.addEventListener(ev,()=>hold(8000),{passive:true}));
+      car.addEventListener('pointerenter',()=>hold(1e9)); car.addEventListener('pointerleave',()=>hold(3000)); car.addEventListener('focusin',()=>hold(1e9)); car.addEventListener('focusout',e=>{ if(!car.contains(e.relatedTarget)) hold(3000); });
+      if(!RMc) csT=setInterval(()=>{ if(!document.body.contains(car)){ clearInterval(csT); csT=null; return; } if(phone()&&Date.now()>until&&!document.hidden) step(1); },5000);
+      home(); requestAnimationFrame(home); };
     const CAR_MS=6000; let carT=null, carI=0, carHold=false;
     const carGo=i=>{ const car=resEl.querySelector('.res-car'); if(!car){ clearInterval(carT); carT=null; return; } carI=(i+CASES.length)%CASES.length;
       car.querySelector('.res-track').style.transform=`translateX(${-100*carI}%)`;
@@ -4794,7 +4862,7 @@ if (jEl) {
     const drawRes=()=>{ resEl.innerHTML=resView==='home'
       ?`<div class="sketch live-sk" id="sk-res"><div class="sk-body sk-full"><div class="jc"><h2 class="jc-h">What would you like to explore?</h2>
         <div class="jc-cards">${RES.map((x,i)=>`<button class="jc-card${i===0?' first':''}" style="--ph:${x.c};--ph-tx:${x.c}" data-sk="res-open" data-k="${x.k}"><b><span class="jc-dot" aria-hidden="true" style="background:${x.c}"></span><span class="jc-name">${x.label}</span></b><span>${esc(x.short)}</span><i aria-hidden="true">→</i></button>`).join('')}</div></div></div></div>`
-      :pages[resView](); window.scrollTo(0,0); };
+      :pages[resView](); window.scrollTo(0,0); csInit(); };
     handlers['res-open']=t=>{ resView=t.dataset.k; drawRes(); carStart(); resEl.querySelector('.res-h')?.setAttribute('tabindex','-1'); resEl.querySelector('.res-h')?.focus(); };
     bridge.rNav=()=>({v:resView,c:resView==='case'?bridge.rCase:null}); bridge.rGo=st=>{ if(st.v==='case'&&st.c) handlers['res-case']({dataset:{k:st.c}}); else { resView=st.v||'home'; drawRes(); } };
     handlers['res-case']=t=>{ bridge.rCase=t.dataset.k; resView='case'; resEl.innerHTML=caseHtml(t.dataset.k); window.scrollTo(0,0); resEl.querySelector('.res-back')?.focus(); };
@@ -5193,7 +5261,8 @@ window.__jEnds=card=>{ if(!card||card.closest('#sk-res')||!card.closest('.sk-ful
 }
 
 /* v188 (Jacie 2026-11-12): Map is an external link, last in the top menu and the footer. MAP_URL is waiting for the address. */
-(()=>{ const MAP_URL=''; document.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('[data-map-ext]'); if(!b) return; e.preventDefault(); if(MAP_URL) window.open(MAP_URL,'_blank','noopener'); }); })();
+/* v188d: "Add a resource" in the footer opens an external form (RES_URL, waiting for the address) */
+(()=>{ const MAP_URL='', RES_URL='', SITE_URL=''; document.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('[data-map-ext],[data-res-ext],[data-site-ext]'); if(!b) return; e.preventDefault(); const u=b.hasAttribute('data-map-ext')?MAP_URL:b.hasAttribute('data-res-ext')?RES_URL:SITE_URL; if(u) window.open(u,'_blank','noopener'); }); })();
 
 /* ================= shared events ================= */
 document.addEventListener('click', e => {
