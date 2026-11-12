@@ -2829,6 +2829,15 @@ body #sk-journey .pl-head-t .eyebrow{font-size:12px!important}
 #sk-pathway .pw-qbtn:focus-visible{outline:2px solid #c4501f;outline-offset:2px}
 #sk-pathway .pw-cat{margin:8px 0 0}
 #sk-pathway .pw-lf{margin:4px 0 8px}
+/* v188: Database back-to-start link replaces "Start from"; Clear all follows the filter tabs */
+#sk-pathway .pw-back{font:inherit;font-size:.86rem;font-weight:600;color:#a63f17;background:none;border:0;padding:4px 0;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+#sk-pathway .pw-back:hover,#sk-pathway .pw-back:focus-visible{text-decoration:underline;text-underline-offset:4px}
+#sk-pathway .pw-back:focus-visible{outline:2px solid #c4501f;outline-offset:2px}
+/* v188b: Database back link matches the Resources back button: black text, round orange arrow */
+#sk-pathway .pw-back{color:var(--ink);gap:12px;font-weight:500;font-size:.95rem}
+#sk-pathway .pw-back .res-back-i{width:40px;height:40px}
+#sk-pathway .pw-back:hover,#sk-pathway .pw-back:focus-visible{color:#b9471e;text-decoration:none;outline:none}
+#sk-pathway .pw-back:hover .res-back-i,#sk-pathway .pw-back:focus-visible .res-back-i{background:#ea6a3c;color:#fff;box-shadow:0 0 0 4px color-mix(in srgb,#ea6a3c 18%,transparent)}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -2836,12 +2845,12 @@ body #sk-journey .pl-head-t .eyebrow{font-size:12px!important}
   <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0">Immersive Distribution and Exhibition Toolkit</h1>
   <button class="logo wm" data-sk="app" data-go="home" aria-label="Immersive Distribution and Exhibition Toolkit, home"><span class="wm-a">immersive</span> <span class="wm-b">Distribution</span> <span class="wm-b">&amp; Exhibition</span> <span class="wm-c">toolkit</span></button>
   <button class="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="app-tabs"><span class="dots9" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></button>
-  <div class="app-tabs" id="app-tabs" role="tablist" aria-label="Ways in">
+  <div class="app-tabs" id="app-tabs"><div class="app-tl" role="tablist" aria-label="Ways in" style="display:contents">
     <button role="tab" data-sk="app" data-go="journey" data-app-tab="journey" aria-controls="sk-journey"><span>Planning</span></button>
     <button role="tab" data-sk="app" data-go="database" data-app-tab="database" aria-controls="sk-pathway"><span>Database</span></button>
-    <button role="tab" data-sk="app" data-go="map" data-app-tab="map" aria-controls="v-map"><span>Map</span></button>
     <button role="tab" data-sk="app" data-go="resources" data-app-tab="resources" aria-controls="v-res"><span>Resources</span></button>
-    <button role="tab" data-sk="app" data-go="glossary" data-app-tab="glossary" aria-controls="v-gloss"><span>Glossary</span></button>
+    <button role="tab" data-sk="app" data-go="glossary" data-app-tab="glossary" aria-controls="v-gloss"><span>Glossary</span></button></div>
+    <button type="button" class="app-ext" data-map-ext aria-label="Map, opens in a new tab"><span>Map</span></button>
   </div>
 </header>
 
@@ -3588,7 +3597,6 @@ button:focus-visible,a:focus-visible,.vp:focus-visible{outline:2px solid var(--f
 
   <div class="sketch" id="sk-journey" role="tabpanel" aria-label="Planning" hidden><div class="sk-wait">Loading…</div></div>
   <div class="sketch" id="sk-pathway" role="tabpanel" aria-label="Database" hidden><div class="sk-wait">Loading…</div></div>
-  <section class="res map" id="v-map" role="tabpanel" aria-label="Map" hidden></section>
   <section class="res" id="v-res" role="tabpanel" aria-label="Resources" hidden></section>
   <section class="res gloss" id="v-gloss" role="tabpanel" aria-label="Glossary" hidden></section>
 </main>
@@ -3603,9 +3611,9 @@ button:focus-visible,a:focus-visible,.vp:focus-visible{outline:2px solid var(--f
       <p class="sf-h">Explore</p>
       <button type="button" data-sk="app" data-go="journey">Planning</button>
       <button type="button" data-sk="app" data-go="database">Database</button>
-      <button type="button" data-sk="app" data-go="map">Map</button>
       <button type="button" data-sk="app" data-go="resources">Resources</button>
       <button type="button" data-sk="app" data-go="glossary">Glossary</button>
+      <button type="button" data-map-ext aria-label="Map, opens in a new tab">Map</button>
     </nav>
     <nav class="sf-col" aria-label="Get in touch">
       <p class="sf-h">Get in touch</p>
@@ -3964,7 +3972,7 @@ if (pwEl) {
     const next = last ? `<div class="pw-done">All filters added. Every venue on the right shows how it curates and how to reach out.</div>`
       : `<label class="pw-addf"><span>Add a filter</span><span class="pw-addf-s"><select id="pw-addf"><option value="" selected>Choose a filter</option>${['Primary','Secondary'].map(t=>{ const ls=addable.filter(l=>l.tier===t); return ls.length?`<optgroup label="${t}">${ls.map(l=>`<option value="${l.id}">${esc(l.label)}</option>`).join('')}</optgroup>`:''; }).join('')}</select></span></label>`;
     if(pw.intro){ pwEl.innerHTML=pwIntro(); pw.anim=null; pw.flash=null; return; }
-    pwEl.innerHTML = `<div class="sk-bar"><span class="pw-from" style="font-size:.72rem;color:var(--muted)">Start from</span><button class="tab" style="border-color:var(--accent);color:var(--accent)" data-sk="pw-menu" aria-expanded="${pw.menu}">“${ROUTES[pw.route].q}” ▾</button><button class="tab" data-sk="pw-clear">Clear all</button><span class="pw-br" aria-hidden="true"></span>${L.map((l,i)=>`<span class="tab pw-tab ${i===pw.step?'on':''}" style="--tc:${NCOL[rowsOf(l)[0]]||'var(--ink)'};${i>pw.step?'opacity:.5':''}" title="${esc(PWTIP[l.id]||l.label)}"><span class="pw-tdot" aria-hidden="true"></span>${esc(l.label)}${nsel(l)?' · '+nsel(l):''}<button class="pw-x" data-sk="pw-del" data-i="${i}" aria-label="Remove the ${esc(l.label)} filter" title="Remove filter">×</button></span>`).join('')}${pwTopQ()}</div>
+    pwEl.innerHTML = `<div class="sk-bar"><button type="button" class="pw-back" data-sk="pw-back"><span class="res-back-i" aria-hidden="true">←</span><span>Choose a different starting point</span></button><span class="pw-br" aria-hidden="true"></span>${L.map((l,i)=>`<span class="tab pw-tab ${i===pw.step?'on':''}" style="--tc:${NCOL[rowsOf(l)[0]]||'var(--ink)'};${i>pw.step?'opacity:.5':''}" title="${esc(PWTIP[l.id]||l.label)}"><span class="pw-tdot" aria-hidden="true"></span>${esc(l.label)}${nsel(l)?' · '+nsel(l):''}<button class="pw-x" data-sk="pw-del" data-i="${i}" aria-label="Remove the ${esc(l.label)} filter" title="Remove filter">×</button></span>`).join('')}<button class="tab pw-clr" data-sk="pw-clear">Clear all</button>${pwTopQ()}</div>
       ${pw.menu?`<div class="sk-menu">${Object.entries(ROUTES).map(([k,r])=>`<button class="${k===pw.route?'on':''}" data-sk="pw-route" data-route="${k}">“${r.q}”</button>`).join('')}</div>`:''}
       <div class="sk-body live${Object.values(pw.sel).some(x=>x&&x.length)&&matchMedia('(max-width:820px)').matches?' fold':''}${pw.lc&&!matchMedia('(max-width:820px)').matches?' lc':''}">
         <div style="background:var(--bg);padding:6px">${svg()}${next}<div class="pw-viewrow"><button class="pw-view${!suggest()&&rowsOf(R()[pw.step]).some(r=>(pw.sel[r]||[]).length)?' on':''}" data-sk="pw-view">View ${lfRes(res).length} matching ${catW(lfRes(res).length)} <span aria-hidden="true">→</span></button></div></div>
@@ -4036,6 +4044,7 @@ if (pwEl) {
     'pw-del':(t)=>{ stopDemo(); const i=+t.dataset.i, l=pw.layers[i]; if(!l) return; rowsOf(l).forEach(r=>delete pw.sel[r]); if(pw.layers.length>1) pw.layers=pw.layers.filter((_,k)=>k!==i); pw.step=pw.layers.length-1; prune(); render(); },
     'pw-clear':()=>{ stopDemo(); Object.assign(pw,{cats:[],qo:false,lc_c:'',lc_t:'',x:[],sel:{},showAll:false,open:null,sup:false,menu:false,q:''}); startRoute(pw.route); render(); },
     'pw-route':(t)=>{ Object.assign(pw,{cats:[],qo:false,lc_c:'',lc_t:'',x:[],intro:false,sel:{},showAll:false,open:null,sup:false,menu:false}); startRoute(t.dataset.route); render(); },
+    'pw-back':()=>{ stopDemo(); pw.menu=false; pw.intro=true; render(); const f=pwEl.querySelector('[data-sk=pw-route]'); if(f) f.focus(); },
     'pw-demo':()=>demo(),
     'pw-fromj':()=>{ const s=bridge.journeySel&&bridge.journeySel(); if(s) bridge.toPathway(s); }
   });
@@ -4805,7 +4814,7 @@ if (jEl) {
 /* Landing page with two ways in; the distribution plan and the database are tabs you can switch between at any time.
    Both keep their state for the session, so switching never loses answers. */
 {
-  const views={home:document.getElementById('v-home'),journey:jEl,database:pwEl,map:document.getElementById('v-map'),resources:document.getElementById('v-res'),glossary:document.getElementById('v-gloss')};
+  const views={home:document.getElementById('v-home'),journey:jEl,database:pwEl,resources:document.getElementById('v-res'),glossary:document.getElementById('v-gloss')};
   const tabs=[...document.querySelectorAll('[data-app-tab]')];
   // The landing has no tabs: one screen with the headline and the two ways in, on the dark starry sky
   const bar=document.querySelector('.app-tabs'), foot=document.getElementById('app-foot'), lay=document.getElementById('lay');
@@ -5182,6 +5191,9 @@ window.__jEnds=card=>{ if(!card||card.closest('#sk-res')||!card.closest('.sk-ful
     addEventListener('scroll',()=>{ if(cur) place(cur); },{passive:true}); addEventListener('resize',()=>{ if(cur) place(cur); });
   }
 }
+
+/* v188 (Jacie 2026-11-12): Map is an external link, last in the top menu and the footer. MAP_URL is waiting for the address. */
+(()=>{ const MAP_URL=''; document.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('[data-map-ext]'); if(!b) return; e.preventDefault(); if(MAP_URL) window.open(MAP_URL,'_blank','noopener'); }); })();
 
 /* ================= shared events ================= */
 document.addEventListener('click', e => {
