@@ -2880,6 +2880,10 @@ body #sk-journey .pl-head-t .eyebrow{font-size:12px!important}
 .ji-k>.ji-note-h{margin-top:1em;font-weight:600}
 .ji-k>.ji-note-h+.ji-note{margin-top:.25em}
 #sk-journey .ji .ji-k>.ji-note{font-size:.98rem;line-height:1.5}
+/* v190d: wider screens move only with the arrows; nothing animates on hover while the row is moving */
+@media (min-width:600px){ .cs-track.res-gal.res-gal4{overflow-x:hidden!important} }
+.cs-car.moving .cs-track{pointer-events:none}
+.cs-car.moving .cs-track .res-tile{transition:filter .3s!important}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -4810,17 +4814,22 @@ if (jEl) {
       const arc=()=>{ const tb=tr.getBoundingClientRect(), m=tb.left+tb.width/2, g=gap(); tiles.forEach(t=>{ const c=t.offsetLeft-tr.scrollLeft+tb.left+t.offsetWidth/2; t.style.setProperty('--cso',((c-m)/(t.offsetWidth+g)).toFixed(3)); }); };
       // keep the scroll inside the middle (real) set: jump by one set width, which looks identical
       const wrap=()=>{ const w=setW(), a=mid(tiles[n])-w/2, b=a+w; if(tr.scrollLeft<a) tr.scrollLeft+=w; else if(tr.scrollLeft>b) tr.scrollLeft-=w; arc(); };
-      let raf=0, idle=0; tr.addEventListener('scroll',()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; arc(); }); clearTimeout(idle); idle=setTimeout(wrap,140); },{passive:true});
+      let raf=0, idle=0; tr.addEventListener('scroll',()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; arc(); }); if(phone()){ clearTimeout(idle); idle=setTimeout(wrap,140); } },{passive:true});
       // start centred: the middle of the real set sits in the middle of the view
       const home=()=>{ tr.scrollLeft=(tiles[n].offsetLeft+tiles[2*n-1].offsetLeft+tiles[2*n-1].offsetWidth)/2-tr.clientWidth/2; if(phone()) tr.scrollLeft=mid(tiles[n]); arc(); };
       window.addEventListener('resize',home);
       const centre=t=>tr.scrollTo({left:mid(t),behavior:RMc?'auto':'smooth'});
       const cur=()=>{ const m=tr.scrollLeft+tr.clientWidth/2; let b=0,d=1e9; tiles.forEach((t,k)=>{ const x=Math.abs(t.offsetLeft+t.offsetWidth/2-m); if(x<d){d=x;b=k;} }); return b; };
-      const step=dir=>{ wrap(); if(phone()){ centre(tiles[cur()+dir]); return; } tr.scrollTo({left:tr.scrollLeft+dir*(tiles[0].offsetWidth+gap()),behavior:RMc?'auto':'smooth'}); };
+      // v190d (Jacie 2026-11-13): on wider screens only the arrows move the row: one case study per press, one smooth move, presses wait until it has finished,
+      // and the jump back into the real set happens before the move, never during it
+      let busy=false;
+      const step=dir=>{ if(phone()){ wrap(); centre(tiles[cur()+dir]); return; } if(busy) return; wrap();
+        const from=tr.scrollLeft, to=from+dir*(tiles[0].offsetWidth+gap()); if(RMc){ tr.scrollLeft=to; arc(); wrap(); return; }
+        busy=true; car.classList.add('moving'); const t0=performance.now(), D=520, ease=x=>1-Math.pow(1-x,3);
+        const tick=now=>{ const k=Math.min(1,(now-t0)/D); tr.scrollLeft=from+(to-from)*ease(k); arc(); if(k<1) requestAnimationFrame(tick); else { wrap(); busy=false; car.classList.remove('moving'); } };
+        requestAnimationFrame(tick); };
       car.querySelectorAll('[data-cs]').forEach(b=>b.addEventListener('click',()=>{ hold(6000); step(+b.dataset.cs); }));
       // desktop: an edge case study comes to the middle when hovered or focused, so it is never cut off
-      tiles.forEach(t=>{ const go=()=>{ if(phone()) return; const tb=tr.getBoundingClientRect(), b=t.getBoundingClientRect(), w=b.width; if(b.left<tb.left+w*.6||b.right>tb.right-w*.6) centre(t); };
-        t.addEventListener('pointerenter',go); t.addEventListener('focus',go); });
       // phones: one case study at a time, moving on every 5 seconds; paused while touched, hovered or focused
       let until=0; const hold=ms=>{ until=Date.now()+ms; };
       ['pointerdown','touchstart','wheel'].forEach(ev=>tr.addEventListener(ev,()=>hold(8000),{passive:true}));
