@@ -2874,6 +2874,12 @@ body #sk-journey .pl-head-t .eyebrow{font-size:12px!important}
 .cs-car::before,.cs-car::after{opacity:1}
 .cs-arr{background:transparent;color:#b9471e;border:1.5px solid #ea6a3c;box-shadow:0 2px 8px rgba(19,42,58,.18)}
 .cs-arr:hover,.cs-arr:focus-visible{background:#ea6a3c;color:#fff;border-color:#ea6a3c;box-shadow:0 4px 14px rgba(234,106,60,.35)}
+/* v190 (Jacie 2026-11-13): Vision overview text in short paragraphs */
+.ji-k>p{margin:0}
+.ji-k>p+p{margin-top:.6em}
+.ji-k>.ji-note-h{margin-top:1em;font-weight:600}
+.ji-k>.ji-note-h+.ji-note{margin-top:.25em}
+#sk-journey .ji .ji-k>.ji-note{font-size:.98rem;line-height:1.5}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -4173,7 +4179,7 @@ const jEl = document.getElementById('sk-journey');
 if (jEl) {
   // Premiere is now Festivals and Circulation is Exhibition (client, 2026-11-04)
   const SEC=[
-    {key:'pl',label:'Vision',short:'Your values, needs and goals',line:'Your project’s values, needs and goals. Your answers build your plan. Your plan is for your eyes only, it doesn’t filter venues, festivals, or platforms.'},
+    {key:'pl',label:'Vision',short:'Your values, needs and goals',line:'Distribution and exhibition strategy. Your answers build your plan.',notes:['Please note:','First, your plan is for your eyes only. We do not store the data.','Second, this is a visioning exercise. In order to create a list of venues, festivals, or platforms, please go to the festival, exhibition or database sections to answer questions that relate directly to the database filters.']},
     {key:'pr',label:'Festivals',short:'Strategize premiere and circuit',line:'Find festivals that fit, and prepare for a premiere.'},
     {key:'ci',label:'Exhibition',short:'Find venues and platforms',line:'Find venues and platforms, and what to confirm with each host.'}];
   // Each journey has its own colour: section tabs, the left panel, the question panel, the brief and the plan use it
@@ -4614,7 +4620,7 @@ if (jEl) {
       // Each journey opens on its list of questions, then Next goes to the questions (client, 2026-11-04)
       const si=j.stage, s=STAGES[si];
       body=`<div class="sk-body sk-full"><div class="ji ph-${PH[si]}" style="--glow:var(--ph-${PH[si]}-deep);--qc:var(--ph-${PH[si]}-tx)">
-        <h2 class="ji-h">${s.label}</h2><div class="ji-top"><p class="ji-k">${esc(s.line)}${s.priv?`<span class="ji-priv">${esc(s.priv)}</span>`:''}</p><button class="ji-next" data-sk="j-start" aria-label="Skip the preview and start the questions" title="Start the questions"><span aria-hidden="true">→</span></button></div>
+        <h2 class="ji-h">${s.label}</h2><div class="ji-top"><div class="ji-k"><p>${esc(s.line)}${s.priv?`<span class="ji-priv">${esc(s.priv)}</span>`:''}</p>${(s.notes||[]).map((n,k)=>`<p class="ji-note${k?'':' ji-note-h'}">${esc(n)}</p>`).join('')}</div><button class="ji-next" data-sk="j-start" aria-label="Skip the preview and start the questions" title="Start the questions"><span aria-hidden="true">→</span></button></div>
         ${si===1?`<p class="ji-skip">Festivals not part of your plan? <button class="ji-skipb" data-sk="j-sec" data-i="2">Skip to Exhibition</button></p>`:''}
         <p class="ji-cov">What this section covers · ${s.qs.length} questions</p><ol class="ji-list" style="--r:${Math.ceil(s.qs.length/2)}">${s.qs.map((q,i)=>`<li class="ji-q${done(q)?' done':''}"><span class="ji-n">${i+1}</span><span class="ji-t">${esc(q.topic||q.short)}</span></li>`).join('')}</ol></div></div>`;
     } else {
