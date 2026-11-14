@@ -660,7 +660,7 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:6px}
 .sn-plan svg{flex:none}
 @media (prefers-reduced-motion:reduce){.sn-pr{transition:none}}
 @media (max-width:1100px){.sn-q{display:none}}
-@media (max-width:640px){.secnav{gap:4px;align-items:flex-start}.sketch.live-sk .sn{flex-direction:column;gap:4px;padding:2px}.sn-line{margin-top:19px;min-width:8px}.sn-t{text-align:center}.sn-t b{font-size:.74rem}.sn-t small{display:none}.sn-plan span{display:none}.sketch.live-sk .sn-plan{padding:8px 9px;align-self:flex-start;margin-top:2px}}
+@media (max-width:900px){.secnav{gap:4px;align-items:flex-start}.sketch.live-sk .sn{flex-direction:column;gap:4px;padding:2px}.sn-line{margin-top:19px;min-width:8px}.sn-t{text-align:center}.sn-t b{font-size:.74rem}.sn-t small{display:none}.sn-plan span{display:none}.sketch.live-sk .sn-plan{padding:8px 9px;align-self:flex-start;margin-top:2px}}
 
 /* Where to start: three options stacked, the first (Planning) highlighted as the suggested start */
 #sk-journey .sk-body>div.jc{display:grid;gap:22px;justify-items:center;width:100%;margin:0 auto;padding:56px 0 64px}
@@ -980,7 +980,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:214748
 .sketch.live-sk .sn-plan:not(.cur):hover{border-color:transparent}
 .sketch.live-sk .sn-plan.cur{background:none;color:var(--ink)}
 .sketch.live-sk .sn-plan.cur span{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:7px}
-@media (max-width:640px){.sketch.live-sk .sn-plan.cur{box-shadow:inset 0 -2px 0 var(--ink)}}
+@media (max-width:900px){.sketch.live-sk .sn-plan.cur{box-shadow:inset 0 -2px 0 var(--ink)}}
 .sketch.live-sk .pl-acts .btn-primary{background:none;color:var(--ink);border:0;border-radius:0;padding:4px 2px;font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:7px}
 .sketch.live-sk .pl-acts .btn-primary:hover{text-decoration-thickness:3px}
 .sketch.live-sk .pl-ghost{border:0;border-radius:0;padding:4px 2px;text-decoration:underline;text-underline-offset:6px}
@@ -1015,7 +1015,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:214748
 .sn-root{fill:none;stroke-width:1.4;vector-effect:non-scaling-stroke;stroke-linecap:round;opacity:.75}
 .sn-tend{fill:none;stroke-width:.9;vector-effect:non-scaling-stroke;stroke-linecap:round;opacity:.45}
 .sketch.live-sk .sn-plan span{display:inline}
-@media (max-width:640px){.sn-line{margin-top:5px;min-width:8px;height:24px}.sketch.live-sk .sn-plan{font-size:.74rem;padding:8px 2px;margin-top:0}}
+@media (max-width:900px){.sn-line{margin-top:5px;min-width:8px;height:24px}.sketch.live-sk .sn-plan{font-size:.74rem;padding:8px 2px;margin-top:0}}
 @media (prefers-reduced-motion:reduce){#sk-journey .jm .ans-btn.sel.lit::before,.pw-halo.pw-new{animation:none}}
 /* One sans serif (Jacie 2026-11-02): the small labels and counts use Space Grotesk too, no mono font */
 :root{--mono:"Space Grotesk","Segoe UI",system-ui,sans-serif}
@@ -1407,7 +1407,7 @@ body[data-bg="col"] #sk-journey .ji-next{background:#f8f2e6!important;border-col
 body .app-tabs button span{font-size:1.05rem}
 body .app-tabs button{padding:8px 16px}
 body .logo{background:linear-gradient(90deg,#7b3f71 0%,#c4572f 52%,#4f7099 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#7b3f71}
-@media (max-width:640px){.sketch.live-sk .sn-t b,.sketch.live-sk .sn-plan{font-size:.9rem}}
+@media (max-width:900px){.sketch.live-sk .sn-t b,.sketch.live-sk .sn-plan{font-size:.9rem}}
 /* Top bar filled Midnight Pond #132A3A (Jacie 2026-11-04) */
 .app-top{--ink:#f7e9de;--muted:#c9bdb0;--line:rgba(247,233,222,.22);--accent:#ea6a3c;color:var(--ink);position:relative;isolation:isolate;margin-top:-14px;padding-top:14px;border-bottom-color:transparent!important}
 .app-top .logo{background:linear-gradient(90deg,#d79bc9 0%,#f28a58 52%,#9dbde3 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -1522,7 +1522,7 @@ body.framed .app-main,body.framed .app-foot{padding-left:var(--fx);padding-right
 body.framed #sk-journey .sk-body.qv{margin-left:calc(-1 * var(--fx));padding-left:calc(var(--fx) + 42px)}
 @media (max-width:640px){body.framed{--fx:14px}}
 #sk-res .sk-body>div.jc,#sk-journey .sk-body>div.jc{border-bottom:0}
-@media (max-width:640px){body .sketch.live-sk .sn-t b,body .sketch.live-sk .sn-plan,body .sketch.live-sk .sn-plan span{font-size:.9rem!important}}
+@media (max-width:900px){body .sketch.live-sk .sn-t b,body .sketch.live-sk .sn-plan,body .sketch.live-sk .sn-plan span{font-size:.9rem!important}}
 body.framed #sk-journey .sk-body.qv{width:calc(100% + var(--fx));max-width:none;box-sizing:border-box}
 #sk-journey .sk-body.qv>.jm{grid-template-columns:minmax(0,1fr)}#sk-journey .sk-body.qv>.jm .ans-btn{min-width:0;max-width:100%}
 @media (max-width:640px){#sk-journey .sk-body.qv>div.jm{padding-left:14px;padding-right:0}}
@@ -1647,7 +1647,7 @@ body .app-tabs button[aria-selected="true"]>span::before{background:#f4a07c;box-
    selected pill, its dot and the Next arrow are dark ink on yellow; text in the Festivals colour uses a deep gold. CVD: yellow vs Poppy ΔE≈22 (deut). */
 :root,body{--ph-pr:#e8c84a;--ph-pr-bg:#faf3d6;--ph-pr-tx:#7a5a0c;--ph-pr-deep:#e8c84a;--ph-pr-lt:#f2df9a}
 body[data-jph="pr"] #sk-journey .jm,body[data-jph="pr"] #sk-journey .ji{--sel-tx:#1d1a16}
-body[data-jph="pr"] .sketch.live-sk .jm .q-actions .btn-primary.q-next.on,body[data-jph="pr"] #sk-journey .ji-next{color:#1d1a16}
+body[data-jph="pr"] .sketch.live-sk .jm .q-actions .btn-primary.q-next.on,body[data-jph="pr"] #sk-journey .ji-next{color:#fff}
 body[data-jph="pr"] #sk-journey .jm .ans-btn.sel::before{box-shadow:none}
 body[data-bg="col"][data-jph="pr"] #sk-journey .sk-body{background:#8a6a14;--bg:#8a6a14}
 body[data-bg="col"][data-jph="pr"] #sk-journey .jm,body[data-bg="col"][data-jph="pr"] #sk-journey .ji{--sel-tx:var(--bg)}
@@ -1681,8 +1681,8 @@ body .app-top .logo,body .logo{font-family:"Red Rose",var(--display),sans-serif;
 .sketch.live-sk .jc-cards{margin-top:44px}
 /* v111 Database diagram: never drawn smaller than its readable size; on narrow screens it scrolls sideways (and can be pinch-zoomed) */
 #sk-pathway .sk-body>div:has(>svg){overflow-x:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom}
-#sk-pathway .sk-body>div>svg{min-width:900px}
-@media (max-width:900px){#sk-pathway .sk-body>div:has(>svg)::before{content:"Scroll sideways to see the whole diagram →";display:block;position:sticky;left:0;font-size:var(--fs-s);color:var(--muted);margin:0 0 6px}}
+@media (max-width:599px){#sk-pathway .sk-body>div>svg{min-width:900px}}
+@media (max-width:599px){#sk-pathway .sk-body>div:has(>svg)::before{content:"Scroll sideways to see the whole diagram →";display:block;position:sticky;left:0;font-size:var(--fs-s);color:var(--muted);margin:0 0 6px}}
 /* v112 Your Plan (Jacie 2026-11-04): clearer hover on everything that folds or can be clicked, a bigger editable title,
    pill buttons for Download PDF / Copy as text, and one Expand all / Collapse all toggle */
 #sk-journey .pl-more>summary{cursor:pointer;border-radius:999px;padding:6px 14px 6px 10px;margin-left:-10px;width:max-content;max-width:100%;transition:background-color .2s,color .2s}
@@ -1717,7 +1717,7 @@ body .app-top .logo,body .logo{font-family:"Red Rose",var(--display),sans-serif;
 .sketch.live-sk .sn-plan:hover::before{box-shadow:0 0 6px 1px color-mix(in srgb,#ea6a3c 45%,transparent)}
 .sketch.live-sk .sn-plan.cur{color:#b9471e}
 .sketch.live-sk .sn-plan.cur::before{border:0;background:radial-gradient(circle closest-side,#ea6a3c 0%,#ea6a3c 20%,color-mix(in srgb,#ea6a3c 45%,transparent) 50%,color-mix(in srgb,#ea6a3c 12%,transparent) 85%,transparent 100%),radial-gradient(circle closest-side,transparent 82%,#ea6a3c 84%,#ea6a3c 100%)}
-@media (max-width:640px){.sketch.live-sk .sn-plan{flex-direction:column;gap:4px}.sketch.live-sk .sn-plan::before{width:22px;height:22px}}
+@media (max-width:900px){.sketch.live-sk .sn-plan{flex-direction:column;gap:4px}.sketch.live-sk .sn-plan::before{width:22px;height:22px}}
 .sketch.live-sk .sn-plan:hover span,.sketch.live-sk .sn-plan:focus-visible span{text-decoration:none!important}
 body .sketch.live-sk .sn-plan:hover,body .sketch.live-sk .sn-plan:hover span,body .sketch.live-sk .sn-plan:focus-visible span,body .sketch.live-sk .sn-plan.cur,body .sketch.live-sk .sn-plan.cur span{color:#b9471e!important}
 /* v113 (Jacie 2026-11-04): Database venue list folds into a right-hand tab once a filter is picked, like the Questions tab */
@@ -2472,7 +2472,7 @@ body[data-view="journey"] #sk-journey .sk-body.rz>.rz-rail.l{border-bottom-left-
   --ph-pr:#e0a11b;--ph-pr-bg:#fbf0d6;--ph-pr-tx:#946200;--ph-pr-deep:#e0a11b;--ph-pr-lt:#f2d18a;
   --ph-ci:#2f9e78;--ph-ci-bg:#e1f2ec;--ph-ci-tx:#1f7a5a;--ph-ci-deep:#1f7a5a;--ph-ci-lt:#a3dcc7}
 body:is([data-jph="pr"],[data-jph="ci"]) #sk-journey .jm,body:is([data-jph="pr"],[data-jph="ci"]) #sk-journey .ji{--sel-tx:#1d1a16}
-body:is([data-jph="pr"],[data-jph="ci"]) .sketch.live-sk .jm .q-actions .btn-primary.q-next.on,body:is([data-jph="pr"],[data-jph="ci"]) #sk-journey .ji-next{color:#1d1a16}
+body:is([data-jph="pr"],[data-jph="ci"]) .sketch.live-sk .jm .q-actions .btn-primary.q-next.on,body:is([data-jph="pr"],[data-jph="ci"]) #sk-journey .ji-next{color:#fff}
 body:is([data-jph="pr"],[data-jph="ci"]) #sk-journey .jm .ans-btn.sel::before{box-shadow:none}
 #sk-journey .pl-part.ph-pl{--pa:#5b6bc0;--pa-tx:#4a58a6}
 #sk-journey .pl-part.ph-pr{--pa:#e0a11b;--pa-tx:#8a5a00}
@@ -2868,6 +2868,13 @@ body #sk-journey .pl-head-t .eyebrow{font-size:12px!important}
 @media (min-width:600px){ .cs-track.res-gal.res-gal4{overflow-x:hidden!important} }
 .cs-car.moving .cs-track{pointer-events:none}
 .cs-car.moving .cs-track .res-tile{transition:filter .3s!important}
+
+/* v192: "no data yet" sits under the option name, so narrow pills never crop it */
+#sk-journey .ans-btn .nd-w{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0;text-align:left}
+#sk-journey .ans-btn .nd-w .nd{margin-left:0;line-height:1.2}
+
+/* v192: from 600px up the Database diagram draws to the width it has (no sideways scroll, nothing hidden under the side rail); phones keep the scrolling diagram */
+@media (min-width:600px){#sk-pathway .sk-body>div>svg,#sk-pathway .sk-body.live>div:first-child>svg,#sk-pathway .sk-body.live.fold>div>svg{min-width:0!important}}
 </style>
 <a class="skip-link" href="#app-main">Skip to main content</a>
 <div class="app">
@@ -3793,7 +3800,7 @@ const DDISC={xr:{l:'XR'},film:{l:'Film',d:'film'},tv:{l:'TV/Radio',d:'film'},mul
 const DBT={dist:'Distribution',tech:'Technology services',net:'Network',edu:'Education',prod:'Production',consult:'Consulting',theatre:'Theater',museum:'Museum',library:'Library',gallery:'Art gallery',glam:'Archives and other',xr:'Dedicated XR space',dome:'Dome',online:'Online',festival:'Festival'};
 
 const DVT={xr:{l:'Dedicated XR space',t:v=>v.type==='xr'},cinema:{l:'Cinema'},museum:{l:'Museum',t:v=>v.type==='museum'},library:{l:'Library',t:v=>v.type==='library'},gallery:{l:'Art gallery',t:v=>v.type==='gallery'},dome:{l:'Dome',t:v=>v.type==='dome'},theater:{l:'Theater',t:v=>v.type==='theatre'},uni:{l:'University'},culture:{l:'Cultural center'},civic:{l:'Civic organization'},community:{l:'Community organization'}};
-/* v191 */ Object.assign(DFMT,{spatial:{l:'Spatial audio'}}); Object.assign(DVT,{news:{l:'News organization'}}); Object.assign(DDISC,{journalism:{l:'Journalism'}});
+/* v191 */ Object.assign(DFMT,{spatial:{l:'Spatial audio'},webxr:{l:'WebXR'}}); Object.assign(DVT,{news:{l:'News organization'},reused:{l:'Reused space'}}); Object.assign(DDISC,{journalism:{l:'Journalism'}});
 /* v185: Database and Exhibition option lists in A-Z order */ [DFMT,DVT,DDISC,PLAT].forEach(o=>{ const e=Object.entries(o).sort((a,b)=>a[1].l.localeCompare(b[1].l,'en',{sensitivity:'base',numeric:true})); e.forEach(([k])=>delete o[k]); e.forEach(([k,v])=>o[k]=v); });
 const fchips=(v,fs)=>(v.f2||[]).map(k=>(DFMT[k]||{}).l||{games:'Games',other:'Other'}[k]).filter(Boolean).map(l=>`<span class="chip k-detail" style="font-size:${fs}">${esc(l)}</span>`).join(' ');
 const UNM=new Set([...Object.entries(DVT).filter(([,o])=>!o.t).map(([k])=>'type:'+k),...Object.entries(DFMT).filter(([,o])=>!o.m).map(([k])=>'fgroup:'+k),...Object.entries(PLAT).filter(([,o])=>!o.t).map(([k])=>'services:'+k),...Object.entries(DDISC).filter(([,o])=>!o.d).map(([k])=>'discipline:'+k)]);
@@ -3855,7 +3862,7 @@ if (pwEl) {
     // of thin fibres that part and meet again rather than one thick line. No side roots (Jacie 2026-11-03). Seeded, so stable.
     const rootLn=(xa,ya,xb,yb,key,wd,dash)=>{ const m=(ya+yb)/2; return `<path d="M${xa.toFixed(1)} ${ya.toFixed(1)} C${xa.toFixed(1)} ${m.toFixed(1)} ${xb.toFixed(1)} ${m.toFixed(1)} ${xb.toFixed(1)} ${yb.toFixed(1)}" style="stroke-width:${(wd*.85).toFixed(2)}"${dash}/>`; };
     // v114 (Jacie 2026-11-04): the diagram is drawn for the width it actually has (1 unit ≈ 1.5px, labels ~15px), and each layer's name sits above its nodes, so it fits without scrolling sideways
-    const W=Math.round(Math.max(480,(pw.cw||960)/1.5)), x0=8, x1=W-8, rowH=124, LT=40;
+    const W=Math.round(Math.max(innerWidth>=600?340:480,(pw.cw||960)/1.5)), x0=18, x1=W-18, rowH=124, LT=40;
     const rows=[]; R().forEach((L,k)=>{ if(k>pw.step) return; rowsOf(L).forEach((r,ri)=>{ if(r==='country'||r==='city') return; rows.push({k,r,L,first:ri===0}); }); });
     // Every label in a row starts on the same line (Jacie 2026-11-03): a long name wraps onto more lines, and a crowded row uses a smaller size, instead of staggering
     const fam=getComputedStyle(document.body).getPropertyValue('--body').trim()||'sans-serif';
@@ -4209,8 +4216,8 @@ if (jEl) {
       {g:'proj',id:'stage',short:'Stage',text:'What stage is your project in?',kind:'choice',opts:{idea:'An idea or pitch',proto:'A prototype',wip:'A work in progress',done:'A finished version'},other:true},
       {g:'proj',id:'aud',short:'Audience',text:'Who is your audience?',kind:'text',refl:true,ph:'Who is your audience?\nHow will they discover the project?\nHow familiar are they with the technology?'},
       {g:'proj',id:'p_fmt',short:'Primary format',text:'What is the primary format?',kind:'multi',opts:{inst:'Installation',hmd:'Head-mounted display',ss:'Site-specific or responsive',perf:'Performance or event'},other:true},
-      {g:'proj',id:'p_fdet',short:'Format details',text:'Format details',kind:'multi',opts:{mr:'Mixed reality headset',v3:'VR plug and play: 3DoF',v6:'VR plug and play: 6DoF',vb:'Bespoke VR',ar:'Augmented reality',set:'Set-based installation',screen:'Screen media',games:'Games',glasses:'Glasses',phone:'Smartphone',proj:'Projections',sound:'Sound-led',live:'Live performance',pres:'Live event-presenter led',genai:'Generative AI',embai:'Embodied AI',spatial:'Spatial sound'},other:true},
-      {g:'proj',id:'p_vtype',short:'Venue type',text:'What types of venues would you like to show your work in?',kind:'multi',opts:{xr:'Dedicated XR space',cinema:'Cinema',museum:'Museum',library:'Library',gallery:'Art gallery',dome:'Dome',theater:'Theater',uni:'University',culture:'Cultural center',civic:'Civic organization',community:'Community organization',journalism:'Journalism',reused:'Reused space',news:'News organization'},other:true},
+      {g:'proj',id:'p_fdet',short:'Format details',text:'Format details',kind:'multi',opts:{mr:'Mixed reality headset',v3:'VR plug and play: 3DoF',v6:'VR plug and play: 6DoF',vb:'Bespoke VR',ar:'Augmented reality',set:'Set-based installation',screen:'Screen media',games:'Games',glasses:'Glasses',phone:'Smartphone',proj:'Projections',sound:'Sound-led',live:'Live performance',pres:'Live event-presenter led',genai:'Generative AI',embai:'Embodied AI',spatial:'Spatial audio',webxr:'WebXR'},other:true},
+      {g:'proj',id:'p_vtype',short:'Venue type',text:'What types of venues would you like to show your work in?',kind:'multi',opts:{xr:'Dedicated XR space',cinema:'Cinema',museum:'Museum',library:'Library',gallery:'Art gallery',dome:'Dome',theater:'Theater',uni:'University',culture:'Cultural center',civic:'Civic organization',community:'Community organization',reused:'Reused space',news:'News organization'},other:true},
       {g:'proj',id:'start',short:'Exhibition timetable',text:'When do you plan to exhibit the work, and at what stage?',kind:'choice',other:true,opts:{proto:'Prototype',done:'Completed project'},note:true},
       {g:'proj',id:'mode',short:'Mode of interaction',text:'What is the mode of interaction for the audience?',kind:'multi',opts:{solo:'One audience member at a time',social:'Audience members interact with each other',body:'Audience moves through a space',objects:'Audience reaches for and handles objects'},other:true,kase:'Ancestors: a phone-based group event'},
       {g:'proj',id:'core',short:'Core elements',text:'What are the core conceptual and practical elements of the project?',kind:'text',refl:true,ph:'Think in terms of:\nFormat\nAudience\nUser experience\nMulti-user versus single user\nConnection to place\nBeing present at exhibitions\nAccess'},
@@ -4234,9 +4241,9 @@ if (jEl) {
       {id:'pr_pitch',g:'prep',short:'Markets',text:'Are you interested in a pitching market?',kind:'choice',opts:{yes:'Yes',no:'No'}}]},
     {...SEC[2], groups:{find:'Find venues',host:'Confirm with hosts'}, qs:[
       {id:'svc',g:'find',short:'Platform',text:'What kind of platform or service are you looking for?',kind:'multi',opts:lab(XSVC),fx:'xsvc'},
-      {id:'vtype',g:'find',short:'Venue type',text:'What type of venue would you like to show in?',kind:'multi',opts:lab(XVT),fx:'xvt'},
+      {id:'vtype',g:'find',short:'Venue type',text:'What venue type are you interested in?',kind:'multi',opts:lab(XVT),fx:'xvt'},
       {id:'disc',g:'find',short:'Discipline',text:'What is the venue’s primary discipline?',kind:'multi',opts:lab(XDISC),fx:'xdisc',kase:'Soul Paint: between art and health'},
-      {id:'fmt',g:'find',short:'Format',text:'Which version do you want to present now?',kind:'multi',opts:lab(XFMT),fx:'xfmt'},
+      {id:'fmt',g:'find',short:'Format',text:'What format would you like to explore?',kind:'multi',opts:lab(XFMT),fx:'xfmt'},
       {id:'region',g:'find',short:'Continent',text:'Would you like sites listed by continent?',kind:'multi',opts:REGL,fx:'region',kase:'AI & Me: shipping and customs'},
       // v167 (Jacie 2026-11-08): country and city on one screen; the city list narrows to the chosen country
       {id:'ctry',g:'find',short:'Country',nav:'Country and city',text:'Are you interested in a particular country?',kind:'pick',opts:FIELDS.country.opts,fx:'ctry',ph:'Choose a country',
@@ -4489,7 +4496,7 @@ if (jEl) {
 
   /* ---- Question screens ---- */
   const opt=(q,key,k,l,kind)=>{ const a=A(key), on=a.v.includes(k), nd=q.fx==='vtype'&&k!=='flex'&&!VTYPE[k].t, xnd=key===q.id&&NDX.has(q.fx)&&k!=='flex'&&k!=='other'&&!(k in FX[q.fx].keys);
-    if(xnd) return `<button class="ans-btn ans-nd" role="${kind==='multi'?'checkbox':'radio'}" aria-checked="false" aria-disabled="true" tabindex="-1" title="No venue in the data has this yet"><span>${esc(l)}</span><small class="nd">no data yet</small></button>`;
+    if(xnd) return `<button class="ans-btn ans-nd" role="${kind==='multi'?'checkbox':'radio'}" aria-checked="false" aria-disabled="true" tabindex="-1" title="No venue in the data has this yet"><span class="nd-w"><span>${esc(l)}</span><small class="nd">no data yet</small></span></button>`;
     return `<button class="ans-btn${on?' sel':''}${on&&j.lit===key+':'+k?' lit':''}${k==='flex'?' ans-flex':''}" role="${kind==='multi'?'checkbox':'radio'}" aria-checked="${on}" data-sk="j-ans" data-key="${key}" data-kind="${kind}" data-val="${k}"><span>${esc(l)}</span>${nd?'<small class="nd">not in data yet</small>':''}</button>`; };
   // v185 (Jacie 2026-11-10): every option list in A-Z order (catch-alls like Other, N/A, Not decided last; Yes/No and grouped checklists keep their order), first letter capitalised
   const LAST=/^(other|n\/a|none|not (decided|sure)\b.*|any|i don.t know.*)$/i;
@@ -4498,7 +4505,7 @@ if (jEl) {
     const tail=([k,l])=>k==='flex'||k==='other'||k==='none'||LAST.test(String(l).trim());
     return Object.fromEntries([...e.filter(x=>!tail(x)).sort((x,y)=>String(x[1]).localeCompare(String(y[1]),'en',{sensitivity:'base',numeric:true})),...e.filter(tail)]); };
   const btns=(q,key,opts0,kind)=>{ const opts=az(q,opts0); return `<div class="ans${Object.keys(opts).length+(q.other&&key===q.id?1:0)>5?' ans-2':''}" role="${kind==='multi'?'group':'radiogroup'}" aria-labelledby="q-t">${Object.entries(opts).map(([k,l])=>(q.og&&q.og[k]&&key===q.id?`<h3 class="ans-gh">${esc(q.og[k])}</h3>`:'')+opt(q,key,k,l,kind)).join('')}${q.other&&key===q.id?opt(q,key,'other','Other',kind):''}</div>` };
-  const note=(key,ph,cls)=>`<textarea class="sk-note${cls?' '+cls:''}" id="sk-note-${key}" data-skn="${key}" aria-label="${esc(ph)}" placeholder="${esc(ph)}">${esc(A(key).n)}</textarea>`;
+  const note=(key,ph,cls)=>`<textarea class="sk-note${cls?' '+cls:''}" id="sk-note-${key}" data-skn="${key}" aria-label="${esc(ph)}" placeholder="${esc(ph)}"${cls==='sk-write'&&ph.split('\n').length>4?` style="min-height:calc(${ph.split('\n').length}*1.6em + 34px)"`:''}>${esc(A(key).n)}</textarea>`;
   // Add your own items (Jacie 2026-11-02): What's essential, festival materials and the host checklist take as many as needed
   const ownAdd=(key,ph)=>`<div class="rk-add"><input id="sk-add-${key}" data-ska="${key}" value="${esc((j.draft||{})[key]||'')}" placeholder="${esc(ph)}" aria-label="${esc(ph)}" autocomplete="off"><button class="sk-mini rk-plus" data-sk="j-add" data-key="${key}" aria-label="Add" title="Add"><span aria-hidden="true">+</span></button></div>`;
   const ownX=(key,k,l)=>`<button class="own-x" data-sk="j-del" data-key="${key}" data-k="${k}" aria-label="Remove ${esc(l)}">×</button>`;
